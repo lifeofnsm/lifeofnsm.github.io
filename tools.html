@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Calculators — Nataraj Malavade</title>
+  <meta name="description" content="Free financial calculators — SIP, Step Up SIP, Goal Planning and EMI Calculator by Nataraj Malavade." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #F5C518; --gold-dim: #c9a010;
+      --bg: #080808; --surface: #111111; --surface-2: #181818;
+      --border: #222222; --text: #eeeeee; --muted: #777;
+      --green: #34d399; --blue: #60a5fa; --red: #f87171;
+      --font: 'Poppins', sans-serif;
+    }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle, #252525 1px, transparent 1px); background-size: 26px 26px; pointer-events: none; z-index: 0; opacity: 0.45; }
+
+    .page { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    .back { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: var(--muted); font-size: 12px; margin-bottom: 28px; transition: color 0.2s; }
+    .back:hover { color: var(--gold); }
+
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: clamp(22px, 5vw, 28px); font-weight: 700; letter-spacing: -0.4px; }
+    .page-header p { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* MAIN TABS */
+    .tab-group { margin-bottom: 32px; }
+    .tab-group-label { font-size: 9.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .main-tabs {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 6px; margin-bottom: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 5px;
+    }
+    .main-tab {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 10px 6px; border-radius: 10px;
+      border: none; background: transparent;
+      color: var(--muted); font-family: var(--font);
+      font-size: 11px; font-weight: 500; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .main-tab .tab-icon { font-size: 18px; }
+    .main-tab.active { background: var(--gold); color: #080808; font-weight: 700; }
+
+    /* CALCULATOR PANELS */
+    .calc-panel { display: none; }
+    .calc-panel.active { display: block; animation: fadeUp 0.3s ease both; }
+
+    /* INNER TABS (SIP type) */
+    .inner-tabs {
+      display: flex; gap: 8px; margin-bottom: 28px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 4px;
+    }
+    .inner-tab {
+      flex: 1; padding: 9px; border-radius: 7px;
+      border: none; background: transparent;
+      color: var(--muted); font-family: var(--font);
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .inner-tab.active { background: rgba(245,197,24,0.15); color: var(--gold); font-weight: 600; }
+
+    /* PRESETS */
+    .presets { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 24px; }
+    .preset-btn { padding: 6px 13px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-family: var(--font); font-size: 11.5px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .preset-btn:hover, .preset-btn.active { border-color: rgba(245,197,24,0.4); color: var(--gold); background: rgba(245,197,24,0.06); }
+
+    /* INPUTS */
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+    @media (max-width: 540px) { .calc-grid { grid-template-columns: 1fr; } .main-tab { font-size: 11px; } }
+
+    .input-group { display: flex; flex-direction: column; gap: 7px; }
+    .input-group label { font-size: 10.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+    .input-row { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s; }
+    .input-row:focus-within { border-color: rgba(245,197,24,0.4); }
+    .input-row input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--font); font-size: 15px; font-weight: 600; padding: 11px 14px; }
+    .iu { padding: 0 14px 0 0; font-size: 13px; color: var(--gold); font-weight: 600; }
+    .iul { padding: 0 0 0 14px; font-size: 13px; color: var(--gold); font-weight: 600; }
+    .slider-wrap { margin-top: 3px; }
+    input[type="range"] { width: 100%; -webkit-appearance: none; height: 4px; border-radius: 2px; background: var(--border); outline: none; cursor: pointer; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 17px; height: 17px; border-radius: 50%; background: var(--gold); border: 3px solid var(--bg); cursor: pointer; }
+    .stepup-field { display: none; }
+    .stepup-field.show { display: flex; flex-direction: column; gap: 7px; }
+
+    /* BUTTON */
+    .calc-btn { width: 100%; padding: 14px; border-radius: 12px; background: var(--gold); border: none; cursor: pointer; font-family: var(--font); font-size: 14px; font-weight: 700; color: #080808; transition: opacity 0.2s, transform 0.15s; margin-bottom: 28px; }
+    .calc-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* RESULTS */
+    .results { display: none; }
+    .results.visible { display: block; animation: fadeUp 0.35s ease both; }
+
+    /* STATS ROW */
+    .stats-row { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+    .stats-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .stats-row.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 480px) { .stats-row.cols-3, .stats-row.cols-2 { grid-template-columns: 1fr 1fr; } }
+    .stat-card { background: var(--surface); padding: 16px 14px; text-align: center; }
+    .stat-lbl { font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+    .stat-val { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; }
+    .c-gold { color: var(--gold); } .c-green { color: var(--green); } .c-blue { color: var(--blue); } .c-red { color: var(--red); } .c-white { color: var(--text); }
+
+    /* EMI HERO */
+    .emi-hero { background: linear-gradient(135deg, rgba(245,197,24,0.12), rgba(245,197,24,0.04)); border: 1px solid rgba(245,197,24,0.3); border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 20px; }
+    .emi-lbl { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .emi-val { font-size: 40px; font-weight: 800; color: var(--gold); letter-spacing: -1px; line-height: 1; }
+    .emi-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+    /* CHARTS */
+    .chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+    .chart-title { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 14px; letter-spacing: 1px; text-transform: uppercase; }
+    .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    @media (max-width: 480px) { .chart-row { grid-template-columns: 1fr; } }
+    canvas { max-height: 240px; }
+    .donut-wrap { max-width: 200px; margin: 0 auto; }
+
+    /* MILESTONES */
+    .milestones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+    @media (max-width: 480px) { .milestones { grid-template-columns: 1fr; } }
+    .ms-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .ms-yr { font-size: 9.5px; font-weight: 600; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+    .ms-val { font-size: 16px; font-weight: 700; color: var(--gold); }
+    .ms-pct { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* TABLE */
+    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+    .table-hdr { padding: 14px 18px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .table-scroll { overflow-x: auto; max-height: 300px; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 10px; font-weight: 600; color: var(--muted); padding: 9px 14px; text-align: right; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); }
+    th:first-child { text-align: left; }
+    td { font-size: 12px; padding: 8px 14px; text-align: right; border-bottom: 1px solid #1a1a1a; color: #ccc; }
+    td:first-child { text-align: left; color: var(--muted); font-weight: 500; }
+    tr:last-child td { border-bottom: none; }
+
+    /* DISCLAIMER */
+    .disclaimer { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #2a2a2a; border-radius: 10px; padding: 13px 16px; margin-bottom: 8px; }
+    .disclaimer p { font-size: 11px; color: #444; line-height: 1.7; }
+
+    footer { text-align: center; margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--border); }
+    footer p { font-size: 11px; color: #444; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a href="/" class="back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to Home
+  </a>
+
+  <div class="page-header">
+    <h1>Financial Calculators 🧮</h1>
+    <p>Free tools to plan your investments and loans</p>
+  </div>
+
+  <!-- MAIN TABS - 2 rows of 3 -->
+  <div class="tab-group">
+    <div class="tab-group-label">Invest & Grow</div>
+    <div class="main-tabs">
+      <button class="main-tab active" onclick="showPanel('sip', this)"><span class="tab-icon">📊</span>SIP Calculator</button>
+      <button class="main-tab" onclick="showPanel('lumpsum', this)"><span class="tab-icon">💰</span>Lumpsum</button>
+      <button class="main-tab" onclick="showPanel('goal', this)"><span class="tab-icon">🎯</span>Goal Planner</button>
+    </div>
+    <div class="tab-group-label" style="margin-top:8px;">Plan & Compare</div>
+    <div class="main-tabs">
+      <button class="main-tab" onclick="showPanel('cagr', this)"><span class="tab-icon">📈</span>CAGR</button>
+      <button class="main-tab" onclick="showPanel('fire', this)"><span class="tab-icon">🔥</span>FIRE Calculator</button>
+      <button class="main-tab" onclick="showPanel('emi', this)"><span class="tab-icon">🏦</span>EMI</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PANEL 1: SIP CALCULATOR -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="calc-panel active" id="panel-sip">
+
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="switchSipTab('regular', this)">Regular SIP</button>
+      <button class="inner-tab" onclick="switchSipTab('stepup', this)">Step Up SIP</button>
+    </div>
+
+    <div class="calc-grid">
+      <div class="input-group">
+        <label>Monthly SIP Amount</label>
+        <div class="input-row">
+          <span class="iul">₹</span>
+          <input type="number" id="s_amount" value="10000" oninput="ss('s_amount','s_amountR')" />
+        </div>
+        <div class="slider-wrap"><input type="range" id="s_amountR" min="500" max="200000" step="500" value="10000" oninput="si('s_amountR','s_amount')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Expected Annual Return</label>
+        <div class="input-row">
+          <input type="number" id="s_rate" value="12" step="0.5" oninput="ss('s_rate','s_rateR')" />
+          <span class="iu">%</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="s_rateR" min="1" max="30" step="0.5" value="12" oninput="si('s_rateR','s_rate')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Investment Duration</label>
+        <div class="input-row">
+          <input type="number" id="s_years" value="10" oninput="ss('s_years','s_yearsR')" />
+          <span class="iu">Yrs</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="s_yearsR" min="1" max="40" step="1" value="10" oninput="si('s_yearsR','s_years')" /></div>
+      </div>
+      <div class="input-group stepup-field" id="stepupRow">
+        <label>Annual Step Up</label>
+        <div class="input-row">
+          <input type="number" id="s_stepup" value="10" oninput="ss('s_stepup','s_stepupR')" />
+          <span class="iu">%</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="s_stepupR" min="1" max="50" step="1" value="10" oninput="si('s_stepupR','s_stepup')" /></div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcSIP()">Calculate SIP Returns →</button>
+
+    <div class="results" id="sip-results">
+      <div class="stats-row cols-3">
+        <div class="stat-card"><div class="stat-lbl">Total Invested</div><div class="stat-val c-white" id="s_invested">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Est. Returns</div><div class="stat-val c-green" id="s_returns">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Value</div><div class="stat-val c-gold" id="s_total">—</div></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Growth Over Time</div>
+        <canvas id="sipChart"></canvas>
+      </div>
+      <div class="table-wrap">
+        <div class="table-hdr">Year-by-Year Breakdown</div>
+        <div class="table-scroll">
+          <table><thead><tr><th>Year</th><th>Invested</th><th>Returns</th><th>Total Value</th></tr></thead>
+          <tbody id="sipTable"></tbody></table>
+        </div>
+      </div>
+      <div class="disclaimer"><p>⚠️ Estimates based on assumed return rates. Mutual fund investments are subject to market risks. Past performance is not indicative of future results.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PANEL 2: GOAL CALCULATOR -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="calc-panel" id="panel-goal">
+
+    <div class="presets" id="goalPresets">
+      <button class="preset-btn" onclick="setGoalPreset(50000000,25,this)">🏖️ Retirement</button>
+      <button class="preset-btn" onclick="setGoalPreset(5000000,18,this)">🎓 Child Education</button>
+      <button class="preset-btn" onclick="setGoalPreset(10000000,10,this)">🏠 Dream Home</button>
+      <button class="preset-btn" onclick="setGoalPreset(2000000,5,this)">🚗 Car</button>
+      <button class="preset-btn" onclick="setGoalPreset(500000,2,this)">✈️ Travel</button>
+    </div>
+
+    <div class="calc-grid">
+      <div class="input-group">
+        <label>Target Amount</label>
+        <div class="input-row">
+          <span class="iul">₹</span>
+          <input type="number" id="g_goal" value="10000000" oninput="ss('g_goal','g_goalR')" />
+        </div>
+        <div class="slider-wrap"><input type="range" id="g_goalR" min="100000" max="100000000" step="100000" value="10000000" oninput="si('g_goalR','g_goal')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Time to Achieve</label>
+        <div class="input-row">
+          <input type="number" id="g_years" value="10" oninput="ss('g_years','g_yearsR')" />
+          <span class="iu">Yrs</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="g_yearsR" min="1" max="40" step="1" value="10" oninput="si('g_yearsR','g_years')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Expected Return</label>
+        <div class="input-row">
+          <input type="number" id="g_rate" value="12" step="0.5" oninput="ss('g_rate','g_rateR')" />
+          <span class="iu">%</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="g_rateR" min="1" max="30" step="0.5" value="12" oninput="si('g_rateR','g_rate')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Inflation Rate</label>
+        <div class="input-row">
+          <input type="number" id="g_inflation" value="6" step="0.5" oninput="ss('g_inflation','g_inflationR')" />
+          <span class="iu">%</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="g_inflationR" min="0" max="15" step="0.5" value="6" oninput="si('g_inflationR','g_inflation')" /></div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcGoal()">Calculate Goal SIP →</button>
+
+    <div class="results" id="goal-results">
+      <div class="stats-row cols-3">
+        <div class="stat-card"><div class="stat-lbl">Monthly SIP Needed</div><div class="stat-val c-gold" id="g_sip">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Inflation Adj. Goal</div><div class="stat-val c-blue" id="g_inflated">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total You'll Invest</div><div class="stat-val c-green" id="g_invest">—</div></div>
+      </div>
+      <div class="milestones" id="goalMilestones"></div>
+      <div class="chart-wrap">
+        <div class="chart-title">Portfolio Growth Towards Goal</div>
+        <canvas id="goalChart"></canvas>
+      </div>
+      <div class="disclaimer"><p>⚠️ Estimates based on assumed rates. Actual returns may vary. Inflation assumptions are indicative. Consult a SEBI-registered financial advisor before investing.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PANEL 3: EMI CALCULATOR -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="calc-panel" id="panel-emi">
+
+    <div class="presets" id="emiPresets">
+      <button class="preset-btn" onclick="setEmiPreset(5000000,8.5,20,this)">🏠 Home Loan</button>
+      <button class="preset-btn" onclick="setEmiPreset(800000,9,5,this)">🚗 Car Loan</button>
+      <button class="preset-btn" onclick="setEmiPreset(500000,14,3,this)">💳 Personal Loan</button>
+      <button class="preset-btn" onclick="setEmiPreset(1500000,10,7,this)">🎓 Education Loan</button>
+    </div>
+
+    <div class="calc-grid">
+      <div class="input-group">
+        <label>Loan Amount</label>
+        <div class="input-row">
+          <span class="iul">₹</span>
+          <input type="number" id="e_amount" value="5000000" oninput="ss('e_amount','e_amountR')" />
+        </div>
+        <div class="slider-wrap"><input type="range" id="e_amountR" min="10000" max="50000000" step="10000" value="5000000" oninput="si('e_amountR','e_amount')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Annual Interest Rate</label>
+        <div class="input-row">
+          <input type="number" id="e_rate" value="8.5" step="0.1" oninput="ss('e_rate','e_rateR')" />
+          <span class="iu">%</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="e_rateR" min="1" max="30" step="0.1" value="8.5" oninput="si('e_rateR','e_rate')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Loan Tenure</label>
+        <div class="input-row">
+          <input type="number" id="e_years" value="20" oninput="ss('e_years','e_yearsR')" />
+          <span class="iu">Yrs</span>
+        </div>
+        <div class="slider-wrap"><input type="range" id="e_yearsR" min="1" max="30" step="1" value="20" oninput="si('e_yearsR','e_years')" /></div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcEMI()">Calculate EMI →</button>
+
+    <div class="results" id="emi-results">
+      <div class="emi-hero">
+        <div class="emi-lbl">Your Monthly EMI</div>
+        <div class="emi-val" id="e_emi">—</div>
+        <div class="emi-sub">per month for <span id="e_tenure">—</span></div>
+      </div>
+      <div class="stats-row cols-2">
+        <div class="stat-card"><div class="stat-lbl">Principal Amount</div><div class="stat-val c-green" id="e_principal">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Interest</div><div class="stat-val c-red" id="e_interest">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Payment</div><div class="stat-val c-gold" id="e_total">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Interest to Principal</div><div class="stat-val c-white" id="e_ratio">—</div></div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-wrap">
+          <div class="chart-title">Principal vs Interest</div>
+          <div class="donut-wrap"><canvas id="emiDonut"></canvas></div>
+        </div>
+        <div class="chart-wrap">
+          <div class="chart-title">Balance Over Time</div>
+          <canvas id="emiBalance"></canvas>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-hdr">Yearly Amortization Schedule</div>
+        <div class="table-scroll">
+          <table><thead><tr><th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Balance</th></tr></thead>
+          <tbody id="emiTable"></tbody></table>
+        </div>
+      </div>
+      <div class="disclaimer"><p>⚠️ EMI calculated using standard reducing balance method. Actual EMI may differ based on lender's fees and terms. Please verify with your bank.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PANEL 4: LUMPSUM CALCULATOR -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="calc-panel" id="panel-lumpsum">
+    <div class="calc-grid">
+      <div class="input-group">
+        <label>Investment Amount</label>
+        <div class="input-row"><span class="iul">₹</span><input type="number" id="l_amount" value="100000" oninput="ss('l_amount','l_amountR')" /></div>
+        <div class="slider-wrap"><input type="range" id="l_amountR" min="1000" max="10000000" step="1000" value="100000" oninput="si('l_amountR','l_amount')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Expected Annual Return</label>
+        <div class="input-row"><input type="number" id="l_rate" value="12" step="0.5" oninput="ss('l_rate','l_rateR')" /><span class="iu">%</span></div>
+        <div class="slider-wrap"><input type="range" id="l_rateR" min="1" max="30" step="0.5" value="12" oninput="si('l_rateR','l_rate')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Investment Duration</label>
+        <div class="input-row"><input type="number" id="l_years" value="10" oninput="ss('l_years','l_yearsR')" /><span class="iu">Yrs</span></div>
+        <div class="slider-wrap"><input type="range" id="l_yearsR" min="1" max="40" step="1" value="10" oninput="si('l_yearsR','l_years')" /></div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcLumpsum()">Calculate Returns →</button>
+    <div class="results" id="lumpsum-results">
+      <div class="stats-row cols-3">
+        <div class="stat-card"><div class="stat-lbl">Amount Invested</div><div class="stat-val c-white" id="l_invested">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Est. Returns</div><div class="stat-val c-green" id="l_returns">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Value</div><div class="stat-val c-gold" id="l_total">—</div></div>
+      </div>
+      <div class="chart-wrap"><div class="chart-title">Growth Over Time</div><canvas id="lumpsumChart"></canvas></div>
+      <div class="table-wrap">
+        <div class="table-hdr">Year-by-Year Breakdown</div>
+        <div class="table-scroll"><table><thead><tr><th>Year</th><th>Value</th><th>Gain</th><th>Growth</th></tr></thead><tbody id="lumpsumTable"></tbody></table></div>
+      </div>
+      <div class="disclaimer"><p>⚠️ Estimates based on assumed return rates. Mutual fund investments are subject to market risks. Past performance is not indicative of future results.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PANEL 5: CAGR CALCULATOR -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="calc-panel" id="panel-cagr">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="switchCagrTab('find', this)">Find CAGR</button>
+      <button class="inner-tab" onclick="switchCagrTab('future', this)">Find Future Value</button>
+    </div>
+    <div id="cagr-find">
+      <div class="calc-grid">
+        <div class="input-group">
+          <label>Initial Investment</label>
+          <div class="input-row"><span class="iul">₹</span><input type="number" id="c_initial" value="100000" oninput="ss('c_initial','c_initialR')" /></div>
+          <div class="slider-wrap"><input type="range" id="c_initialR" min="1000" max="10000000" step="1000" value="100000" oninput="si('c_initialR','c_initial')" /></div>
+        </div>
+        <div class="input-group">
+          <label>Final Value</label>
+          <div class="input-row"><span class="iul">₹</span><input type="number" id="c_final" value="250000" oninput="ss('c_final','c_finalR')" /></div>
+          <div class="slider-wrap"><input type="range" id="c_finalR" min="1000" max="50000000" step="1000" value="250000" oninput="si('c_finalR','c_final')" /></div>
+        </div>
+        <div class="input-group">
+          <label>Investment Duration</label>
+          <div class="input-row"><input type="number" id="c_years" value="5" oninput="ss('c_years','c_yearsR')" /><span class="iu">Yrs</span></div>
+          <div class="slider-wrap"><input type="range" id="c_yearsR" min="1" max="40" step="1" value="5" oninput="si('c_yearsR','c_years')" /></div>
+        </div>
+      </div>
+    </div>
+    <div id="cagr-future" style="display:none;">
+      <div class="calc-grid">
+        <div class="input-group">
+          <label>Initial Investment</label>
+          <div class="input-row"><span class="iul">₹</span><input type="number" id="cf_initial" value="100000" oninput="ss('cf_initial','cf_initialR')" /></div>
+          <div class="slider-wrap"><input type="range" id="cf_initialR" min="1000" max="10000000" step="1000" value="100000" oninput="si('cf_initialR','cf_initial')" /></div>
+        </div>
+        <div class="input-group">
+          <label>Expected CAGR</label>
+          <div class="input-row"><input type="number" id="cf_rate" value="15" step="0.5" oninput="ss('cf_rate','cf_rateR')" /><span class="iu">%</span></div>
+          <div class="slider-wrap"><input type="range" id="cf_rateR" min="1" max="50" step="0.5" value="15" oninput="si('cf_rateR','cf_rate')" /></div>
+        </div>
+        <div class="input-group">
+          <label>Investment Duration</label>
+          <div class="input-row"><input type="number" id="cf_years" value="10" oninput="ss('cf_years','cf_yearsR')" /><span class="iu">Yrs</span></div>
+          <div class="slider-wrap"><input type="range" id="cf_yearsR" min="1" max="40" step="1" value="10" oninput="si('cf_yearsR','cf_years')" /></div>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcCAGR()">Calculate →</button>
+    <div class="results" id="cagr-results">
+      <div class="stats-row cols-3">
+        <div class="stat-card"><div class="stat-lbl" id="cagr_lbl1">CAGR</div><div class="stat-val c-gold" id="cagr_v1">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Gain</div><div class="stat-val c-green" id="cagr_v2">—</div></div>
+        <div class="stat-card"><div class="stat-lbl" id="cagr_lbl3">Total Value</div><div class="stat-val c-white" id="cagr_v3">—</div></div>
+      </div>
+      <div class="chart-wrap"><div class="chart-title">Growth Trajectory</div><canvas id="cagrChart"></canvas></div>
+      <div class="disclaimer"><p>⚠️ CAGR is a smoothed rate of return. Actual returns may vary year to year based on market conditions.</p></div>
+    </div>
+  </div>
+
+  <!-- PANEL 6: FIRE CALCULATOR -->
+  <div class="calc-panel" id="panel-fire">
+    <div style="background:rgba(245,197,24,0.06);border:1px solid rgba(245,197,24,0.15);border-radius:12px;padding:14px 18px;margin-bottom:24px;">
+      <p style="font-size:12px;color:#aaa;line-height:1.7;">🔥 <strong style="color:#F5C518;">FIRE — Financial Independence, Retire Early.</strong> Calculate exactly how much corpus you need and how to get there through disciplined SIP investing.</p>
+    </div>
+    <div class="calc-grid">
+      <div class="input-group">
+        <label>Current Monthly Expenses</label>
+        <div class="input-row"><span class="iul">₹</span><input type="number" id="fi_expenses" value="50000" oninput="ss('fi_expenses','fi_expensesR')" /></div>
+        <div class="slider-wrap"><input type="range" id="fi_expensesR" min="5000" max="500000" step="1000" value="50000" oninput="si('fi_expensesR','fi_expenses')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Current Age</label>
+        <div class="input-row"><input type="number" id="fi_age" value="30" oninput="ss('fi_age','fi_ageR')" /><span class="iu">Yrs</span></div>
+        <div class="slider-wrap"><input type="range" id="fi_ageR" min="18" max="60" step="1" value="30" oninput="si('fi_ageR','fi_age')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Target FI Age</label>
+        <div class="input-row"><input type="number" id="fi_target" value="45" oninput="ss('fi_target','fi_targetR')" /><span class="iu">Yrs</span></div>
+        <div class="slider-wrap"><input type="range" id="fi_targetR" min="25" max="70" step="1" value="45" oninput="si('fi_targetR','fi_target')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Expected Inflation</label>
+        <div class="input-row"><input type="number" id="fi_inflation" value="6" step="0.5" oninput="ss('fi_inflation','fi_inflationR')" /><span class="iu">%</span></div>
+        <div class="slider-wrap"><input type="range" id="fi_inflationR" min="1" max="12" step="0.5" value="6" oninput="si('fi_inflationR','fi_inflation')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Return While Building</label>
+        <div class="input-row"><input type="number" id="fi_build_rate" value="12" step="0.5" oninput="ss('fi_build_rate','fi_build_rateR')" /><span class="iu">%</span></div>
+        <div class="slider-wrap"><input type="range" id="fi_build_rateR" min="1" max="25" step="0.5" value="12" oninput="si('fi_build_rateR','fi_build_rate')" /></div>
+      </div>
+      <div class="input-group">
+        <label>Return Post-FI (Safe Rate)</label>
+        <div class="input-row"><input type="number" id="fi_post_rate" value="8" step="0.5" oninput="ss('fi_post_rate','fi_post_rateR')" /><span class="iu">%</span></div>
+        <div class="slider-wrap"><input type="range" id="fi_post_rateR" min="1" max="15" step="0.5" value="8" oninput="si('fi_post_rateR','fi_post_rate')" /></div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcFIRE()">Calculate My FI Number 🔥</button>
+    <div class="results" id="fire-results">
+
+      <!-- FI NUMBER HERO -->
+      <div style="background:linear-gradient(135deg,rgba(245,197,24,0.12),rgba(245,197,24,0.04));border:1px solid rgba(245,197,24,0.3);border-radius:16px;padding:24px;text-align:center;margin-bottom:20px;">
+        <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Your FI Number</div>
+        <div style="font-size:38px;font-weight:800;color:var(--gold);letter-spacing:-1px;line-height:1;" id="fi_number">—</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px;" id="fi_subtitle">—</div>
+      </div>
+
+      <div class="stats-row cols-3">
+        <div class="stat-card"><div class="stat-lbl">Monthly SIP Needed</div><div class="stat-val c-gold" id="fi_sip">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Years to FI</div><div class="stat-val c-green" id="fi_years">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">FI Age</div><div class="stat-val c-white" id="fi_age_result">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Future Monthly Expense</div><div class="stat-val c-blue" id="fi_future_exp">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Monthly Income Post-FI</div><div class="stat-val c-green" id="fi_monthly_income">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total You'll Invest</div><div class="stat-val c-white" id="fi_total_invest">—</div></div>
+      </div>
+
+      <!-- CORPUS BUILD CHART -->
+      <div class="chart-wrap">
+        <div class="chart-title">Corpus Building Journey</div>
+        <canvas id="fireChart"></canvas>
+      </div>
+
+      <!-- MILESTONES -->
+      <div class="milestones" id="fireMilestones"></div>
+
+      <div class="disclaimer"><p>⚠️ This calculator uses the standard safe withdrawal rate framework. FI corpus = Annual Expenses ÷ Safe Withdrawal Rate. Actual results depend on market returns, inflation, and lifestyle changes. This is for educational purposes only — consult a SEBI-registered financial advisor for personalised planning.</p></div>
+    </div>
+  </div>
+    <p>© 2025 <a href="/">Nataraj Malavade</a> &nbsp;·&nbsp; natarajmalavade.in</p>
+  </footer>
+</div>
+
+<script>
+  // ── UTILS ──
+  let sipChartInst = null, goalChartInst = null, emiDonutInst = null, emiBalInst = null;
+  let sipTabType = 'regular';
+
+  function ss(id, rid) { const v = parseFloat(document.getElementById(id).value); if (!isNaN(v)) document.getElementById(rid).value = v; }
+  function si(rid, id) { document.getElementById(id).value = document.getElementById(rid).value; }
+  function fmt(n) {
+    if (n >= 10000000) return '₹' + (n/10000000).toFixed(2) + ' Cr';
+    if (n >= 100000) return '₹' + (n/100000).toFixed(2) + ' L';
+    return '₹' + Math.round(n).toLocaleString('en-IN');
+  }
+  const chartDefaults = {
+    plugins: { legend: { labels: { color: '#777', font: { family: 'Poppins', size: 11 }, boxWidth: 12 } }, tooltip: { backgroundColor: '#1a1a1a', titleColor: '#eee', bodyColor: '#aaa', borderColor: '#333', borderWidth: 1 } },
+    scales: { x: { ticks: { color: '#555', font: { family: 'Poppins', size: 10 } }, grid: { color: '#1a1a1a' } }, y: { ticks: { color: '#555', font: { family: 'Poppins', size: 10 }, callback: v => fmt(v) }, grid: { color: '#1a1a1a' } } }
+  };
+
+  // ── TAB SWITCHING ──
+  function showPanel(name, el) {
+    document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    if (el) el.classList.add('active');
+  }
+
+  function switchSipTab(type, el) {
+    sipTabType = type;
+    document.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const sf = document.getElementById('stepupRow');
+    type === 'stepup' ? sf.classList.add('show') : sf.classList.remove('show');
+    document.getElementById('sip-results').classList.remove('visible');
+  }
+
+  // ── PRESETS ──
+  function setGoalPreset(amt, yrs, el) {
+    document.querySelectorAll('#goalPresets .preset-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('g_goal').value = amt; document.getElementById('g_goalR').value = amt;
+    document.getElementById('g_years').value = yrs; document.getElementById('g_yearsR').value = yrs;
+    calcGoal();
+  }
+  function setEmiPreset(amt, rate, yrs, el) {
+    document.querySelectorAll('#emiPresets .preset-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('e_amount').value = amt; document.getElementById('e_amountR').value = amt;
+    document.getElementById('e_rate').value = rate; document.getElementById('e_rateR').value = rate;
+    document.getElementById('e_years').value = yrs; document.getElementById('e_yearsR').value = yrs;
+    calcEMI();
+  }
+
+  // ── SIP CALCULATOR ──
+  function calcSIP() {
+    const monthly = parseFloat(document.getElementById('s_amount').value);
+    const rate = parseFloat(document.getElementById('s_rate').value);
+    const years = parseInt(document.getElementById('s_years').value);
+    const stepup = sipTabType === 'stepup' ? parseFloat(document.getElementById('s_stepup').value) / 100 : 0;
+    if (!monthly || !rate || !years) return;
+    const mr = rate / 100 / 12;
+    let total = 0, invested = 0, cur = monthly;
+    const yd = [];
+    for (let y = 1; y <= years; y++) {
+      for (let m = 0; m < 12; m++) { total = (total + cur) * (1 + mr); invested += cur; }
+      yd.push({ year: y, invested, value: total, returns: total - invested });
+      if (stepup > 0) cur *= (1 + stepup);
+    }
+    document.getElementById('s_invested').textContent = fmt(invested);
+    document.getElementById('s_returns').textContent = fmt(total - invested);
+    document.getElementById('s_total').textContent = fmt(total);
+    const tbody = document.getElementById('sipTable'); tbody.innerHTML = '';
+    yd.forEach(r => { const tr = document.createElement('tr'); tr.innerHTML = `<td>Year ${r.year}</td><td>${fmt(r.invested)}</td><td style="color:var(--green)">${fmt(r.returns)}</td><td style="color:var(--gold)">${fmt(r.value)}</td>`; tbody.appendChild(tr); });
+    if (sipChartInst) sipChartInst.destroy();
+    const ctx = document.getElementById('sipChart').getContext('2d');
+    sipChartInst = new Chart(ctx, { type: 'bar', data: { labels: yd.map(d => 'Yr '+d.year), datasets: [{ label: 'Invested', data: yd.map(d => Math.round(d.invested)), backgroundColor: 'rgba(255,255,255,0.07)', borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, borderRadius: 4 }, { label: 'Total Value', data: yd.map(d => Math.round(d.value)), type: 'line', borderColor: '#F5C518', backgroundColor: 'rgba(245,197,24,0.08)', borderWidth: 2, fill: false, tension: 0.4, pointBackgroundColor: '#F5C518', pointRadius: 3 }] }, options: { responsive: true, interaction: { mode: 'index', intersect: false }, ...chartDefaults, plugins: { ...chartDefaults.plugins, tooltip: { ...chartDefaults.plugins.tooltip, callbacks: { label: c => ' '+c.dataset.label+': '+fmt(c.raw) } } } } });
+    document.getElementById('sip-results').classList.add('visible');
+  }
+
+  // ── GOAL CALCULATOR ──
+  function calcGoal() {
+    const goal = parseFloat(document.getElementById('g_goal').value);
+    const years = parseInt(document.getElementById('g_years').value);
+    const rate = parseFloat(document.getElementById('g_rate').value);
+    const inflation = parseFloat(document.getElementById('g_inflation').value);
+    if (!goal || !years || !rate) return;
+    const inflated = goal * Math.pow(1 + inflation/100, years);
+    const mr = rate / 100 / 12;
+    const months = years * 12;
+    const sip = inflated * mr / (Math.pow(1 + mr, months) - 1);
+    document.getElementById('g_sip').textContent = fmt(sip);
+    document.getElementById('g_inflated').textContent = fmt(inflated);
+    document.getElementById('g_invest').textContent = fmt(sip * months);
+    const ms = document.getElementById('goalMilestones'); ms.innerHTML = '';
+    [Math.floor(years*0.25), Math.floor(years*0.5), Math.floor(years*0.75), years].filter((v,i,a)=>v>0&&a.indexOf(v)===i).forEach(yr => {
+      const val = sip * (Math.pow(1+mr, yr*12) - 1) / mr;
+      const pct = Math.round(val/inflated*100);
+      const c = document.createElement('div'); c.className = 'ms-card';
+      c.innerHTML = `<div class="ms-yr">After ${yr} Year${yr>1?'s':''}</div><div class="ms-val">${fmt(val)}</div><div class="ms-pct">${pct}% of goal reached</div>`;
+      ms.appendChild(c);
+    });
+    const labels=[], inv=[], val=[], gl=[];
+    for (let y=1; y<=years; y++) { labels.push('Yr '+y); const m=y*12; const v=sip*(Math.pow(1+mr,m)-1)/mr; inv.push(Math.round(sip*m)); val.push(Math.round(v)); gl.push(Math.round(inflated)); }
+    if (goalChartInst) goalChartInst.destroy();
+    const ctx = document.getElementById('goalChart').getContext('2d');
+    goalChartInst = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'Invested', data: inv, backgroundColor: 'rgba(255,255,255,0.07)', borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, borderRadius: 4 }, { label: 'Portfolio Value', data: val, type: 'line', borderColor: '#F5C518', backgroundColor: 'rgba(245,197,24,0.08)', borderWidth: 2, fill: false, tension: 0.4, pointBackgroundColor: '#F5C518', pointRadius: 3 }, { label: 'Goal', data: gl, type: 'line', borderColor: '#34d399', borderWidth: 1.5, borderDash: [5,5], fill: false, pointRadius: 0 }] }, options: { responsive: true, interaction: { mode: 'index', intersect: false }, ...chartDefaults, plugins: { ...chartDefaults.plugins, tooltip: { ...chartDefaults.plugins.tooltip, callbacks: { label: c => ' '+c.dataset.label+': '+fmt(c.raw) } } } } });
+    document.getElementById('goal-results').classList.add('visible');
+  }
+
+  // ── EMI CALCULATOR ──
+  function calcEMI() {
+    const principal = parseFloat(document.getElementById('e_amount').value);
+    const annualRate = parseFloat(document.getElementById('e_rate').value);
+    const years = parseInt(document.getElementById('e_years').value);
+    if (!principal || !annualRate || !years) return;
+    const mr = annualRate / 100 / 12;
+    const months = years * 12;
+    const emi = principal * mr * Math.pow(1+mr, months) / (Math.pow(1+mr, months) - 1);
+    const totalPay = emi * months;
+    const totalInt = totalPay - principal;
+    document.getElementById('e_emi').textContent = fmt(emi);
+    document.getElementById('e_tenure').textContent = years + ' year' + (years>1?'s':'');
+    document.getElementById('e_principal').textContent = fmt(principal);
+    document.getElementById('e_interest').textContent = fmt(totalInt);
+    document.getElementById('e_total').textContent = fmt(totalPay);
+    document.getElementById('e_ratio').textContent = ((totalInt/principal)*100).toFixed(1) + '%';
+    const tbody = document.getElementById('emiTable'); tbody.innerHTML = '';
+    let bal = principal; const lbls=[], bals=[];
+    for (let y=1; y<=years; y++) {
+      let yp=0, yi=0;
+      for (let m=0; m<12; m++) { const ip=bal*mr; const pp=emi-ip; yp+=pp; yi+=ip; bal-=pp; if(bal<0)bal=0; }
+      lbls.push('Yr '+y); bals.push(Math.round(Math.max(bal,0)));
+      const tr=document.createElement('tr'); tr.innerHTML=`<td>Year ${y}</td><td style="color:var(--green)">${fmt(yp)}</td><td style="color:var(--red)">${fmt(yi)}</td><td style="color:var(--gold)">${fmt(Math.max(bal,0))}</td>`; tbody.appendChild(tr);
+    }
+    if (emiDonutInst) emiDonutInst.destroy();
+    emiDonutInst = new Chart(document.getElementById('emiDonut').getContext('2d'), { type: 'doughnut', data: { labels: ['Principal','Interest'], datasets: [{ data: [Math.round(principal),Math.round(totalInt)], backgroundColor: ['rgba(52,211,153,0.7)','rgba(248,113,113,0.7)'], borderColor: ['#34d399','#f87171'], borderWidth: 1.5 }] }, options: { responsive: true, cutout: '65%', plugins: { legend: { labels: { color:'#777', font:{family:'Poppins',size:11}, boxWidth:12 } }, tooltip: { backgroundColor:'#1a1a1a', titleColor:'#eee', bodyColor:'#aaa', borderColor:'#333', borderWidth:1, callbacks:{ label: c=>' '+c.label+': '+fmt(c.raw) } } } } });
+    if (emiBalInst) emiBalInst.destroy();
+    emiBalInst = new Chart(document.getElementById('emiBalance').getContext('2d'), { type: 'line', data: { labels: lbls, datasets: [{ label: 'Outstanding Balance', data: bals, borderColor: '#F5C518', backgroundColor: 'rgba(245,197,24,0.08)', borderWidth: 2, fill: true, tension: 0.4, pointBackgroundColor: '#F5C518', pointRadius: 3 }] }, options: { responsive: true, plugins: { legend:{display:false}, tooltip:{ backgroundColor:'#1a1a1a', titleColor:'#eee', bodyColor:'#aaa', borderColor:'#333', borderWidth:1, callbacks:{ label: c=>' Balance: '+fmt(c.raw) } } }, scales: { x:{ticks:{color:'#555',font:{family:'Poppins',size:10}},grid:{color:'#1a1a1a'}}, y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#1a1a1a'}} } } });
+    document.getElementById('emi-results').classList.add('visible');
+  }
+
+  // ── LUMPSUM CALCULATOR ──
+  let lumpsumChartInst = null;
+  function calcLumpsum() {
+    const amount = parseFloat(document.getElementById('l_amount').value);
+    const rate = parseFloat(document.getElementById('l_rate').value);
+    const years = parseInt(document.getElementById('l_years').value);
+    if (!amount || !rate || !years) return;
+    const total = amount * Math.pow(1 + rate/100, years);
+    const returns = total - amount;
+    document.getElementById('l_invested').textContent = fmt(amount);
+    document.getElementById('l_returns').textContent = fmt(returns);
+    document.getElementById('l_total').textContent = fmt(total);
+    const tbody = document.getElementById('lumpsumTable'); tbody.innerHTML = '';
+    const lbls = [], vals = [];
+    for (let y = 1; y <= years; y++) {
+      const val = amount * Math.pow(1 + rate/100, y);
+      lbls.push('Yr ' + y); vals.push(Math.round(val));
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>Year ${y}</td><td style="color:var(--gold)">${fmt(val)}</td><td style="color:var(--green)">${fmt(val - amount)}</td><td style="color:#aaa">${((val/amount - 1)*100).toFixed(1)}%</td>`;
+      tbody.appendChild(tr);
+    }
+    if (lumpsumChartInst) lumpsumChartInst.destroy();
+    lumpsumChartInst = new Chart(document.getElementById('lumpsumChart').getContext('2d'), { type: 'line', data: { labels: lbls, datasets: [{ label: 'Investment Value', data: vals, borderColor: '#F5C518', backgroundColor: 'rgba(245,197,24,0.1)', borderWidth: 2, fill: true, tension: 0.4, pointBackgroundColor: '#F5C518', pointRadius: 3 }] }, options: { responsive: true, plugins: { legend:{display:false}, tooltip:{backgroundColor:'#1a1a1a',titleColor:'#eee',bodyColor:'#aaa',borderColor:'#333',borderWidth:1,callbacks:{label:c=>' Value: '+fmt(c.raw)}} }, scales: { x:{ticks:{color:'#555',font:{family:'Poppins',size:10}},grid:{color:'#1a1a1a'}}, y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#1a1a1a'}} } } });
+    document.getElementById('lumpsum-results').classList.add('visible');
+  }
+
+  // ── CAGR CALCULATOR ──
+  let cagrChartInst = null;
+  let cagrTabType = 'find';
+  function switchCagrTab(type, el) {
+    cagrTabType = type;
+    document.querySelectorAll('#panel-cagr .inner-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('cagr-find').style.display = type === 'find' ? '' : 'none';
+    document.getElementById('cagr-future').style.display = type === 'future' ? '' : 'none';
+    document.getElementById('cagr-results').classList.remove('visible');
+  }
+  function calcCAGR() {
+    if (cagrTabType === 'find') {
+      const initial = parseFloat(document.getElementById('c_initial').value);
+      const final = parseFloat(document.getElementById('c_final').value);
+      const years = parseInt(document.getElementById('c_years').value);
+      if (!initial || !final || !years) return;
+      const cagr = (Math.pow(final/initial, 1/years) - 1) * 100;
+      document.getElementById('cagr_lbl1').textContent = 'CAGR';
+      document.getElementById('cagr_v1').textContent = cagr.toFixed(2) + '%';
+      document.getElementById('cagr_v2').textContent = fmt(final - initial);
+      document.getElementById('cagr_lbl3').textContent = 'Final Value';
+      document.getElementById('cagr_v3').textContent = fmt(final);
+      const lbls = [], vals = [];
+      for (let y = 0; y <= years; y++) { lbls.push('Yr '+y); vals.push(Math.round(initial * Math.pow(1+cagr/100, y))); }
+      if (cagrChartInst) cagrChartInst.destroy();
+      cagrChartInst = new Chart(document.getElementById('cagrChart').getContext('2d'), { type: 'line', data: { labels: lbls, datasets: [{ label: 'Value at '+cagr.toFixed(1)+'% CAGR', data: vals, borderColor: '#F5C518', backgroundColor: 'rgba(245,197,24,0.1)', borderWidth: 2, fill: true, tension: 0.4, pointBackgroundColor: '#F5C518', pointRadius: 3 }] }, options: { responsive: true, plugins: { legend:{display:false}, tooltip:{backgroundColor:'#1a1a1a',titleColor:'#eee',bodyColor:'#aaa',borderColor:'#333',borderWidth:1,callbacks:{label:c=>' Value: '+fmt(c.raw)}} }, scales: { x:{ticks:{color:'#555',font:{family:'Poppins',size:10}},grid:{color:'#1a1a1a'}}, y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#1a1a1a'}} } } });
+    } else {
+      const initial = parseFloat(document.getElementById('cf_initial').value);
+      const rate = parseFloat(document.getElementById('cf_rate').value);
+      const years = parseInt(document.getElementById('cf_years').value);
+      if (!initial || !rate || !years) return;
+      const final = initial * Math.pow(1 + rate/100, years);
+      document.getElementById('cagr_lbl1').textContent = 'CAGR Used';
+      document.getElementById('cagr_v1').textContent = rate + '%';
+      document.getElementById('cagr_v2').textContent = fmt(final - initial);
+      document.getElementById('cagr_lbl3').textContent = 'Future Value';
+      document.getElementById('cagr_v3').textContent = fmt(final);
+      const lbls = [], vals = [];
+      for (let y = 0; y <= years; y++) { lbls.push('Yr '+y); vals.push(Math.round(initial * Math.pow(1+rate/100, y))); }
+      if (cagrChartInst) cagrChartInst.destroy();
+      cagrChartInst = new Chart(document.getElementById('cagrChart').getContext('2d'), { type: 'line', data: { labels: lbls, datasets: [{ label: 'Value at '+rate+'% CAGR', data: vals, borderColor: '#F5C518', backgroundColor: 'rgba(245,197,24,0.1)', borderWidth: 2, fill: true, tension: 0.4, pointBackgroundColor: '#F5C518', pointRadius: 3 }] }, options: { responsive: true, plugins: { legend:{display:false}, tooltip:{backgroundColor:'#1a1a1a',titleColor:'#eee',bodyColor:'#aaa',borderColor:'#333',borderWidth:1,callbacks:{label:c=>' Value: '+fmt(c.raw)}} }, scales: { x:{ticks:{color:'#555',font:{family:'Poppins',size:10}},grid:{color:'#1a1a1a'}}, y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#1a1a1a'}} } } });
+    }
+    document.getElementById('cagr-results').classList.add('visible');
+  }
+
+  // ── FIRE / FINANCIAL INDEPENDENCE CALCULATOR ──
+  let fireChartInst = null;
+  function calcFIRE() {
+    const expenses = parseFloat(document.getElementById('fi_expenses').value);
+    const currentAge = parseInt(document.getElementById('fi_age').value);
+    const targetAge = parseInt(document.getElementById('fi_target').value);
+    const inflation = parseFloat(document.getElementById('fi_inflation').value) / 100;
+    const buildRate = parseFloat(document.getElementById('fi_build_rate').value) / 100;
+    const postRate = parseFloat(document.getElementById('fi_post_rate').value) / 100;
+    if (!expenses || !currentAge || !targetAge || targetAge <= currentAge) return;
+
+    const yearsToFI = targetAge - currentAge;
+
+    // Future monthly expenses at target age (inflation adjusted)
+    const futureMonthlyExp = expenses * Math.pow(1 + inflation, yearsToFI);
+    const futureAnnualExp = futureMonthlyExp * 12;
+
+    // FI Corpus using safe withdrawal rate: corpus = annual expenses / post-FI return rate
+    const fiCorpus = futureAnnualExp / postRate;
+
+    // Monthly SIP needed to reach FI corpus
+    const mr = buildRate / 12;
+    const months = yearsToFI * 12;
+    const requiredSIP = fiCorpus * mr / (Math.pow(1 + mr, months) - 1);
+    const totalInvested = requiredSIP * months;
+    const monthlyIncomePostFI = fiCorpus * postRate / 12;
+
+    document.getElementById('fi_number').textContent = fmt(fiCorpus);
+    document.getElementById('fi_subtitle').textContent = `Enough to generate ${fmt(monthlyIncomePostFI)}/month forever`;
+    document.getElementById('fi_sip').textContent = fmt(requiredSIP);
+    document.getElementById('fi_years').textContent = yearsToFI + ' Years';
+    document.getElementById('fi_age_result').textContent = targetAge + ' Years';
+    document.getElementById('fi_future_exp').textContent = fmt(futureMonthlyExp) + '/mo';
+    document.getElementById('fi_monthly_income').textContent = fmt(monthlyIncomePostFI) + '/mo';
+    document.getElementById('fi_total_invest').textContent = fmt(totalInvested);
+
+    // Milestones
+    const ms = document.getElementById('fireMilestones'); ms.innerHTML = '';
+    [0.25, 0.5, 0.75, 1].forEach(frac => {
+      const yr = Math.floor(yearsToFI * frac);
+      if (yr === 0) return;
+      const val = requiredSIP * (Math.pow(1 + mr, yr*12) - 1) / mr;
+      const pct = Math.round(val / fiCorpus * 100);
+      const age = currentAge + yr;
+      const c = document.createElement('div'); c.className = 'ms-card';
+      c.innerHTML = `<div class="ms-yr">Age ${age} (${yr} yrs)</div><div class="ms-val">${fmt(val)}</div><div class="ms-pct">${pct}% of FI corpus reached</div>`;
+      ms.appendChild(c);
+    });
+
+    // Chart
+    const lbls = [], corpusArr = [], fiLine = [];
+    for (let y = 1; y <= yearsToFI; y++) {
+      const val = requiredSIP * (Math.pow(1 + mr, y*12) - 1) / mr;
+      lbls.push('Age ' + (currentAge + y));
+      corpusArr.push(Math.round(val));
+      fiLine.push(Math.round(fiCorpus));
+    }
+    if (fireChartInst) fireChartInst.destroy();
+    fireChartInst = new Chart(document.getElementById('fireChart').getContext('2d'), {
+      type: 'line',
+      data: { labels: lbls, datasets: [
+        { label: 'Your Corpus', data: corpusArr, borderColor: '#F5C518', backgroundColor: 'rgba(245,197,24,0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 2, pointBackgroundColor: '#F5C518' },
+        { label: 'FI Target', data: fiLine, borderColor: '#34d399', borderWidth: 1.5, borderDash: [6,4], fill: false, pointRadius: 0 }
+      ]},
+      options: { responsive: true, interaction:{mode:'index',intersect:false}, plugins: { legend:{labels:{color:'#777',font:{family:'Poppins',size:11},boxWidth:12}}, tooltip:{backgroundColor:'#1a1a1a',titleColor:'#eee',bodyColor:'#aaa',borderColor:'#333',borderWidth:1,callbacks:{label:c=>' '+c.dataset.label+': '+fmt(c.raw)}} }, scales: { x:{ticks:{color:'#555',font:{family:'Poppins',size:10},maxTicksLimit:8},grid:{color:'#1a1a1a'}}, y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#1a1a1a'}} } }
+    });
+    document.getElementById('fire-results').classList.add('visible');
+  }
+
+  window.addEventListener('load', () => { calcSIP(); });
+</script>
+</body>
+</html>
