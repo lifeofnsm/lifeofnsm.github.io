@@ -95,7 +95,7 @@
     }
 
     .avatar {
-      width: 84px; height: 84px; border-radius: 50%;
+      width: 100px; height: 100px; border-radius: 50%;
       border: 2px solid var(--gold); background: var(--surface-2);
       display: flex; align-items: center; justify-content: center;
       font-size: 28px; font-weight: 800; color: var(--gold);
@@ -189,7 +189,9 @@
       background: var(--surface-2); border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       font-size: 40px; border: 1px solid var(--border);
+      overflow: hidden;
     }
+    .bcover img { width:100%; height:100%; object-fit:cover; border-radius:8px; }
     .bt { font-size: 12px; font-weight: 600; line-height: 1.35; }
     .bcta { font-size: 11px; color: var(--gold); font-weight: 500; margin-top: 3px; }
 
@@ -240,31 +242,46 @@
   <header>
     <div class="avatar-wrap">
       <div class="avatar"><img src="https://i.ibb.co/FbvTDHZx/DP-Images-3.png" alt="Nataraj Malavade" /></div>
-      <div class="badge">
-        <svg viewBox="0 0 12 12" fill="none">
-          <path d="M2 6.5L4.5 9L10 3.5" stroke="#080808" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
     </div>
-    <h1>Nataraj Malavade</h1>
+    <h1>Nataraj Malavade <svg style="display:inline-block;vertical-align:middle;margin-left:6px;margin-bottom:3px;" width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#F5C518"/><path d="M6 12.5L10 16.5L18 8" stroke="#080808" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></h1>
     <div class="chips">
       <span class="chip gold">Certified Research Analyst</span>
-      <span class="chip">Author · 2 Books</span>
-      <span class="chip">Financial Educator</span>
+      <span class="chip gold">Author · 2 Books</span>
+      <span class="chip gold">Financial Educator</span>
+      <span class="chip gold">In Markets Since 2013</span>
     </div>
-    <p class="bio">Simplifying stock market investing for every Indian — ETFs, Mutual Funds, Momentum &amp; Systematic Strategies.</p>
+    <p class="bio">Simplifying stock market investing for every Indian — ETFs, Mutual Funds, Momentum, Systematic Strategies, Market Profile &amp; Price Action Trading.</p>
   </header>
 
   <!-- STATS -->
   <div class="stats">
-    <div class="stat"><div class="stat-n" data-target="2" data-suffix="L+">2L+</div><div class="stat-l">YouTube Subscribers</div></div>
+    <div class="stat"><div class="stat-n" data-target="200" data-suffix="K+">200K+</div><div class="stat-l">YouTube Subscribers</div></div>
     <div class="stat"><div class="stat-n" data-target="10" data-suffix="K+">10K+</div><div class="stat-l">Students Trained</div></div>
     <div class="stat"><div class="stat-n" data-target="10" data-suffix="+">10+</div><div class="stat-l">Years in Markets</div></div>
     <div class="stat"><div class="stat-n" data-target="2" data-suffix="">2</div><div class="stat-l">Books Authored</div></div>
   </div>
 
-  <!-- COURSES -->
+  <!-- YOUTUBE -->
   <div class="a1 reveal">
+    <p class="sh">YouTube Channels</p>
+    <a href="https://www.youtube.com/@natarajmalavadekannada?sub_confirmation=1" class="lc" target="_blank" rel="noopener">
+      <div class="ic" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.15);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF3333"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+      </div>
+      <div class="cb"><div class="ct">YouTube — ಕನ್ನಡ Channel</div><div class="cs">Investing · ETFs · Money Management in Kannada</div></div>
+      <div class="cr">→</div>
+    </a>
+    <a href="https://www.youtube.com/@natarajmalavade" class="lc" target="_blank" rel="noopener">
+      <div class="ic" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.15);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF3333"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+      </div>
+      <div class="cb"><div class="ct">YouTube — English Channel</div><div class="cs">Trading · Finance · Market Analysis in English</div></div>
+      <div class="cr">→</div>
+    </a>
+  </div>
+
+  <!-- COURSES -->
+  <div class="a2 reveal">
     <p class="sh">Courses &amp; Programs</p>
     <a href="https://kannada.natarajmalavade.in" class="lc" target="_blank" rel="noopener">
       <div class="ic" style="background:rgba(245,197,24,0.1);border:1px solid rgba(245,197,24,0.2);">📚</div>
@@ -283,35 +300,16 @@
     </div>
   </div>
 
-  <!-- YOUTUBE -->
-  <div class="a2 reveal">
-    <p class="sh">YouTube Channels</p>
-    <a href="https://www.youtube.com/@natarajmalavadekannada?sub_confirmation=1" class="lc" target="_blank" rel="noopener">
-      <div class="ic" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.15);">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF3333"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
-      </div>
-      <div class="cb"><div class="ct">YouTube — ಕನ್ನಡ Channel</div><div class="cs">Investing · ETFs · Money Management in Kannada</div></div>
-      <div class="cr">→</div>
-    </a>
-    <a href="https://bit.ly/3j5tvkh" class="lc" target="_blank" rel="noopener">
-      <div class="ic" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.15);">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF3333"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
-      </div>
-      <div class="cb"><div class="ct">YouTube — English Channel</div><div class="cs">Trading · Finance · Market Analysis in English</div></div>
-      <div class="cr">→</div>
-    </a>
-  </div>
-
   <!-- BOOKS -->
   <div class="a3 reveal">
     <p class="sh">Books</p>
     <div class="books">
       <a href="https://www.amazon.in/s?k=mastermind+of+day+trading+nataraj+malavade" class="bc" target="_blank" rel="noopener">
-        <div class="bcover">📕</div>
+        <div class="bcover"><img src="book2.jpg" alt="Mastermind of Day Trading" /></div>
         <div><div class="bt">Mastermind of Day Trading</div><div class="bcta">Buy on Amazon →</div></div>
       </a>
       <a href="https://www.amazon.in/s?k=power+of+rule+based+price+action+nataraj+malavade" class="bc" target="_blank" rel="noopener">
-        <div class="bcover">📗</div>
+        <div class="bcover"><img src="book1.jpg" alt="The Power of Rule-Based Price Action Trading" /></div>
         <div><div class="bt">The Power of Rule-Based Price Action Trading</div><div class="bcta">Buy on Amazon →</div></div>
       </a>
     </div>
@@ -342,7 +340,7 @@
         </div>
         WhatsApp Channel
       </a>
-      <a href="mailto:iam@natarajmalavade.in" class="sb">
+      <a href="/cdn-cgi/l/email-protection#660f070b260807120714070c0b070a0710070203480f08" class="sb">
         <div class="si" style="background:rgba(245,197,24,0.1);">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5C518" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         </div>
@@ -372,7 +370,7 @@
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // FLOATING PARTICLES
   const container = document.getElementById('particles');
   for (let i = 0; i < 22; i++) {
@@ -415,11 +413,3 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
