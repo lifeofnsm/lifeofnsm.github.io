@@ -255,7 +255,6 @@
       Connect on WhatsApp
     </a>
     <p style="font-size:11px;color:#555;margin-top:7px;">For business queries, collaborations &amp; brand deals only</p>
-    <p style="font-size:12px;color:#666;margin-top:6px;">✉️ <span id="emailDisplay"></span></p>
   </header>
 
   <!-- STATS -->
@@ -381,11 +380,9 @@
 
 <script>
   // EMAIL - bypass Cloudflare obfuscation
-  const u = 'iam', d = 'natarajmalavade.in';
-  const eb = document.getElementById('emailBtn');
-  const ed = document.getElementById('emailDisplay');
-  if(eb) eb.href = 'mai'+'lto:'+u+'@'+d;
-  if(ed) ed.textContent = u+'@'+d;
+  const emailUser = 'iam', emailDomain = 'natarajmalavade' + '.in';
+  const emailDisplay = document.getElementById('emailDisplay');
+  if(emailDisplay) emailDisplay.textContent = emailUser + '@' + emailDomain;
 
   // FLOATING PARTICLES
   const container = document.getElementById('particles');
