@@ -105,7 +105,7 @@
     .avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
 
     .badge {
-      position: absolute; bottom: 1px; right: 1px;
+      position: absolute; bottom: 4px; right: 4px;
       width: 22px; height: 22px; background: var(--gold);
       border-radius: 50%; border: 2.5px solid var(--bg);
       display: flex; align-items: center; justify-content: center; z-index: 1;
@@ -350,7 +350,7 @@
         </div>
         WhatsApp Channel
       </a>
-      <a href="mailto:iam@natarajmalavade.in" class="sb">
+      <a href="#" id="emailBtn" class="sb">
         <div class="si" style="background:rgba(245,197,24,0.1);">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5C518" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         </div>
@@ -368,7 +368,11 @@
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+  // EMAIL FIX - bypass Cloudflare obfuscation
+  const eb = document.getElementById('emailBtn');
+  if(eb){ const u='iam'; const d='natarajmalavade.in'; eb.href='mai'+'lto:'+u+'@'+d; }
+
   // FLOATING PARTICLES
   const container = document.getElementById('particles');
   for (let i = 0; i < 22; i++) {
