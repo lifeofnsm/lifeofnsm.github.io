@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nataraj Malavade — Financial Educator & Author</title>
+  <meta name="description" content="Nataraj Malavade — CRA, Author, Financial Educator. Simplifying investing for every Indian through data-driven strategies." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #F5C518;
+      --gold-dim: #c9a010;
+      --gold-glow: rgba(245,197,24,0.1);
+      --bg: #080808;
+      --surface: #111111;
+      --surface-2: #181818;
+      --border: #222222;
+      --border-hover: rgba(245,197,24,0.35);
+      --text: #eeeeee;
+      --muted: #777;
+      --font: 'Poppins', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(circle, #252525 1px, transparent 1px);
+      background-size: 26px 26px;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* AMBIENT */
+    .ambient {
+      position: fixed; width: 700px; height: 500px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(245,197,24,0.07) 0%, transparent 65%);
+      top: -180px; left: 50%; transform: translateX(-50%);
+      pointer-events: none; z-index: 0;
+      animation: ambientPulse 5s ease-in-out infinite;
+    }
+    @keyframes ambientPulse {
+      0%,100% { opacity:1; transform:translateX(-50%) scale(1); }
+      50%      { opacity:0.55; transform:translateX(-50%) scale(1.1); }
+    }
+
+    /* PARTICLES */
+    #particles { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .pt {
+      position:absolute; border-radius:50%;
+      background:var(--gold); opacity:0;
+      animation:floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform:translateY(0) scale(1); opacity:0; }
+      10%  { opacity:0.35; }
+      90%  { opacity:0.1; }
+      100% { transform:translateY(-100vh) scale(0.2); opacity:0; }
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 640px; margin: 0 auto; padding: 0 20px 60px;
+    }
+
+    /* HEADER */
+    header { padding: 48px 0 0; text-align: center; animation: fadeUp 0.5s ease both; }
+
+    .avatar-wrap {
+      position: relative; display: inline-block; margin-bottom: 24px;
+    }
+    /* pulse rings */
+    .avatar-wrap::before {
+      content:''; position:absolute; inset:-7px; border-radius:50%;
+      border:1.5px solid rgba(245,197,24,0.3);
+      animation:ringPulse 2.8s ease-in-out infinite;
+    }
+    .avatar-wrap::after {
+      content:''; position:absolute; inset:-14px; border-radius:50%;
+      border:1px solid rgba(245,197,24,0.12);
+      animation:ringPulse 2.8s ease-in-out infinite 0.5s;
+    }
+    @keyframes ringPulse {
+      0%,100% { transform:scale(1); opacity:1; }
+      50%      { transform:scale(1.05); opacity:0.4; }
+    }
+
+    .avatar {
+      width: 84px; height: 84px; border-radius: 50%;
+      border: 2px solid var(--gold); background: var(--surface-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: 800; color: var(--gold);
+      box-shadow: 0 0 0 5px rgba(245,197,24,0.07);
+      padding: 0; overflow: hidden;
+    }
+    .avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+
+    .badge {
+      position: absolute; bottom: 1px; right: 1px;
+      width: 22px; height: 22px; background: var(--gold);
+      border-radius: 50%; border: 2.5px solid var(--bg);
+      display: flex; align-items: center; justify-content: center; z-index: 1;
+    }
+    .badge svg { width: 10px; height: 10px; }
+
+    h1 { font-size: clamp(21px, 5vw, 26px); font-weight: 700; letter-spacing: -0.4px; }
+    .chips { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin: 10px 0 8px; }
+    .chip {
+      font-size: 10.5px; font-weight: 500; padding: 3px 11px;
+      border-radius: 100px; border: 1px solid var(--border); color: var(--muted);
+    }
+    .chip.gold { border-color: rgba(245,197,24,0.3); color: var(--gold); background: rgba(245,197,24,0.06); }
+    .bio { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 380px; margin: 10px auto 0; }
+
+    /* STATS */
+    .stats {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 14px;
+      overflow: hidden; margin: 28px 0;
+      animation: fadeUp 0.5s 0.07s ease both;
+    }
+    .stat { background: var(--surface); padding: 14px 10px; text-align: center; }
+    .stat-n { font-size: 17px; font-weight: 700; color: var(--gold); line-height: 1; text-shadow: 0 0 18px rgba(245,197,24,0.3); }
+    .stat-l { font-size: 9.5px; color: var(--muted); margin-top: 4px; line-height: 1.3; }
+
+    /* SECTION HEADER */
+    .sh { font-size: 9.5px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: #888; margin-bottom: 12px; margin-top: 28px; }
+
+    /* LINK CARD */
+    .lc {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 13px; padding: 15px 18px;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.2s, transform 0.18s, background 0.2s;
+      margin-bottom: 10px; position: relative; overflow: hidden;
+    }
+    .lc::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg, var(--gold-glow) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.2s; pointer-events: none;
+    }
+    .lc::after {
+      content:''; position:absolute;
+      top:0; left:-100%; width:60%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(245,197,24,0.06), transparent);
+      transition: left 0.5s ease; pointer-events:none;
+    }
+    .lc:hover { border-color: var(--border-hover); transform: translateY(-2px); background: var(--surface-2); }
+    .lc:hover::before { opacity: 1; }
+    .lc:hover::after { left:150%; }
+    .lc.off { opacity: 0.42; pointer-events: none; }
+
+    .ic { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .cb { flex: 1; min-width: 0; }
+    .ct { font-size: 14px; font-weight: 600; line-height: 1.2; }
+    .cs { font-size: 11.5px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+    .cr { flex-shrink: 0; color: var(--muted); font-size: 16px; transition: transform 0.18s, color 0.18s; }
+    .lc:hover .cr { transform: translateX(3px); color: var(--gold); }
+    .pill {
+      font-size: 9px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 2px 9px; border-radius: 100px;
+      background: rgba(245,197,24,0.08); color: var(--gold-dim);
+      border: 1px solid rgba(245,197,24,0.18); flex-shrink: 0;
+    }
+
+    /* BOOKS */
+    .books { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bc {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 13px; padding: 16px;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.2s, transform 0.18s;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .bc:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .bcover {
+      width: 100%; aspect-ratio: 3/4;
+      background: var(--surface-2); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px; border: 1px solid var(--border);
+    }
+    .bt { font-size: 12px; font-weight: 600; line-height: 1.35; }
+    .bcta { font-size: 11px; color: var(--gold); font-weight: 500; margin-top: 3px; }
+
+    /* SOCIAL */
+    .social-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sb {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 15px;
+      text-decoration: none; color: var(--text);
+      font-size: 13px; font-weight: 500;
+      transition: border-color 0.2s, transform 0.18s;
+    }
+    .sb:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .si { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    /* FOOTER */
+    footer { text-align: center; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .fh { font-size: 12px; color: #444; }
+    .fh span { color: var(--gold); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .a1 { animation: fadeUp 0.5s 0.05s ease both; }
+    .a2 { animation: fadeUp 0.5s 0.12s ease both; }
+    .a3 { animation: fadeUp 0.5s 0.18s ease both; }
+    .a4 { animation: fadeUp 0.5s 0.24s ease both; }
+    .a5 { animation: fadeUp 0.5s 0.30s ease both; }
+
+    /* scroll reveal */
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width: 420px) {
+      .stats { grid-template-columns: repeat(2,1fr); }
+      .social-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="ambient"></div>
+<div id="particles"></div>
+<div class="page">
+
+  <header>
+    <div class="avatar-wrap">
+      <div class="avatar"><img src="https://i.ibb.co/FbvTDHZx/DP-Images-3.png" alt="Nataraj Malavade" /></div>
+      <div class="badge">
+        <svg viewBox="0 0 12 12" fill="none">
+          <path d="M2 6.5L4.5 9L10 3.5" stroke="#080808" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <h1>Nataraj Malavade</h1>
+    <div class="chips">
+      <span class="chip gold">Certified Research Analyst</span>
+      <span class="chip">Author · 2 Books</span>
+      <span class="chip">Financial Educator</span>
+    </div>
+    <p class="bio">Simplifying stock market investing for every Indian — ETFs, Mutual Funds, Momentum &amp; Systematic Strategies.</p>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="stat-n" data-target="2" data-suffix="L+">2L+</div><div class="stat-l">YouTube Subscribers</div></div>
+    <div class="stat"><div class="stat-n" data-target="10" data-suffix="K+">10K+</div><div class="stat-l">Students Trained</div></div>
+    <div class="stat"><div class="stat-n" data-target="10" data-suffix="+">10+</div><div class="stat-l">Years in Markets</div></div>
+    <div class="stat"><div class="stat-n" data-target="2" data-suffix="">2</div><div class="stat-l">Books Authored</div></div>
+  </div>
+
+  <!-- COURSES -->
+  <div class="a1 reveal">
+    <p class="sh">Courses &amp; Programs</p>
+    <a href="https://kannada.natarajmalavade.in" class="lc" target="_blank" rel="noopener">
+      <div class="ic" style="background:rgba(245,197,24,0.1);border:1px solid rgba(245,197,24,0.2);">📚</div>
+      <div class="cb"><div class="ct">ಕನ್ನಡ Investing Education</div><div class="cs">ETF · Mutual Funds · Momentum · Asset Allocation</div></div>
+      <div class="cr">→</div>
+    </a>
+    <a href="https://trading.natarajmalavade.in" class="lc" target="_blank" rel="noopener">
+      <div class="ic" style="background:rgba(99,179,237,0.1);border:1px solid rgba(99,179,237,0.15);">📈</div>
+      <div class="cb"><div class="ct">Trading Courses · English</div><div class="cs">Price Action · Market Profile · Options Trading</div></div>
+      <div class="cr">→</div>
+    </a>
+    <div class="lc off">
+      <div class="ic" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.15);">⚡</div>
+      <div class="cb"><div class="ct">Smallcase Portfolios</div></div>
+      <span class="pill">Coming Soon</span>
+    </div>
+  </div>
+
+  <!-- YOUTUBE -->
+  <div class="a2 reveal">
+    <p class="sh">YouTube Channels</p>
+    <a href="https://www.youtube.com/@natarajmalavadekannada?sub_confirmation=1" class="lc" target="_blank" rel="noopener">
+      <div class="ic" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.15);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF3333"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+      </div>
+      <div class="cb"><div class="ct">YouTube — ಕನ್ನಡ Channel</div><div class="cs">Investing · ETFs · Money Management in Kannada</div></div>
+      <div class="cr">→</div>
+    </a>
+    <a href="https://bit.ly/3j5tvkh" class="lc" target="_blank" rel="noopener">
+      <div class="ic" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.15);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF3333"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+      </div>
+      <div class="cb"><div class="ct">YouTube — English Channel</div><div class="cs">Trading · Finance · Market Analysis in English</div></div>
+      <div class="cr">→</div>
+    </a>
+  </div>
+
+  <!-- BOOKS -->
+  <div class="a3 reveal">
+    <p class="sh">Books</p>
+    <div class="books">
+      <a href="https://www.amazon.in/s?k=mastermind+of+day+trading+nataraj+malavade" class="bc" target="_blank" rel="noopener">
+        <div class="bcover">📕</div>
+        <div><div class="bt">Mastermind of Day Trading</div><div class="bcta">Buy on Amazon →</div></div>
+      </a>
+      <a href="https://www.amazon.in/s?k=power+of+rule+based+price+action+nataraj+malavade" class="bc" target="_blank" rel="noopener">
+        <div class="bcover">📗</div>
+        <div><div class="bt">The Power of Rule-Based Price Action Trading</div><div class="bcta">Buy on Amazon →</div></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="a4 reveal">
+    <p class="sh">Follow &amp; Connect</p>
+    <div class="social-row">
+      <a href="https://instagram.com/natarajmalavadekannada" class="sb" target="_blank" rel="noopener">
+        <div class="si" style="background:rgba(225,48,108,0.12);">
+          <svg width="17" height="17" viewBox="0 0 24 24">
+            <defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs>
+            <path fill="url(#ig)" d="M12 2.2c3.2 0 3.6 0 4.8.1 3.2.1 4.7 1.7 4.8 4.8.1 1.2.1 1.6.1 4.9 0 3.2 0 3.6-.1 4.8-.1 3.1-1.6 4.7-4.8 4.8-1.2.1-1.6.1-4.8.1-3.2 0-3.6 0-4.8-.1-3.2-.1-4.7-1.7-4.8-4.8C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 3.9 2.3 7.2 2.2c1.2-.1 1.6-.1 4.8-.1zm0-2.2C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24c3.3 0 3.7 0 4.9-.1 4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/>
+          </svg>
+        </div>
+        Instagram · ಕನ್ನಡ
+      </a>
+      <a href="https://www.twitter.com/malavadenataraj" class="sb" target="_blank" rel="noopener">
+        <div class="si" style="background:rgba(255,255,255,0.06);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#aaa"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.258 5.63 5.906-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        Twitter / X
+      </a>
+      <a href="https://whatsapp.com/channel/0029VaBgcQBHltYAUlUBaI2B" class="sb" target="_blank" rel="noopener">
+        <div class="si" style="background:rgba(37,211,102,0.1);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </div>
+        WhatsApp Channel
+      </a>
+      <a href="mailto:iam@natarajmalavade.in" class="sb">
+        <div class="si" style="background:rgba(245,197,24,0.1);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5C518" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+        Email Me
+      </a>
+    </div>
+  </div>
+
+  <!-- WHATSAPP BUSINESS -->
+  <div class="a4 reveal" style="margin-top:10px;">
+    <a href="https://bit.ly/2z5leYP" class="lc" target="_blank" rel="noopener" style="border-color:rgba(37,211,102,0.2);">
+      <div class="ic" style="background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      </div>
+      <div class="cb">
+        <div class="ct" style="color:#25D366;">WhatsApp — Business Enquiry</div>
+        <div class="cs">Brand collaborations · Course queries · Mentoring</div>
+      </div>
+      <div class="cr">→</div>
+    </a>
+  </div>
+
+  <footer class="a5">
+    <p class="fh">natarajmalavade &nbsp;·&nbsp; <span>natarajmalavade.in</span></p>
+    <p style="font-size:11px;color:#333;margin-top:5px;">© 2025 Nataraj Malavade. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  // FLOATING PARTICLES
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'pt';
+    const size = Math.random() * 2.5 + 1;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;animation-duration:${Math.random()*18+10}s;animation-delay:${Math.random()*10}s;`;
+    container.appendChild(p);
+  }
+
+  // STAT COUNTER
+  function animateCount(el, target, suffix) {
+    const duration = 1600;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(target * ease) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  let statsDone = false;
+  const statsEl = document.querySelector('.stats');
+  const statsObs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !statsDone) {
+      statsDone = true;
+      document.querySelectorAll('.stat-n').forEach(el => {
+        animateCount(el, +el.dataset.target, el.dataset.suffix);
+      });
+      statsObs.disconnect();
+    }
+  }, { threshold: 0.5 });
+  statsObs.observe(statsEl);
+
+  // SCROLL REVEAL
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
