@@ -50,6 +50,171 @@
     .main-tab .tab-icon { font-size: 18px; }
     .main-tab.active { background: var(--gold); color: #080808; font-weight: 700; }
 
+    /* RETIREMENT PLANNER STYLES */
+
+        :root {
+            --bg: #070A10;
+            --surface: #0D1321;
+            --surface2: #131B2C;
+            --surface3: #1A2338;
+            --border: rgba(245,197,24,0.10);
+            --border-strong: rgba(245,197,24,0.28);
+            --gold: #F5C518;
+            --gold-glow: rgba(245,197,24,0.18);
+            --text: #E2E8F0;
+            --text-muted: #94A3B8;
+            --text-dim: #475569;
+            --green: #10B981;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --blue: #60A5FA;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; min-height: 100vh; }
+        .ret-wrap { max-width: 1060px; margin: 0 auto; padding: 52px 24px 48px; }
+
+        .ret-hdr { text-align: center; margin-bottom: 44px; }
+        .ret-hdr-tag {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: var(--gold-glow); color: var(--gold);
+            font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+            text-transform: uppercase; padding: 5px 14px;
+            border-radius: 20px; border: 1px solid var(--border-strong);
+            margin-bottom: 16px;
+        }
+        .ret-hdr h1 { font-size: 36px; font-weight: 900; letter-spacing: -0.6px; margin-bottom: 10px; }
+        .ret-hdr h1 em { color: var(--gold); font-style: normal; }
+        .ret-hdr p { font-size: 13px; color: var(--text-muted); max-width: 540px; margin: 0 auto; line-height: 1.8; }
+
+        .ret-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px 30px; margin-bottom: 18px; }
+        .ret-card-title { font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 22px; }
+
+        .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+        @media (max-width: 680px) {
+            .g2, .g3 { grid-template-columns: 1fr 1fr; }
+            .ret-hdr h1 { font-size: 24px; }
+            .bottom-row { grid-template-columns: 1fr !important; }
+            .corpus-hero { flex-direction: column; }
+        }
+        @media (max-width: 420px) { .g2, .g3 { grid-template-columns: 1fr; } }
+
+        .ig { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 10px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.6px; }
+        .iw { position: relative; }
+        .ipfx { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--gold); font-weight: 700; pointer-events: none; }
+        .isfx { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-dim); font-weight: 700; pointer-events: none; }
+        input[type="number"] {
+            width: 100%; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 11px 38px 11px 34px;
+            color: var(--text); font-family: 'Poppins', sans-serif;
+            font-size: 14px; font-weight: 700; outline: none; transition: border-color 0.2s;
+            -moz-appearance: textfield;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        input[type="number"]:focus { border-color: var(--border-strong); background: var(--surface3); }
+        .nopfx { padding-left: 14px !important; }
+        .hint { font-size: 10px; color: var(--text-dim); font-weight: 500; margin-top: 1px; }
+
+        .prob-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+        .prob-btn {
+            flex: 1; min-width: 60px; padding: 10px 6px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text-muted);
+            font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 700;
+            cursor: pointer; transition: all 0.18s; text-align: center;
+        }
+        .prob-btn:hover { border-color: var(--border-strong); color: var(--gold); }
+        .prob-btn.active { background: var(--gold-glow); border-color: var(--gold); color: var(--gold); }
+        .prob-sub { font-size: 9px; font-weight: 500; opacity: 0.75; display: block; margin-top: 2px; }
+
+        .abar-wrap { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+        .abar-head { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 7px; }
+        .aeq { color: var(--gold); } .adt { color: var(--blue); }
+        .abar { height: 6px; border-radius: 3px; background: rgba(96,165,250,0.22); overflow: hidden; }
+        .abar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #F59E0B); border-radius: 3px; transition: width 0.2s; }
+
+        .adv-btn {
+            display: flex; align-items: center; justify-content: space-between;
+            width: 100%; cursor: pointer; background: none; border: none;
+            border-top: 1px solid var(--border); padding: 13px 0 2px; margin-top: 10px;
+            color: var(--text-dim); font-family: 'Poppins', sans-serif;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.5px; transition: color 0.2s;
+        }
+        .adv-btn:hover { color: var(--gold); }
+        .arr { transition: transform 0.3s; font-size: 9px; }
+        .arr.open { transform: rotate(180deg); }
+        .adv-panel { display: none; padding-top: 20px; }
+        .adv-panel.open { display: block; }
+        .adv-note { font-size: 10px; color: var(--text-dim); margin-top: 12px; line-height: 1.7; }
+
+        .run-btn {
+            width: 100%; padding: 15px; background: var(--gold); color: #000;
+            border: none; border-radius: 12px; font-family: 'Poppins', sans-serif;
+            font-size: 14px; font-weight: 900; letter-spacing: 0.4px; cursor: pointer;
+            margin-top: 20px; transition: all 0.18s;
+        }
+        .run-btn:hover { background: #FFD700; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(245,197,24,0.3); }
+        .run-btn:active { transform: none; }
+        .run-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .pg-wrap { display: none; padding: 18px 0 4px; }
+        .pg-lbl { font-size: 11px; color: var(--text-dim); font-weight: 600; margin-bottom: 8px; text-align: center; }
+        .pg-bar { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+        .pg-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), #FFD700); border-radius: 2px; transition: width 0.1s linear; }
+
+        #results { display: none; animation: fu 0.35s ease; }
+        @keyframes fu { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+        .divider { display: flex; align-items: center; gap: 14px; margin: 30px 0 18px; }
+        .divider::before, .divider::after { content:''; flex:1; height:1px; background:var(--border); }
+        .divider span { font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2.5px; white-space: nowrap; }
+
+        .corpus-hero {
+            background: var(--surface); border: 1px solid var(--border-strong);
+            border-radius: 20px; padding: 32px 36px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 24px; margin-bottom: 18px; position: relative; overflow: hidden;
+        }
+        .corpus-hero::before {
+            content:''; position:absolute; top:0; left:0; right:0; height:2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .corpus-left { flex: 1; }
+        .corpus-eyebrow { font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .corpus-val { font-size: 40px; font-weight: 900; color: var(--gold); letter-spacing: -1px; line-height: 1; margin-bottom: 6px; }
+        .corpus-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.7; }
+        .corpus-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+        .cm { display: flex; flex-direction: column; gap: 2px; }
+        .cm-val { font-size: 14px; font-weight: 700; }
+        .cm-lbl { font-size: 9px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; }
+        .corpus-right { flex-shrink: 0; }
+
+        .ring { width: 100px; height: 100px; }
+        .ring-bg { fill: none; stroke: var(--surface2); stroke-width: 9; }
+        .ring-fill { fill: none; stroke-width: 9; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 1s ease, stroke 0.4s; }
+        .ring-num { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 900; text-anchor: middle; }
+        .ring-lbl { font-family: 'Poppins', sans-serif; font-size: 7px; font-weight: 700; text-anchor: middle; fill: var(--text-dim); letter-spacing: 0.8px; }
+        .verdict { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-top: 14px; }
+
+        .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 22px 24px; }
+        .ch-lbl { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .ch-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 18px; }
+        .ch-box { position: relative; height: 290px; }
+        .ch-box-sm { position: relative; height: 230px; }
+        .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+
+        .ptbl { width: 100%; border-collapse: collapse; }
+        .ptbl th { text-align: left; padding: 7px 10px; font-size: 9px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+        .ptbl td { padding: 12px 10px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.025); }
+        .ptbl tr:last-child td { border-bottom: none; }
+        .ptbl tr:hover td { background: rgba(245,197,24,0.02); }
+        .badge { display: inline-block; padding: 2px 9px; border-radius: 5px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; }
+
+        .disc { text-align: center; font-size: 10px; color: var(--text-dim); margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--border); line-height: 1.9; }
+    
+
     /* CALCULATOR PANELS */
     .calc-panel { display: none; }
     .calc-panel.active { display: block; animation: fadeUp 0.3s ease both; }
@@ -151,6 +316,87 @@
     footer a { color: var(--gold); text-decoration: none; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+
+      .rp-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(245,197,24,0.18);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid rgba(245,197,24,0.28);margin-bottom:16px;}
+      .rp-hdr{text-align:center;margin-bottom:28px;}
+      .rp-hdr h2{font-size:clamp(20px,4vw,26px);font-weight:900;letter-spacing:-0.5px;margin-bottom:8px;}
+      .rp-hdr h2 em{color:var(--gold);font-style:normal;}
+      .rp-hdr p{font-size:12px;color:var(--muted);max-width:500px;margin:0 auto;line-height:1.8;}
+      .rp-card{background:var(--surface);border:1px solid #1d2535;border-radius:16px;padding:22px 24px;margin-bottom:16px;}
+      .rp-card-title{font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:18px;}
+      .rp-g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+      .rp-g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+      @media(max-width:540px){.rp-g2,.rp-g3{grid-template-columns:1fr 1fr;}}
+      @media(max-width:380px){.rp-g2,.rp-g3{grid-template-columns:1fr;}}
+      .rp-ig{display:flex;flex-direction:column;gap:5px;}
+      .rp-ig label{font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.6px;}
+      .rp-iw{position:relative;}
+      .rp-pfx{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--gold);font-weight:700;pointer-events:none;}
+      .rp-sfx{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:#475569;font-weight:700;pointer-events:none;}
+      .rp-inp{width:100%;background:#131B2C;border:1px solid rgba(245,197,24,0.1);border-radius:10px;padding:11px 38px 11px 34px;color:var(--text);font-family:var(--font);font-size:14px;font-weight:700;outline:none;transition:border-color 0.2s;-moz-appearance:textfield;}
+      .rp-inp::-webkit-outer-spin-button,.rp-inp::-webkit-inner-spin-button{-webkit-appearance:none;}
+      .rp-inp:focus{border-color:rgba(245,197,24,0.3);background:#1A2338;}
+      .rp-np{padding-left:14px!important;}
+      .rp-hint{font-size:10px;color:#475569;font-weight:500;margin-top:1px;}
+      .rp-prob-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px;}
+      .rp-pb{flex:1;min-width:54px;padding:9px 5px;background:#131B2C;border:1px solid rgba(245,197,24,0.1);border-radius:10px;color:#94A3B8;font-family:var(--font);font-size:11px;font-weight:700;cursor:pointer;transition:all 0.18s;text-align:center;}
+      .rp-pb:hover{border-color:rgba(245,197,24,0.3);color:var(--gold);}
+      .rp-pb.active{background:rgba(245,197,24,0.18);border-color:var(--gold);color:var(--gold);}
+      .rp-pb-sub{font-size:9px;font-weight:500;opacity:0.75;display:block;margin-top:2px;}
+      .rp-ab-wrap{background:#131B2C;border:1px solid rgba(245,197,24,0.1);border-radius:10px;padding:10px 13px;}
+      .rp-ab-head{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:7px;}
+      .rp-aeq{color:var(--gold);}.rp-adt{color:var(--blue);}
+      .rp-ab{height:6px;border-radius:3px;background:rgba(96,165,250,0.22);overflow:hidden;}
+      .rp-ab-fill{height:100%;background:linear-gradient(90deg,var(--gold),#F59E0B);border-radius:3px;transition:width 0.2s;}
+      .rp-adv-btn{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;background:none;border:none;border-top:1px solid rgba(245,197,24,0.1);padding:12px 0 2px;margin-top:10px;color:#475569;font-family:var(--font);font-size:11px;font-weight:700;transition:color 0.2s;}
+      .rp-adv-btn:hover{color:var(--gold);}
+      .rp-arr{transition:transform 0.3s;font-size:9px;}
+      .rp-arr.open{transform:rotate(180deg);}
+      .rp-adv{display:none;padding-top:16px;}
+      .rp-adv.open{display:block;}
+      .rp-adv-note{font-size:10px;color:#475569;margin-top:10px;line-height:1.7;}
+      .rp-run{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:12px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;margin-top:16px;transition:all 0.18s;}
+      .rp-run:hover{background:#FFD700;transform:translateY(-1px);box-shadow:0 8px 28px rgba(245,197,24,0.3);}
+      .rp-run:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none;}
+      .rp-pg{display:none;padding:14px 0 4px;}
+      .rp-pg-lbl{font-size:11px;color:#475569;font-weight:600;margin-bottom:7px;text-align:center;}
+      .rp-pg-bar{height:4px;background:#131B2C;border-radius:2px;overflow:hidden;}
+      .rp-pg-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),#FFD700);border-radius:2px;transition:width 0.1s linear;}
+      #rp-res{display:none;animation:fadeUp 0.35s ease;}
+      .rp-div{display:flex;align-items:center;gap:14px;margin:22px 0 14px;}
+      .rp-div::before,.rp-div::after{content:'';flex:1;height:1px;background:rgba(245,197,24,0.1);}
+      .rp-div span{font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;white-space:nowrap;}
+      .rp-hero{background:var(--surface);border:1px solid rgba(245,197,24,0.28);border-radius:16px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;position:relative;overflow:hidden;flex-wrap:wrap;}
+      .rp-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+      .rp-hero-l{flex:1;min-width:200px;}
+      .rp-hero-ey{font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:7px;}
+      .rp-hero-val{font-size:34px;font-weight:900;color:var(--gold);letter-spacing:-1px;line-height:1;margin-bottom:5px;}
+      .rp-hero-sub{font-size:12px;color:#94A3B8;margin-bottom:14px;line-height:1.7;}
+      .rp-hero-meta{display:flex;gap:22px;flex-wrap:wrap;}
+      .rp-cm{display:flex;flex-direction:column;gap:2px;}
+      .rp-cm-val{font-size:14px;font-weight:700;}
+      .rp-cm-lbl{font-size:9px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.8px;}
+      .rp-verdict-box{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;margin-top:11px;}
+      .rp-ring{width:88px;height:88px;}
+      .rp-ring-bg{fill:none;stroke:#131B2C;stroke-width:9;}
+      .rp-ring-fill{fill:none;stroke-width:9;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s ease,stroke 0.4s;}
+      .rp-ring-num{font-family:var(--font);font-size:14px;font-weight:900;text-anchor:middle;}
+      .rp-ring-lbl{font-family:var(--font);font-size:7px;font-weight:700;text-anchor:middle;fill:#475569;letter-spacing:0.8px;}
+      .rp-cc{background:var(--surface);border:1px solid rgba(245,197,24,0.1);border-radius:14px;padding:18px 20px;margin-bottom:14px;}
+      .rp-cc-lbl{font-size:13px;font-weight:700;margin-bottom:2px;}
+      .rp-cc-sub{font-size:11px;color:#475569;margin-bottom:14px;}
+      .rp-ch-box{position:relative;height:260px;}
+      .rp-ch-sm{position:relative;height:210px;}
+      .rp-bot{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+      @media(max-width:540px){.rp-bot{grid-template-columns:1fr;}}
+      .rp-tbl{width:100%;border-collapse:collapse;}
+      .rp-tbl th{text-align:left;padding:7px 9px;font-size:9px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid rgba(245,197,24,0.1);}
+      .rp-tbl td{padding:10px 9px;font-size:12px;border-bottom:1px solid rgba(255,255,255,0.025);}
+      .rp-tbl tr:last-child td{border-bottom:none;}
+      .rp-badge{display:inline-block;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;}
+      .rp-disc{text-align:center;font-size:10px;color:#475569;margin-top:22px;padding-top:14px;border-top:1px solid rgba(245,197,24,0.08);line-height:1.9;}
+    
   </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CGSZK6XNE7"></script>
@@ -187,6 +433,12 @@
       <button class="main-tab" onclick="showPanel('cagr', this)"><span class="tab-icon">📈</span>CAGR</button>
       <button class="main-tab" onclick="showPanel('fire', this)"><span class="tab-icon">🔥</span>FIRE Calculator</button>
       <button class="main-tab" onclick="showPanel('emi', this)"><span class="tab-icon">🏦</span>EMI</button>
+    </div>
+    <div class="tab-group-label" style="margin-top:8px;">Advanced</div>
+    <div class="main-tabs" style="grid-template-columns:1fr;">
+      <button class="main-tab" onclick="showPanel('retire', this)" style="flex-direction:row;gap:8px;justify-content:center;padding:12px;">
+        <span class="tab-icon">🎲</span>Retirement Planner — Monte Carlo Simulation
+      </button>
     </div>
   </div>
 
@@ -560,6 +812,126 @@
       <div class="disclaimer"><p>⚠️ This calculator uses the standard safe withdrawal rate framework. FI corpus = Annual Expenses ÷ Safe Withdrawal Rate. Actual results depend on market returns, inflation, and lifestyle changes. This is for educational purposes only — consult a SEBI-registered financial advisor for personalised planning.</p></div>
     </div>
   </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PANEL 7: RETIREMENT PLANNER (MONTE CARLO) -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="calc-panel" id="panel-retire">
+
+    <div class="rp-hdr">
+      <div class="rp-tag">🎲 Monte Carlo · 1,000 Simulations</div>
+      <h2>What Is Your <em>Retirement Number?</em></h2>
+      <p>Pick your target success probability. The simulator runs 1,000 randomised scenarios of equity returns, debt returns, and inflation — then calculates exactly the corpus you need to retire safely.</p>
+    </div>
+
+    <div class="rp-card">
+      <div class="rp-card-title">Retirement Parameters</div>
+      <div class="rp-g2">
+        <div class="rp-ig">
+          <label>Annual Expenses (Today's Value)</label>
+          <div class="rp-iw"><span class="rp-pfx">₹</span><input type="number" class="rp-inp" id="rp_expenses" value="600000" oninput="rpUpdHint()"></div>
+          <div class="rp-hint" id="rp_exp_hint">₹6,00,000 / year · ₹50,000 / month</div>
+        </div>
+        <div class="rp-ig">
+          <label>Equity Allocation in Retirement</label>
+          <div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_equityAlloc" value="50" min="0" max="100" oninput="rpUpdAlloc()"><span class="rp-sfx">%</span></div>
+          <div style="margin-top:8px;">
+            <div class="rp-ab-wrap">
+              <div class="rp-ab-head"><span class="rp-aeq" id="rp_eq_lbl">Equity 50%</span><span class="rp-adt" id="rp_dt_lbl">Debt 50%</span></div>
+              <div class="rp-ab"><div class="rp-ab-fill" id="rp_abar" style="width:50%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rp-g2">
+        <div class="rp-ig"><label>Retirement Age</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_retAge" value="60"><span class="rp-sfx">yrs</span></div></div>
+        <div class="rp-ig"><label>Life Expectancy</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_lifeExp" value="85"><span class="rp-sfx">yrs</span></div></div>
+      </div>
+      <div class="rp-ig" style="margin-bottom:4px;">
+        <label>Target Success Probability</label>
+        <div class="rp-prob-row">
+          <button class="rp-pb" data-p="75" onclick="rpSetProb(this)">75%<span class="rp-pb-sub">Risky</span></button>
+          <button class="rp-pb" data-p="80" onclick="rpSetProb(this)">80%<span class="rp-pb-sub">Moderate</span></button>
+          <button class="rp-pb active" data-p="85" onclick="rpSetProb(this)">85%<span class="rp-pb-sub">Comfortable</span></button>
+          <button class="rp-pb" data-p="90" onclick="rpSetProb(this)">90%<span class="rp-pb-sub">Conservative</span></button>
+          <button class="rp-pb" data-p="95" onclick="rpSetProb(this)">95%<span class="rp-pb-sub">Very Safe</span></button>
+        </div>
+      </div>
+      <button class="rp-adv-btn" onclick="rpTogAdv()">
+        <span>⚙ &nbsp; Advanced — Equity · Debt · Inflation Parameters</span>
+        <span class="rp-arr" id="rp_arr">▼</span>
+      </button>
+      <div class="rp-adv" id="rp_advPanel">
+        <div class="rp-g3">
+          <div class="rp-ig"><label>Equity Mean Return</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_eqMean" value="12" step="0.5"><span class="rp-sfx">%</span></div></div>
+          <div class="rp-ig"><label>Equity Volatility (σ)</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_eqStd" value="18" step="0.5"><span class="rp-sfx">%</span></div></div>
+          <div></div>
+        </div>
+        <div class="rp-g3">
+          <div class="rp-ig"><label>Debt Mean Return</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_dtMean" value="7" step="0.5"><span class="rp-sfx">%</span></div></div>
+          <div class="rp-ig"><label>Debt Volatility (σ)</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_dtStd" value="3" step="0.5"><span class="rp-sfx">%</span></div></div>
+          <div></div>
+        </div>
+        <div class="rp-g3">
+          <div class="rp-ig"><label>Inflation Mean</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_infMean" value="6" step="0.5"><span class="rp-sfx">%</span></div></div>
+          <div class="rp-ig"><label>Inflation Volatility (σ)</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_infStd" value="2" step="0.5"><span class="rp-sfx">%</span></div></div>
+          <div></div>
+        </div>
+        <p class="rp-adv-note">Defaults calibrated to Indian market history — Nifty 50 CAGR ~12%, India CPI ~6%. σ controls year-to-year randomness. Higher σ = wider outcome range.</p>
+      </div>
+      <button class="rp-run" id="rp_runBtn" onclick="rpGo()">▶ &nbsp; Calculate My Retirement Number</button>
+    </div>
+
+    <div class="rp-pg" id="rp_pgWrap">
+      <div class="rp-pg-lbl" id="rp_pgLbl">Running simulations…</div>
+      <div class="rp-pg-bar"><div class="rp-pg-fill" id="rp_pgFill"></div></div>
+    </div>
+
+    <div id="rp-res">
+      <div class="rp-div"><span>Your Retirement Number</span></div>
+      <div class="rp-hero">
+        <div class="rp-hero-l">
+          <div class="rp-hero-ey" id="rp_heroEy">Required Corpus at 85% Success</div>
+          <div class="rp-hero-val" id="rp_heroVal">—</div>
+          <div class="rp-hero-sub" id="rp_heroSub">—</div>
+          <div class="rp-hero-meta">
+            <div class="rp-cm"><div class="rp-cm-val" id="rp_swr">—</div><div class="rp-cm-lbl">Withdrawal Rate</div></div>
+            <div class="rp-cm"><div class="rp-cm-val" id="rp_yrs">—</div><div class="rp-cm-lbl">Retirement Period</div></div>
+            <div class="rp-cm"><div class="rp-cm-val" id="rp_monthly">—</div><div class="rp-cm-lbl">Monthly Spend (Yr 1)</div></div>
+            <div class="rp-cm"><div class="rp-cm-val" id="rp_sim">—</div><div class="rp-cm-lbl">Simulations Survived</div></div>
+          </div>
+          <div id="rp_verdict"></div>
+        </div>
+        <div>
+          <svg class="rp-ring" viewBox="0 0 110 110">
+            <circle class="rp-ring-bg" cx="55" cy="55" r="43"/>
+            <circle class="rp-ring-fill" id="rp_ringFill" cx="55" cy="55" r="43" stroke-dasharray="270.18" stroke-dashoffset="270.18"/>
+            <text class="rp-ring-num" id="rp_ringNum" x="55" y="52" fill="#E2E8F0">0%</text>
+            <text class="rp-ring-lbl" x="55" y="63">Actual</text>
+          </svg>
+        </div>
+      </div>
+      <div class="rp-cc">
+        <div class="rp-cc-lbl">Corpus Projection Fan Chart</div>
+        <div class="rp-cc-sub">Shaded bands = P5–P95. Darker = P25–P75. Gold = Median. Green dashed = P90. Red dashed = P10.</div>
+        <div class="rp-ch-box"><canvas id="rp_fanC"></canvas></div>
+      </div>
+      <div class="rp-bot">
+        <div class="rp-cc">
+          <div class="rp-cc-lbl">Final Corpus Distribution</div>
+          <div class="rp-cc-sub">Spread across 1,000 simulations</div>
+          <div class="rp-ch-sm"><canvas id="rp_histC"></canvas></div>
+        </div>
+        <div class="rp-cc">
+          <div class="rp-cc-lbl">Scenario Outcome Table</div>
+          <div class="rp-cc-sub">Remaining corpus at end of retirement</div>
+          <table class="rp-tbl"><thead><tr><th>Scenario</th><th>What it means</th><th>Final Corpus</th></tr></thead><tbody id="rp_tBody"></tbody></table>
+        </div>
+      </div>
+      <div class="rp-disc">For educational purposes only. Returns and inflation modelled as independent normal random variables.<br>Actual markets have fat tails and regime shifts not captured here. Past data ≠ future results.<br><br>Built by <strong style="color:var(--gold)">Nataraj Malavade</strong> · natarajmalavade.in</div>
+    </div>
+  </div>
+
     <p>© 2025 <a href="/">Nataraj Malavade</a> &nbsp;·&nbsp; natarajmalavade.in</p>
   </footer>
 </div>
@@ -845,6 +1217,456 @@
   }
 
   window.addEventListener('load', () => { calcSIP(); });
+
+  // ── RETIREMENT PLANNER ──
+// Fresh Box-Muller on every call — no caching, no seed reuse
+function rn(mean, std) {
+    let u, v;
+    do { u = Math.random(); } while (u === 0);
+    do { v = Math.random(); } while (v === 0);
+    return mean + std * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function fmt(v) {
+    if (v <= 0) return '₹0';
+    if (v >= 1e7) return '₹' + (v / 1e7).toFixed(2) + ' Cr';
+    if (v >= 1e5) return '₹' + (v / 1e5).toFixed(2) + ' L';
+    return '₹' + Math.round(v).toLocaleString('en-IN');
+}
+
+function pctile(sorted, p) {
+    if (!sorted.length) return 0;
+    const idx = (p / 100) * (sorted.length - 1);
+    const lo = Math.floor(idx), hi = Math.ceil(idx);
+    return lo === hi ? sorted[lo] : sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+}
+
+function updHint() {
+    const v = +document.getElementById('expenses').value || 0;
+    document.getElementById('exp-hint').textContent = fmt(v) + ' / year · ' + fmt(v / 12) + ' / month';
+}
+
+function updAlloc() {
+    const eq = Math.min(100, Math.max(0, +document.getElementById('equityAlloc').value || 0));
+    document.getElementById('abar').style.width = eq + '%';
+    document.getElementById('eq-lbl').textContent = 'Equity ' + eq + '%';
+    document.getElementById('dt-lbl').textContent = 'Debt ' + (100 - eq) + '%';
+}
+
+let targetProb = 85;
+function setProb(el) {
+    document.querySelectorAll('.prob-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    targetProb = +el.dataset.p;
+}
+
+let advOpen = false;
+function togAdv() {
+    advOpen = !advOpen;
+    document.getElementById('advPanel').classList.toggle('open', advOpen);
+    document.getElementById('arr').classList.toggle('open', advOpen);
+}
+
+// Run N simulations — completely fresh random draws every call
+function simulate(corpus, expenses, yrs, eqPct, dPct, eqMn, eqSd, dtMn, dtSd, infMn, infSd, N) {
+    let success = 0;
+    const paths = [], finals = [];
+    for (let s = 0; s < N; s++) {
+        let c = corpus, exp = expenses;
+        const path = [c];
+        let ok = true;
+        for (let y = 0; y < yrs; y++) {
+            const portR = eqPct * rn(eqMn, eqSd) + dPct * rn(dtMn, dtSd);
+            const inf   = rn(infMn, infSd);
+            c   = c * (1 + portR) - exp;
+            exp = exp * (1 + inf);
+            if (c <= 0) {
+                c = 0; ok = false;
+                for (let r = y; r < yrs; r++) path.push(0);
+                break;
+            }
+            path.push(c);
+        }
+        if (ok) success++;
+        paths.push(path);
+        finals.push(c);
+    }
+    return { sr: (success / N) * 100, paths, finals };
+}
+
+// Binary search: find corpus that achieves targetPct% success
+function findCorpus(expenses, yrs, eqPct, dPct, eqMn, eqSd, dtMn, dtSd, infMn, infSd, tp) {
+    let lo = expenses * 3, hi = expenses * 200, best = hi;
+    for (let i = 0; i < 22; i++) {
+        const mid = (lo + hi) / 2;
+        const { sr } = simulate(mid, expenses, yrs, eqPct, dPct, eqMn, eqSd, dtMn, dtSd, infMn, infSd, 300);
+        if (sr >= tp) { best = mid; hi = mid; } else { lo = mid; }
+    }
+    return best;
+}
+
+let fanInst = null, histInst = null;
+
+const TT = {
+    backgroundColor: '#131B2C', borderColor: 'rgba(245,197,24,0.2)', borderWidth: 1,
+    titleFont: { family: 'Poppins', weight: '700', size: 11 },
+    bodyFont: { family: 'Poppins', size: 11 },
+    titleColor: '#F5C518', bodyColor: '#94A3B8',
+};
+
+function buildFan(paths, yrs) {
+    if (fanInst) { fanInst.destroy(); fanInst = null; }
+    const labels = Array.from({ length: yrs + 1 }, (_, i) => 'Yr ' + i);
+    const bands = { p5:[], p10:[], p25:[], p50:[], p75:[], p90:[], p95:[] };
+    for (let y = 0; y <= yrs; y++) {
+        const yv = paths.map(p => p[y] ?? 0).sort((a, b) => a - b);
+        bands.p5.push(pctile(yv,5)); bands.p10.push(pctile(yv,10));
+        bands.p25.push(pctile(yv,25)); bands.p50.push(pctile(yv,50));
+        bands.p75.push(pctile(yv,75)); bands.p90.push(pctile(yv,90));
+        bands.p95.push(pctile(yv,95));
+    }
+    const ds = [
+        { data:bands.p95, borderWidth:0, pointRadius:0, fill:false, borderColor:'transparent', tension:0.35 },
+        { data:bands.p5,  borderWidth:0, pointRadius:0, fill:'-1', backgroundColor:'rgba(245,197,24,0.04)', tension:0.35, borderColor:'transparent' },
+        { data:bands.p90, borderWidth:0, pointRadius:0, fill:false, borderColor:'transparent', tension:0.35 },
+        { data:bands.p10, borderWidth:0, pointRadius:0, fill:'-1', backgroundColor:'rgba(245,197,24,0.08)', tension:0.35, borderColor:'transparent' },
+        { data:bands.p75, borderWidth:0, pointRadius:0, fill:false, borderColor:'transparent', tension:0.35 },
+        { data:bands.p25, borderWidth:0, pointRadius:0, fill:'-1', backgroundColor:'rgba(245,197,24,0.15)', tension:0.35, borderColor:'transparent' },
+        { label:'P90 — Good case', data:bands.p90, borderWidth:1.5, pointRadius:0, fill:false, borderColor:'rgba(16,185,129,0.65)', borderDash:[6,4], tension:0.35 },
+        { label:'P50 — Median',    data:bands.p50, borderWidth:2.5, pointRadius:0, fill:false, borderColor:'#F5C518', tension:0.35 },
+        { label:'P10 — Poor case', data:bands.p10, borderWidth:1.5, pointRadius:0, fill:false, borderColor:'rgba(239,68,68,0.65)', borderDash:[6,4], tension:0.35 },
+    ];
+    fanInst = new Chart(document.getElementById('fanC').getContext('2d'), {
+        type: 'line', data: { labels, datasets: ds },
+        options: {
+            animation: false, responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color:'#475569', font:{family:'Poppins',size:11}, boxWidth:18, usePointStyle:true, pointStyle:'line', filter: item => !!item.text } },
+                tooltip: { ...TT, mode:'index', intersect:false, callbacks: { label: c => c.dataset.label ? c.dataset.label + ': ' + fmt(c.raw) : null } }
+            },
+            scales: {
+                x: { ticks:{color:'#374151',font:{family:'Poppins',size:10},maxTicksLimit:12}, grid:{color:'rgba(255,255,255,0.025)'} },
+                y: { ticks:{color:'#374151',font:{family:'Poppins',size:10},callback:v=>fmt(v)}, grid:{color:'rgba(255,255,255,0.025)'} }
+            }
+        }
+    });
+}
+
+function buildHist(finals) {
+    if (histInst) { histInst.destroy(); histInst = null; }
+    const depleted = finals.filter(v => v <= 0).length;
+    const alive = finals.filter(v => v > 0);
+    const BINS = 16;
+    const labels = ['Depleted'], counts = [depleted], colors = ['rgba(239,68,68,0.7)'];
+    if (alive.length) {
+        const mn = Math.min(...alive), mx = Math.max(...alive), bw = (mx - mn) / BINS;
+        for (let i = 0; i < BINS; i++) {
+            const lo = mn + i * bw, hi = lo + bw;
+            labels.push(fmt(lo));
+            counts.push(alive.filter(v => v >= lo && (i===BINS-1 ? v<=hi : v<hi)).length);
+            colors.push('rgba(245,197,24,0.6)');
+        }
+    }
+    histInst = new Chart(document.getElementById('histC').getContext('2d'), {
+        type: 'bar', data: { labels, datasets: [{ data:counts, backgroundColor:colors, borderWidth:0, borderRadius:3 }] },
+        options: {
+            animation: false, responsive: true, maintainAspectRatio: false,
+            plugins: { legend:{display:false}, tooltip:{...TT, callbacks:{label:c=>c.raw+' simulations'}} },
+            scales: {
+                x: { ticks:{color:'#374151',font:{family:'Poppins',size:9},maxRotation:55,maxTicksLimit:10}, grid:{display:false} },
+                y: { ticks:{color:'#374151',font:{family:'Poppins',size:10}}, grid:{color:'rgba(255,255,255,0.025)'} }
+            }
+        }
+    });
+}
+
+function go() {
+    const expenses = +document.getElementById('expenses').value;
+    const retAge   = +document.getElementById('retAge').value;
+    const lifeExp  = +document.getElementById('lifeExp').value;
+    const eqPct    = Math.min(1, Math.max(0, (+document.getElementById('equityAlloc').value || 0) / 100));
+    const dPct     = 1 - eqPct;
+    const eqMn     = +document.getElementById('eqMean').value / 100;
+    const eqSd     = +document.getElementById('eqStd').value  / 100;
+    const dtMn     = +document.getElementById('dtMean').value / 100;
+    const dtSd     = +document.getElementById('dtStd').value  / 100;
+    const infMn    = +document.getElementById('infMean').value / 100;
+    const infSd    = +document.getElementById('infStd').value  / 100;
+    const yrs      = lifeExp - retAge;
+
+    if (yrs <= 0)  { alert('Life expectancy must be greater than retirement age.'); return; }
+    if (!expenses) { alert('Please enter annual expenses.'); return; }
+
+    const btn = document.getElementById('runBtn');
+    btn.disabled = true;
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('pgWrap').style.display = 'block';
+    document.getElementById('pgFill').style.width = '0%';
+    document.getElementById('pgLbl').textContent = 'Binary search — finding optimal corpus for ' + targetProb + '% probability…';
+
+    let pg = 0;
+    const pgT = setInterval(() => { pg = Math.min(pg + 1.8, 85); document.getElementById('pgFill').style.width = pg + '%'; }, 80);
+
+    setTimeout(() => {
+        // Step 1: Binary search (22 iterations × 300 sims = fresh random draws each time)
+        const reqCorpus = findCorpus(expenses, yrs, eqPct, dPct, eqMn, eqSd, dtMn, dtSd, infMn, infSd, targetProb);
+
+        document.getElementById('pgLbl').textContent = 'Running 1,000 final simulations with found corpus…';
+        document.getElementById('pgFill').style.width = '88%';
+
+        setTimeout(() => {
+            // Step 2: Full 1,000-sim run — all new random draws, completely independent of step 1
+            const { sr, paths, finals } = simulate(reqCorpus, expenses, yrs, eqPct, dPct, eqMn, eqSd, dtMn, dtSd, infMn, infSd, 1000);
+
+            clearInterval(pgT);
+            document.getElementById('pgFill').style.width = '100%';
+
+            const sf = [...finals].sort((a, b) => a - b);
+            const p10v = pctile(sf, 10), p50v = pctile(sf, 50), p90v = pctile(sf, 90);
+            const swr  = ((expenses / reqCorpus) * 100).toFixed(2);
+            const surv = Math.round(sr * 10);
+
+            // Hero
+            document.getElementById('heroEyebrow').textContent = 'Required Corpus at ' + targetProb + '% Success Probability';
+            document.getElementById('heroVal').textContent = fmt(reqCorpus);
+            document.getElementById('heroSub').textContent =
+                'You need ' + fmt(reqCorpus) + ' saved at age ' + retAge + ' for your money to last until age ' + lifeExp +
+                ' in ' + Math.round(sr) + '% of simulated scenarios — with ₹' + Math.round(expenses/12).toLocaleString('en-IN') + '/month spending in Year 1.';
+
+            document.getElementById('m-swr').textContent     = swr + '%';
+            document.getElementById('m-yrs').textContent     = yrs + ' years';
+            document.getElementById('m-monthly').textContent = fmt(expenses / 12);
+            document.getElementById('m-sim').textContent     = surv + ' / 1000';
+
+            // Ring
+            const circ = 270.18;
+            const rf = document.getElementById('ringFill'), rn2 = document.getElementById('ringNum');
+            let col = sr >= 85 ? '#10B981' : sr >= 70 ? '#F59E0B' : '#EF4444';
+            rf.style.stroke = col;
+            rf.style.strokeDashoffset = circ * (1 - sr / 100);
+            rn2.textContent = sr.toFixed(1) + '%';
+            rn2.setAttribute('fill', col);
+
+            // Verdict
+            let vt, vb, vc;
+            if (sr >= 85) {
+                vt = '✅ Well-calibrated for your target probability.';
+                vb = 'rgba(16,185,129,0.1)'; vc = '#10B981';
+            } else if (sr >= 70) {
+                vt = '⚠️ Slightly below target. Try a higher equity allocation or longer accumulation period.';
+                vb = 'rgba(245,158,11,0.1)'; vc = '#F59E0B';
+            } else {
+                vt = '🔴 High uncertainty. Consider reducing expenses or extending your working years.';
+                vb = 'rgba(239,68,68,0.1)'; vc = '#EF4444';
+            }
+            document.getElementById('verdict').innerHTML =
+                `<div class="verdict" style="background:${vb};color:${vc};border:1px solid ${vc}30">${vt}</div>`;
+
+            // Table — P10, P50, P90 only
+            const rows = [
+                { lbl:'P10', color:'#EF4444', bg:'rgba(239,68,68,0.12)',  meaning:'Worst 10% of scenarios', val:p10v },
+                { lbl:'P50', color:'#F5C518', bg:'rgba(245,197,24,0.12)', meaning:'Median outcome',         val:p50v },
+                { lbl:'P90', color:'#10B981', bg:'rgba(16,185,129,0.12)', meaning:'Best 10% of scenarios',  val:p90v },
+            ];
+            const tbody = document.getElementById('tBody');
+            tbody.innerHTML = '';
+            rows.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="badge" style="background:${r.bg};color:${r.color}">${r.lbl}</span></td>
+                    <td style="color:var(--text-muted);font-size:11px">${r.meaning}</td>
+                    <td style="font-weight:700">${fmt(r.val)}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            buildFan(paths, yrs);
+            buildHist(finals);
+
+            setTimeout(() => {
+                document.getElementById('pgWrap').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = '↺  Recalculate';
+                document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+            }, 100);
+        }, 80);
+    }, 60);
+}
+
+  // ── RETIREMENT PLANNER (MONTE CARLO) ──
+  function rpRn(mean, std) {
+    let u, v;
+    do { u = Math.random(); } while (u === 0);
+    do { v = Math.random(); } while (v === 0);
+    return mean + std * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+  function rpFmt(v) {
+    if (v <= 0) return '₹0';
+    if (v >= 1e7) return '₹' + (v/1e7).toFixed(2) + ' Cr';
+    if (v >= 1e5) return '₹' + (v/1e5).toFixed(2) + ' L';
+    return '₹' + Math.round(v).toLocaleString('en-IN');
+  }
+  function rpPctile(sorted, p) {
+    if (!sorted.length) return 0;
+    const idx = (p/100)*(sorted.length-1), lo = Math.floor(idx), hi = Math.ceil(idx);
+    return lo===hi ? sorted[lo] : sorted[lo]+(sorted[hi]-sorted[lo])*(idx-lo);
+  }
+  function rpUpdHint() {
+    const v = +document.getElementById('rp_expenses').value||0;
+    document.getElementById('rp_exp_hint').textContent = rpFmt(v)+' / year · '+rpFmt(v/12)+' / month';
+  }
+  function rpUpdAlloc() {
+    const eq = Math.min(100,Math.max(0,+document.getElementById('rp_equityAlloc').value||0));
+    document.getElementById('rp_abar').style.width = eq+'%';
+    document.getElementById('rp_eq_lbl').textContent = 'Equity '+eq+'%';
+    document.getElementById('rp_dt_lbl').textContent = 'Debt '+(100-eq)+'%';
+  }
+  let rpTargetProb = 85;
+  function rpSetProb(el) {
+    document.querySelectorAll('.rp-pb').forEach(b => b.classList.remove('active'));
+    if(el) el.classList.add('active');
+    rpTargetProb = el ? +el.dataset.p : 85;
+  }
+  let rpAdvOpen = false;
+  function rpTogAdv() {
+    rpAdvOpen = !rpAdvOpen;
+    const ap = document.getElementById('rp_advPanel');
+    const ar = document.getElementById('rp_arr');
+    if(ap) ap.classList.toggle('open', rpAdvOpen);
+    if(ar) ar.classList.toggle('open', rpAdvOpen);
+  }
+  function rpSimulate(corpus, expenses, yrs, eqPct, dPct, eqMn, eqSd, dtMn, dtSd, infMn, infSd, N) {
+    let success = 0; const paths=[], finals=[];
+    for (let s=0; s<N; s++) {
+      let c=corpus, exp=expenses; const path=[c]; let ok=true;
+      for (let y=0; y<yrs; y++) {
+        const portR = eqPct*rpRn(eqMn,eqSd)+dPct*rpRn(dtMn,dtSd);
+        const inf = rpRn(infMn,infSd);
+        c = c*(1+portR)-exp; exp=exp*(1+inf);
+        if (c<=0) { c=0; ok=false; for(let r=y;r<yrs;r++) path.push(0); break; }
+        path.push(c);
+      }
+      if(ok) success++; paths.push(path); finals.push(c);
+    }
+    return { sr:(success/N)*100, paths, finals };
+  }
+  function rpFindCorpus(expenses, yrs, eqPct, dPct, eqMn, eqSd, dtMn, dtSd, infMn, infSd, tp) {
+    let lo=expenses*3, hi=expenses*200, best=hi;
+    for (let i=0; i<22; i++) {
+      const mid=(lo+hi)/2;
+      const {sr}=rpSimulate(mid,expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,300);
+      if(sr>=tp){best=mid;hi=mid;}else{lo=mid;}
+    }
+    return best;
+  }
+  let rpFanInst=null, rpHistInst=null;
+  const rpTT = { backgroundColor:'#131B2C', borderColor:'rgba(245,197,24,0.2)', borderWidth:1, titleFont:{family:'Poppins',weight:'700',size:11}, bodyFont:{family:'Poppins',size:11}, titleColor:'#F5C518', bodyColor:'#94A3B8' };
+  function rpBuildFan(paths, yrs) {
+    if(rpFanInst){rpFanInst.destroy();rpFanInst=null;}
+    const labels=Array.from({length:yrs+1},(_,i)=>'Yr '+i);
+    const bands={p5:[],p10:[],p25:[],p50:[],p75:[],p90:[],p95:[]};
+    for(let y=0;y<=yrs;y++){
+      const yv=paths.map(p=>p[y]??0).sort((a,b)=>a-b);
+      bands.p5.push(rpPctile(yv,5));bands.p10.push(rpPctile(yv,10));
+      bands.p25.push(rpPctile(yv,25));bands.p50.push(rpPctile(yv,50));
+      bands.p75.push(rpPctile(yv,75));bands.p90.push(rpPctile(yv,90));bands.p95.push(rpPctile(yv,95));
+    }
+    const ds=[
+      {data:bands.p95,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},
+      {data:bands.p5,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(245,197,24,0.04)',tension:0.35,borderColor:'transparent'},
+      {data:bands.p90,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},
+      {data:bands.p10,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(245,197,24,0.08)',tension:0.35,borderColor:'transparent'},
+      {data:bands.p75,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},
+      {data:bands.p25,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(245,197,24,0.15)',tension:0.35,borderColor:'transparent'},
+      {label:'P90',data:bands.p90,borderWidth:1.5,pointRadius:0,fill:false,borderColor:'rgba(16,185,129,0.65)',borderDash:[6,4],tension:0.35},
+      {label:'P50 — Median',data:bands.p50,borderWidth:2.5,pointRadius:0,fill:false,borderColor:'#F5C518',tension:0.35},
+      {label:'P10',data:bands.p10,borderWidth:1.5,pointRadius:0,fill:false,borderColor:'rgba(239,68,68,0.65)',borderDash:[6,4],tension:0.35},
+    ];
+    rpFanInst=new Chart(document.getElementById('rp_fanC').getContext('2d'),{
+      type:'line',data:{labels,datasets:ds},
+      options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#475569',font:{family:'Poppins',size:11},boxWidth:18,usePointStyle:true,pointStyle:'line',filter:item=>!!item.text}},tooltip:{...rpTT,mode:'index',intersect:false,callbacks:{label:c=>c.dataset.label?c.dataset.label+': '+rpFmt(c.raw):null}}},scales:{x:{ticks:{color:'#374151',font:{family:'Poppins',size:10},maxTicksLimit:12},grid:{color:'rgba(255,255,255,0.025)'}},y:{ticks:{color:'#374151',font:{family:'Poppins',size:10},callback:v=>rpFmt(v)},grid:{color:'rgba(255,255,255,0.025)'}}}}
+    });
+  }
+  function rpBuildHist(finals) {
+    if(rpHistInst){rpHistInst.destroy();rpHistInst=null;}
+    const depleted=finals.filter(v=>v<=0).length, alive=finals.filter(v=>v>0);
+    const BINS=16; const labels=['Depleted'],counts=[depleted],colors=['rgba(239,68,68,0.7)'];
+    if(alive.length){
+      const mn=Math.min(...alive),mx=Math.max(...alive),bw=(mx-mn)/BINS;
+      for(let i=0;i<BINS;i++){const lo=mn+i*bw,hi=lo+bw;labels.push(rpFmt(lo));counts.push(alive.filter(v=>v>=lo&&(i===BINS-1?v<=hi:v<hi)).length);colors.push('rgba(245,197,24,0.6)');}
+    }
+    rpHistInst=new Chart(document.getElementById('rp_histC').getContext('2d'),{
+      type:'bar',data:{labels,datasets:[{data:counts,backgroundColor:colors,borderWidth:0,borderRadius:3}]},
+      options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...rpTT,callbacks:{label:c=>c.raw+' simulations'}}},scales:{x:{ticks:{color:'#374151',font:{family:'Poppins',size:9},maxRotation:55,maxTicksLimit:10},grid:{display:false}},y:{ticks:{color:'#374151',font:{family:'Poppins',size:10}},grid:{color:'rgba(255,255,255,0.025)'}}}}
+    });
+  }
+  function rpGo() {
+    const expenses=+document.getElementById('rp_expenses').value;
+    const retAge=+document.getElementById('rp_retAge').value;
+    const lifeExp=+document.getElementById('rp_lifeExp').value;
+    const eqPct=Math.min(1,Math.max(0,(+document.getElementById('rp_equityAlloc').value||0)/100));
+    const dPct=1-eqPct;
+    const eqMn=+document.getElementById('rp_eqMean').value/100;
+    const eqSd=+document.getElementById('rp_eqStd').value/100;
+    const dtMn=+document.getElementById('rp_dtMean').value/100;
+    const dtSd=+document.getElementById('rp_dtStd').value/100;
+    const infMn=+document.getElementById('rp_infMean').value/100;
+    const infSd=+document.getElementById('rp_infStd').value/100;
+    const yrs=lifeExp-retAge;
+    if(yrs<=0){alert('Life expectancy must be greater than retirement age.');return;}
+    if(!expenses){alert('Please enter annual expenses.');return;}
+    const btn=document.getElementById('rp_runBtn');
+    btn.disabled=true;
+    document.getElementById('rp-res').style.display='none';
+    document.getElementById('rp_pgWrap').style.display='block';
+    document.getElementById('rp_pgFill').style.width='0%';
+    document.getElementById('rp_pgLbl').textContent='Binary search — finding optimal corpus for '+rpTargetProb+'% probability…';
+    let pg=0; const pgT=setInterval(()=>{pg=Math.min(pg+1.8,85);document.getElementById('rp_pgFill').style.width=pg+'%';},80);
+    setTimeout(()=>{
+      const reqCorpus=rpFindCorpus(expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,rpTargetProb);
+      document.getElementById('rp_pgLbl').textContent='Running 1,000 final simulations…';
+      document.getElementById('rp_pgFill').style.width='88%';
+      setTimeout(()=>{
+        const {sr,paths,finals}=rpSimulate(reqCorpus,expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,1000);
+        clearInterval(pgT);
+        document.getElementById('rp_pgFill').style.width='100%';
+        const sf=[...finals].sort((a,b)=>a-b);
+        const p10v=rpPctile(sf,10),p50v=rpPctile(sf,50),p90v=rpPctile(sf,90);
+        const swr=((expenses/reqCorpus)*100).toFixed(2), surv=Math.round(sr*10);
+        document.getElementById('rp_heroEy').textContent='Required Corpus at '+rpTargetProb+'% Success Probability';
+        document.getElementById('rp_heroVal').textContent=rpFmt(reqCorpus);
+        document.getElementById('rp_heroSub').textContent='You need '+rpFmt(reqCorpus)+' saved at age '+retAge+' for your money to last until age '+lifeExp+' in '+Math.round(sr)+'% of simulated scenarios — with ₹'+Math.round(expenses/12).toLocaleString('en-IN')+'/month spending in Year 1.';
+        document.getElementById('rp_swr').textContent=swr+'%';
+        document.getElementById('rp_yrs').textContent=yrs+' years';
+        document.getElementById('rp_monthly').textContent=rpFmt(expenses/12);
+        document.getElementById('rp_sim').textContent=surv+' / 1000';
+        const circ=270.18;
+        const rf=document.getElementById('rp_ringFill'),rn=document.getElementById('rp_ringNum');
+        let col=sr>=85?'#10B981':sr>=70?'#F59E0B':'#EF4444';
+        rf.style.stroke=col; rf.style.strokeDashoffset=circ*(1-sr/100);
+        rn.textContent=sr.toFixed(1)+'%'; rn.setAttribute('fill',col);
+        let vt,vb,vc;
+        if(sr>=85){vt='✅ Well-calibrated for your target probability.';vb='rgba(16,185,129,0.1)';vc='#10B981';}
+        else if(sr>=70){vt='⚠️ Slightly below target. Try higher equity allocation.';vb='rgba(245,158,11,0.1)';vc='#F59E0B';}
+        else{vt='🔴 High uncertainty. Consider reducing expenses or extending working years.';vb='rgba(239,68,68,0.1)';vc='#EF4444';}
+        document.getElementById('rp_verdict').innerHTML=`<div class="rp-verdict-box" style="background:${vb};color:${vc};border:1px solid ${vc}30">${vt}</div>`;
+        const rows=[
+          {lbl:'P10',color:'#EF4444',bg:'rgba(239,68,68,0.12)',meaning:'Worst 10% of scenarios',val:p10v},
+          {lbl:'P50',color:'#F5C518',bg:'rgba(245,197,24,0.12)',meaning:'Median outcome',val:p50v},
+          {lbl:'P90',color:'#10B981',bg:'rgba(16,185,129,0.12)',meaning:'Best 10% of scenarios',val:p90v},
+        ];
+        const tbody=document.getElementById('rp_tBody'); tbody.innerHTML='';
+        rows.forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=`<td><span class="rp-badge" style="background:${r.bg};color:${r.color}">${r.lbl}</span></td><td style="color:#94A3B8;font-size:11px">${r.meaning}</td><td style="font-weight:700">${rpFmt(r.val)}</td>`;tbody.appendChild(tr);});
+        rpBuildFan(paths,yrs); rpBuildHist(finals);
+        setTimeout(()=>{
+          document.getElementById('rp_pgWrap').style.display='none';
+          document.getElementById('rp-res').style.display='block';
+          btn.disabled=false; btn.textContent='↺  Recalculate';
+          document.getElementById('rp-res').scrollIntoView({behavior:'smooth',block:'start'});
+        },100);
+      },80);
+    },60);
+  }
 </script>
 </body>
 </html>
