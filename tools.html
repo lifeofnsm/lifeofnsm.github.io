@@ -418,6 +418,11 @@
   <div class="page-header">
     <h1>Financial Calculators 🧮</h1>
     <p>Free tools to plan your investments and loans</p>
+    <div style="margin-top:12px;">
+      <button onclick="showPanel('retire', null); document.getElementById('panel-retire').scrollIntoView({behavior:'smooth',block:'start'});" style="display:inline-flex;align-items:center;gap:7px;padding:7px 14px;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.2);border-radius:100px;color:var(--gold);font-family:var(--font);font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;">
+        🎲 Try Advanced Retirement Planner →
+      </button>
+    </div>
   </div>
 
   <!-- MAIN TABS - 2 rows of 3 -->
@@ -437,7 +442,7 @@
     <div class="tab-group-label" style="margin-top:8px;">Advanced</div>
     <div class="main-tabs" style="grid-template-columns:1fr;">
       <button class="main-tab" onclick="showPanel('retire', this)" style="flex-direction:row;gap:8px;justify-content:center;padding:12px;">
-        <span class="tab-icon">🎲</span>Retirement Planner — Monte Carlo Simulation
+        <span class="tab-icon">🎲</span>Retirement Planner — Monte Carlo Simulation <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:rgba(245,197,24,0.15);color:var(--gold);margin-left:6px;">Advanced</span>
       </button>
     </div>
   </div>
