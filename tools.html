@@ -390,6 +390,7 @@
         <div class="rp-ig"><label>Equity Allocation in Retirement</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_equityAlloc" value="50" min="0" max="100" oninput="rpUpdAlloc()"><span class="rp-sfx">%</span></div><div style="margin-top:8px;"><div class="rp-ab-wrap"><div class="rp-ab-head"><span class="rp-aeq" id="rp_eq_lbl">Equity 50%</span><span class="rp-adt" id="rp_dt_lbl">Debt 50%</span></div><div class="rp-ab"><div class="rp-ab-fill" id="rp_abar" style="width:50%"></div></div></div></div></div>
       </div>
       <div class="rp-g2">
+        <div class="rp-ig"><label>Current Age</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_currentAge" value="30"><span class="rp-sfx">yrs</span></div></div>
         <div class="rp-ig"><label>Retirement Age</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_retAge" value="60"><span class="rp-sfx">yrs</span></div></div>
         <div class="rp-ig"><label>Life Expectancy</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_lifeExp" value="85"><span class="rp-sfx">yrs</span></div></div>
       </div>
@@ -446,7 +447,7 @@
         <div class="rp-cc"><div class="rp-cc-lbl">Final Corpus Distribution</div><div class="rp-cc-sub">Spread across 1,000 simulations</div><div class="rp-ch-sm"><canvas id="rp_histC"></canvas></div></div>
         <div class="rp-cc"><div class="rp-cc-lbl">Scenario Outcome Table</div><div class="rp-cc-sub">Remaining corpus at end of retirement</div><table class="rp-tbl"><thead><tr><th>Scenario</th><th>What it means</th><th>Final Corpus</th></tr></thead><tbody id="rp_tBody"></tbody></table></div>
       </div>
-      <div class="rp-disc">For educational purposes only. Past data ≠ future results.<br>Built by <strong style="color:var(--green)">Nataraj Malavade</strong> · natarajmalavade.in</div>
+      <div class="rp-disc">For educational purposes only. Past data ≠ future results.</div>
     </div>
   </div>
 
@@ -615,6 +616,7 @@
     rpHistInst=new Chart(document.getElementById('rp_histC').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:counts,backgroundColor:colors,borderWidth:0,borderRadius:3}]},options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...rpTT,callbacks:{label:c=>c.raw+' simulations'}}},scales:{x:{ticks:{color:'#444',font:{family:'Poppins',size:9},maxRotation:55,maxTicksLimit:10},grid:{display:false}},y:{ticks:{color:'#444',font:{family:'Poppins',size:10}},grid:{color:'#131313'}}}}});}
   function rpGo(){
     const expenses=+document.getElementById('rp_expenses').value;
+    const currentAge=+document.getElementById('rp_currentAge').value;
     const retAge=+document.getElementById('rp_retAge').value;
     const lifeExp=+document.getElementById('rp_lifeExp').value;
     const eqPct=Math.min(1,Math.max(0,(+document.getElementById('rp_equityAlloc').value||0)/100));
@@ -623,28 +625,35 @@
     const dtMn=+document.getElementById('rp_dtMean').value/100,dtSd=+document.getElementById('rp_dtStd').value/100;
     const infMn=+document.getElementById('rp_infMean').value/100,infSd=+document.getElementById('rp_infStd').value/100;
     const yrs=lifeExp-retAge;
+    const yearsToRetire=retAge-currentAge;
     if(yrs<=0){alert('Life expectancy must be greater than retirement age.');return;}
+    if(yearsToRetire<0){alert('Retirement age must be greater than current age.');return;}
     if(!expenses){alert('Please enter annual expenses.');return;}
+    // Inflate today's expenses to retirement-day value
+    const expensesAtRetirement = expenses * Math.pow(1 + infMn, yearsToRetire);
     const btn=document.getElementById('rp_runBtn');
     btn.disabled=true;document.getElementById('rp-res').style.display='none';
     document.getElementById('rp_pgWrap').style.display='block';document.getElementById('rp_pgFill').style.width='0%';
     document.getElementById('rp_pgLbl').textContent='Finding optimal corpus for '+rpTargetProb+'% probability…';
     let pg=0;const pgT=setInterval(()=>{pg=Math.min(pg+1.8,85);document.getElementById('rp_pgFill').style.width=pg+'%';},80);
     setTimeout(()=>{
-      const reqCorpus=rpFind(expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,rpTargetProb);
+      const reqCorpus=rpFind(expensesAtRetirement,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,rpTargetProb);
       document.getElementById('rp_pgLbl').textContent='Running 1,000 final simulations…';
       document.getElementById('rp_pgFill').style.width='88%';
       setTimeout(()=>{
-        const{sr,paths,finals}=rpSim(reqCorpus,expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,1000);
+        const{sr,paths,finals}=rpSim(reqCorpus,expensesAtRetirement,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,1000);
         clearInterval(pgT);document.getElementById('rp_pgFill').style.width='100%';
         const sf=[...finals].sort((a,b)=>a-b);
         const p10v=rpPctile(sf,10),p50v=rpPctile(sf,50),p90v=rpPctile(sf,90);
-        const swr=((expenses/reqCorpus)*100).toFixed(2),surv=Math.round(sr*10);
+        const swr=((expensesAtRetirement/reqCorpus)*100).toFixed(2),surv=Math.round(sr*10);
         document.getElementById('rp_heroEy').textContent='Required Corpus at '+rpTargetProb+'% Success Probability';
         document.getElementById('rp_heroVal').textContent=rpFmt(reqCorpus);
-        document.getElementById('rp_heroSub').textContent='You need '+rpFmt(reqCorpus)+' saved at age '+retAge+' for your money to last until age '+lifeExp+' in '+Math.round(sr)+'% of scenarios — with ₹'+Math.round(expenses/12).toLocaleString('en-IN')+'/month spending in Year 1.';
+        document.getElementById('rp_heroSub').textContent=
+          'Today\'s ₹'+Math.round(expenses/12).toLocaleString('en-IN')+'/month expense → inflates to ₹'+
+          Math.round(expensesAtRetirement/12).toLocaleString('en-IN')+'/month at age '+retAge+
+          ' ('+yearsToRetire+' yrs × '+Math.round(infMn*100)+'% inflation). You need '+rpFmt(reqCorpus)+' saved at retirement.';
         document.getElementById('rp_swr').textContent=swr+'%';document.getElementById('rp_yrs').textContent=yrs+' years';
-        document.getElementById('rp_monthly').textContent=rpFmt(expenses/12);document.getElementById('rp_sim').textContent=surv+' / 1000';
+        document.getElementById('rp_monthly').textContent=rpFmt(expensesAtRetirement/12);document.getElementById('rp_sim').textContent=surv+' / 1000';
         const circ=270.18,rf=document.getElementById('rp_ringFill'),rn=document.getElementById('rp_ringNum');
         let col=sr>=85?G:sr>=70?'#fbbf24':'#f87171';
         rf.style.stroke=col;rf.style.strokeDashoffset=circ*(1-sr/100);rn.textContent=sr.toFixed(1)+'%';rn.setAttribute('fill',col);
