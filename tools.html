@@ -442,6 +442,13 @@
         </div>
         <div><svg class="rp-ring" viewBox="0 0 110 110"><circle class="rp-ring-bg" cx="55" cy="55" r="43"/><circle class="rp-ring-fill" id="rp_ringFill" cx="55" cy="55" r="43" stroke-dasharray="270.18" stroke-dashoffset="270.18"/><text class="rp-ring-num" id="rp_ringNum" x="55" y="52" fill="#f0f0f0">0%</text><text class="rp-ring-lbl" x="55" y="63">Actual</text></svg></div>
       </div>
+
+      <!-- PERSONAL NOTE -->
+      <div id="rp_personalNote" style="border-left:2px solid var(--green);padding:14px 18px;margin-bottom:16px;background:rgba(0,200,150,0.04);border-radius:0 10px 10px 0;">
+        <p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;opacity:0.8;">What this means</p>
+        <p id="rp_noteText" style="font-size:13px;color:#ccc;line-height:1.85;font-style:italic;"></p>
+        <p style="font-size:11px;color:var(--green);margin-top:8px;font-weight:600;font-style:normal;">Nataraj Malavade</p>
+      </div>
       <div class="rp-cc"><div class="rp-cc-lbl">Corpus Projection Fan Chart</div><div class="rp-cc-sub">Shaded bands = P5–P95. Darker core = P25–P75. Green = Median. Dashed = P90/P10.</div><div class="rp-ch-box"><canvas id="rp_fanC"></canvas></div></div>
       <div class="rp-bot">
         <div class="rp-cc"><div class="rp-cc-lbl">Final Corpus Distribution</div><div class="rp-cc-sub">Spread across 1,000 simulations</div><div class="rp-ch-sm"><canvas id="rp_histC"></canvas></div></div>
@@ -666,6 +673,15 @@
         const tbody=document.getElementById('rp_tBody');tbody.innerHTML='';
         rows.forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=`<td><span class="rp-badge" style="background:${r.bg};color:${r.color}">${r.lbl}</span></td><td style="color:#888;font-size:11px">${r.meaning}</td><td style="font-weight:700">${rpFmt(r.val)}</td>`;tbody.appendChild(tr);});
         rpBuildFan(paths,yrs);rpBuildHist(finals);
+        // PERSONAL NOTE
+        const G2 = `style="color:#00C896;font-weight:700;font-style:normal;"`;
+        const noteText =
+          `You spend <span ${G2}>₹${Math.round(expenses/12).toLocaleString('en-IN')}/month</span> today. ` +
+          `By the time you reach <span ${G2}>${retAge}</span>, inflation will push that to <span ${G2}>₹${Math.round(expensesAtRetirement/12).toLocaleString('en-IN')}/month</span> — that is what your lifestyle will actually cost then. ` +
+          `To fund that lifestyle without a salary, you need a corpus large enough that its returns alone cover your expenses. ` +
+          `This calculator ran <span ${G2}>1,000 different market scenarios</span> to find that number. ` +
+          `In <span ${G2}>${surv} out of 1,000</span> futures, <span ${G2}>${rpFmt(reqCorpus)}</span> is enough. Your money never runs out. That is financial freedom.`;
+        document.getElementById('rp_noteText').innerHTML = noteText;
         setTimeout(()=>{document.getElementById('rp_pgWrap').style.display='none';document.getElementById('rp-res').style.display='block';btn.disabled=false;btn.textContent='↺  Recalculate';document.getElementById('rp-res').scrollIntoView({behavior:'smooth',block:'start'});},100);
       },80);
     },60);
