@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Financial Calculators — Nataraj Malavade</title>
-  <meta name="description" content="Free financial calculators — SIP, Lumpsum, Goal Planner, EMI and Retirement Planner by Nataraj Malavade." />
+  <meta name="description" content="Free financial calculators — SIP, Lumpsum, Goal Planner, EMI and Financial Freedom Number by Nataraj Malavade." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -248,7 +248,7 @@
     <h1>Financial Calculators</h1>
     <p>Free tools to plan your SIP, Lumpsum, Goals, EMI and Retirement</p>
     <button class="retire-cta" onclick="showPanel('retire',null);setTimeout(()=>document.getElementById('panel-retire').scrollIntoView({behavior:'smooth',block:'start'}),50);">
-      🎲 Try Advanced Retirement Planner →
+      🎲 Know Your Financial Freedom Number →
     </button>
   </div>
 
@@ -259,7 +259,7 @@
       <button class="tab-btn active" onclick="showPanel('sip',this)"><span class="ti">📊</span>Returns</button>
       <button class="tab-btn" onclick="showPanel('goal',this)"><span class="ti">🎯</span>Goal</button>
       <button class="tab-btn" onclick="showPanel('emi',this)"><span class="ti">🏦</span>EMI</button>
-      <button class="tab-btn" onclick="showPanel('retire',this)"><span class="ti">🎲</span>Retirement</button>
+      <button class="tab-btn" onclick="showPanel('retire',this)"><span class="ti">🎲</span>Freedom Number</button>
     </div>
   </div>
 
@@ -379,8 +379,8 @@
   <!-- ═══ PANEL: RETIREMENT ═══ -->
   <div class="calc-panel" id="panel-retire">
     <div class="rp-hdr">
-      <div class="rp-tag">🎲 Monte Carlo · 1,000 Simulations</div>
-      <h2>What Is Your <em>Retirement Number?</em></h2>
+      <div class="rp-tag">🎯 Financial Freedom · Monte Carlo · 1,000 Simulations</div>
+      <h2>Know Your <em>Financial Freedom Number</em></h2>
       <p>Pick your target success probability. The simulator runs 1,000 randomised scenarios of equity returns, debt returns, and inflation — then calculates exactly the corpus you need to retire safely.</p>
     </div>
     <div class="rp-card">
@@ -422,14 +422,14 @@
         </div>
         <p class="rp-adv-note">Defaults calibrated to Indian market history — Nifty 50 CAGR ~12%, India CPI ~6%. σ controls year-to-year randomness in returns.</p>
       </div>
-      <button class="rp-run" id="rp_runBtn" onclick="rpGo()">▶ &nbsp; Calculate My Retirement Number</button>
+      <button class="rp-run" id="rp_runBtn" onclick="rpGo()">▶ &nbsp; Calculate My Financial Freedom Number</button>
     </div>
     <div class="rp-pg" id="rp_pgWrap"><div class="rp-pg-lbl" id="rp_pgLbl">Running simulations…</div><div class="rp-pg-bar"><div class="rp-pg-fill" id="rp_pgFill"></div></div></div>
     <div id="rp-res">
-      <div class="rp-div"><span>Your Retirement Number</span></div>
+      <div class="rp-div"><span>Your Financial Freedom Number</span></div>
       <div class="rp-hero">
         <div class="rp-hero-l">
-          <div class="rp-hero-ey" id="rp_heroEy">Required Corpus at 85% Success</div>
+          <div class="rp-hero-ey" id="rp_heroEy">Financial Freedom Number at 85% Success</div>
           <div class="rp-hero-val" id="rp_heroVal">—</div>
           <div class="rp-hero-sub" id="rp_heroSub">—</div>
           <div class="rp-hero-meta">
@@ -646,7 +646,7 @@
         const sf=[...finals].sort((a,b)=>a-b);
         const p10v=rpPctile(sf,10),p50v=rpPctile(sf,50),p90v=rpPctile(sf,90);
         const swr=((expensesAtRetirement/reqCorpus)*100).toFixed(2),surv=Math.round(sr*10);
-        document.getElementById('rp_heroEy').textContent='Required Corpus at '+rpTargetProb+'% Success Probability';
+        document.getElementById('rp_heroEy').textContent='Financial Freedom Number at '+rpTargetProb+'% Success Probability';
         document.getElementById('rp_heroVal').textContent=rpFmt(reqCorpus);
         document.getElementById('rp_heroSub').textContent=
           'Today\'s ₹'+Math.round(expenses/12).toLocaleString('en-IN')+'/month expense → inflates to ₹'+
