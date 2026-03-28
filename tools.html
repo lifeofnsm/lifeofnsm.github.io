@@ -7,7 +7,7 @@
   <meta name="description" content="Free financial calculators — SIP, Lumpsum, Goal Planner, EMI and Financial Freedom Number by Nataraj Malavade." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CGSZK6XNE7"></script>
   <script>
@@ -19,224 +19,234 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green: #00C896;
-      --green-dim: #00a07a;
-      --green-glow: rgba(0,200,150,0.09);
-      --green-border: rgba(0,200,150,0.22);
-      --green-border-strong: rgba(0,200,150,0.45);
-      --bg: #060606;
-      --surface: #0f0f0f;
-      --surface-2: #161616;
-      --border: #1e1e1e;
-      --text: #f0f0f0;
-      --muted: #bbb;
-      --muted-2: #888;
-      --red: #f87171;
-      --blue: #60a5fa;
-      --amber: #fbbf24;
-      --font: 'Poppins', sans-serif;
+      --blue:        #387ED1;
+      --blue-dark:   #2563AE;
+      --blue-light:  #EBF3FF;
+      --blue-border: #BFDBFE;
+      --bg:          #FFFFFF;
+      --surface:     #F9FAFB;
+      --border:      #E5E7EB;
+      --border-dark: #D1D5DB;
+      --text:        #111827;
+      --text-2:      #374151;
+      --muted:       #6B7280;
+      --muted-light: #9CA3AF;
+      --green:       #059669;
+      --green-light: #ECFDF5;
+      --green-border:#A7F3D0;
+      --red:         #DC2626;
+      --font:        'Inter', sans-serif;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; min-height: 100vh; }
-    body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle,#1a1a1a 1px,transparent 1px); background-size:28px 28px; pointer-events:none; z-index:0; opacity:0.6; }
-    .ambient { position:fixed; width:600px; height:400px; border-radius:50%; background:radial-gradient(ellipse,rgba(0,200,150,0.05) 0%,transparent 65%); top:-120px; left:50%; transform:translateX(-50%); pointer-events:none; z-index:0; }
 
-    .page { position:relative; z-index:1; max-width:760px; margin:0 auto; padding:36px 20px 80px; }
+    .page { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
 
-    .back { display:inline-flex; align-items:center; gap:7px; text-decoration:none; color:var(--muted-2); font-size:12px; margin-bottom:32px; transition:color 0.2s; }
-    .back:hover { color:var(--green); }
+    /* BACK */
+    .back { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; margin-bottom: 28px; transition: color 0.15s; }
+    .back:hover { color: var(--blue); }
 
-    .page-header { margin-bottom:28px; }
-    .page-header h1 { font-size:clamp(20px,4vw,26px); font-weight:700; letter-spacing:-0.4px; }
-    .page-header p { font-size:13px; color:var(--muted); margin-top:5px; }
-    .retire-cta { display:inline-flex; align-items:center; gap:7px; margin-top:12px; padding:7px 14px; background:var(--green-glow); border:1px solid var(--green-border); border-radius:100px; color:var(--green); font-size:11px; font-weight:600; cursor:pointer; font-family:var(--font); transition:all 0.2s; }
-    .retire-cta:hover { background:rgba(0,200,150,0.15); }
+    /* PAGE HEADER */
+    .page-header { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+    .page-header h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.4px; margin-bottom: 4px; }
+    .page-header p { font-size: 13px; color: var(--muted); }
+    .freedom-cta {
+      display: inline-flex; align-items: center; gap: 7px; margin-top: 12px;
+      padding: 8px 16px; background: var(--blue); border: none;
+      border-radius: 6px; color: #fff; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: var(--font); transition: background 0.15s;
+    }
+    .freedom-cta:hover { background: var(--blue-dark); }
 
     /* TABS */
-    .tab-section { margin-bottom:20px; }
-    .tab-section-label { font-size:9px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted-2); margin-bottom:8px; padding-left:2px; }
-    .tab-row { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:4px; }
-    .tab-btn { display:flex; flex-direction:column; align-items:center; gap:3px; padding:10px 6px; border-radius:9px; border:none; background:transparent; color:var(--muted-2); font-family:var(--font); font-size:11px; font-weight:500; cursor:pointer; transition:background 0.2s,color 0.2s; }
-    .tab-btn .ti { font-size:17px; }
-    .tab-btn.active { background:var(--green); color:#060606; font-weight:700; }
-    .tab-row-full { grid-template-columns:1fr; }
-    .tab-btn-full { flex-direction:row; justify-content:center; gap:8px; padding:11px; }
-    .adv-badge { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:2px 7px; border-radius:4px; background:rgba(0,200,150,0.12); color:var(--green); margin-left:4px; }
+    .tab-section { margin-bottom: 20px; }
+    .tab-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted-light); margin-bottom: 8px; }
+    .tab-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 4px; }
+    .tab-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 6px; border-radius: 7px; border: none; background: transparent; color: var(--muted); font-family: var(--font); font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .tab-btn .ti { font-size: 17px; }
+    .tab-btn.active { background: var(--blue); color: #fff; font-weight: 600; }
 
     /* PANELS */
-    .calc-panel { display:none; }
-    .calc-panel.active { display:block; animation:fadeUp 0.3s ease both; }
+    .calc-panel { display: none; }
+    .calc-panel.active { display: block; animation: fadeUp 0.25s ease both; }
 
     /* INNER TABS */
-    .inner-tabs { display:flex; gap:6px; margin-bottom:24px; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:4px; }
-    .inner-tab { flex:1; padding:8px; border-radius:7px; border:none; background:transparent; color:var(--muted); font-family:var(--font); font-size:12px; font-weight:500; cursor:pointer; transition:background 0.2s,color 0.2s; }
-    .inner-tab.active { background:var(--green-glow); color:var(--green); font-weight:600; border:1px solid var(--green-border); }
+    .inner-tabs { display: flex; gap: 0; margin-bottom: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .inner-tab { flex: 1; padding: 9px 12px; border: none; border-right: 1px solid var(--border); background: var(--surface); color: var(--muted); font-family: var(--font); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .inner-tab:last-child { border-right: none; }
+    .inner-tab.active { background: var(--bg); color: var(--blue); font-weight: 600; }
 
     /* PRESETS */
-    .presets { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
-    .preset-btn { padding:5px 12px; border-radius:100px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-family:var(--font); font-size:11px; font-weight:500; cursor:pointer; transition:all 0.2s; }
-    .preset-btn:hover, .preset-btn.active { border-color:var(--green-border-strong); color:var(--green); background:var(--green-glow); }
+    .presets { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .preset-btn { padding: 5px 12px; border-radius: 100px; border: 1px solid var(--border); background: var(--bg); color: var(--muted); font-family: var(--font); font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .preset-btn:hover, .preset-btn.active { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+    /* FORM CARD */
+    .form-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
 
     /* INPUTS */
-    .calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px; }
-    @media(max-width:520px){ .calc-grid { grid-template-columns:1fr; } .tab-btn { font-size:10px; } }
-    .input-group { display:flex; flex-direction:column; gap:6px; }
-    .input-group label { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
-    .input-row { display:flex; align-items:center; background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; transition:border-color 0.2s; }
-    .input-row:focus-within { border-color:var(--green-border-strong); }
-    .input-row input { flex:1; background:transparent; border:none; outline:none; color:var(--text); font-family:var(--font); font-size:15px; font-weight:600; padding:11px 13px; -moz-appearance:textfield; }
-    .input-row input::-webkit-outer-spin-button,.input-row input::-webkit-inner-spin-button{-webkit-appearance:none;}
-    .iu { padding:0 13px 0 0; font-size:12px; color:var(--green); font-weight:600; flex-shrink:0; }
-    .iul { padding:0 0 0 13px; font-size:12px; color:var(--green); font-weight:600; flex-shrink:0; }
-    input[type="range"] { width:100%; -webkit-appearance:none; height:3px; border-radius:2px; background:var(--border); outline:none; cursor:pointer; margin-top:4px; }
-    input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:15px; height:15px; border-radius:50%; background:var(--green); border:2.5px solid var(--bg); cursor:pointer; }
-    .stepup-field { display:none; flex-direction:column; gap:6px; }
-    .stepup-field.show { display:flex; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+    @media(max-width:520px) { .calc-grid { grid-template-columns: 1fr; } .tab-btn { font-size: 10px; } }
+    .input-group { display: flex; flex-direction: column; gap: 5px; }
+    .input-group label { font-size: 11px; font-weight: 600; color: var(--text-2); }
+    .input-row { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
+    .input-row:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(56,126,209,0.1); background: var(--bg); }
+    .input-row input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--font); font-size: 14px; font-weight: 600; padding: 10px 12px; -moz-appearance: textfield; }
+    .input-row input::-webkit-outer-spin-button, .input-row input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .iu { padding: 0 12px 0 0; font-size: 12px; color: var(--muted); font-weight: 500; flex-shrink: 0; }
+    .iul { padding: 0 0 0 12px; font-size: 12px; color: var(--muted); font-weight: 500; flex-shrink: 0; }
+    input[type="range"] { width: 100%; -webkit-appearance: none; height: 4px; border-radius: 2px; background: var(--border); outline: none; cursor: pointer; margin-top: 6px; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); border: 2px solid #fff; cursor: pointer; box-shadow: 0 1px 4px rgba(56,126,209,0.35); }
+    .stepup-field { display: none; flex-direction: column; gap: 5px; }
+    .stepup-field.show { display: flex; }
 
     /* BUTTON */
-    .calc-btn { width:100%; padding:13px; border-radius:11px; background:var(--green); border:none; cursor:pointer; font-family:var(--font); font-size:14px; font-weight:700; color:#060606; transition:opacity 0.2s,transform 0.15s; margin-bottom:24px; }
-    .calc-btn:hover { opacity:0.88; transform:translateY(-1px); }
+    .calc-btn { width: 100%; padding: 12px; border-radius: 8px; background: var(--blue); border: none; cursor: pointer; font-family: var(--font); font-size: 14px; font-weight: 600; color: #fff; transition: background 0.15s; }
+    .calc-btn:hover { background: var(--blue-dark); }
 
     /* RESULTS */
-    .results { display:none; }
-    .results.visible { display:block; animation:fadeUp 0.35s ease both; }
+    .results { display: none; }
+    .results.visible { display: block; animation: fadeUp 0.25s ease both; }
 
-    /* STATS */
-    .stats-row { display:grid; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:18px; }
-    .stats-row.c3 { grid-template-columns:repeat(3,1fr); }
-    .stats-row.c2 { grid-template-columns:repeat(2,1fr); }
-    @media(max-width:420px){ .stats-row.c3,.stats-row.c2{ grid-template-columns:1fr 1fr; } }
-    .stat-card { background:var(--surface); padding:16px 14px; text-align:center; }
-    .stat-lbl { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted-2); margin-bottom:7px; }
-    .stat-val { font-size:18px; font-weight:700; letter-spacing:-0.4px; }
-    .cg { color:var(--green); } .cr { color:var(--red); } .cb { color:var(--blue); } .cw { color:var(--text); }
+    /* STAT CARDS */
+    .stats-row { display: grid; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+    .stats-row.c3 { grid-template-columns: repeat(3,1fr); }
+    .stats-row.c2 { grid-template-columns: repeat(2,1fr); }
+    @media(max-width:420px) { .stats-row.c3,.stats-row.c2 { grid-template-columns: 1fr 1fr; } }
+    .stat-card { padding: 14px 12px; text-align: center; border-right: 1px solid var(--border); background: var(--bg); }
+    .stat-card:last-child { border-right: none; }
+    .stat-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; color: var(--muted-light); margin-bottom: 5px; text-transform: uppercase; }
+    .stat-val { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+    .cg { color: var(--green); } .cr { color: var(--red); } .cb { color: var(--blue); } .cw { color: var(--text); }
 
     /* EMI HERO */
-    .emi-hero { background:var(--green-glow); border:1px solid var(--green-border); border-radius:14px; padding:22px; text-align:center; margin-bottom:18px; }
-    .emi-lbl { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); opacity:0.75; margin-bottom:7px; }
-    .emi-val { font-size:38px; font-weight:800; color:var(--green); letter-spacing:-1px; line-height:1; }
-    .emi-sub { font-size:12px; color:var(--muted); margin-top:5px; }
+    .emi-hero { background: var(--blue-light); border: 1px solid var(--blue-border); border-radius: 12px; padding: 22px; text-align: center; margin-bottom: 16px; }
+    .emi-lbl { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+    .emi-val { font-size: 38px; font-weight: 800; color: var(--blue); letter-spacing: -1px; line-height: 1; }
+    .emi-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
 
     /* CHARTS */
-    .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:16px; }
-    .chart-label { font-size:11px; font-weight:700; color:var(--muted); margin-bottom:14px; letter-spacing:1px; text-transform:uppercase; }
-    .chart-box { position:relative; height:250px; }
-    .chart-box-sm { position:relative; height:210px; }
-    .chart-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
-    @media(max-width:480px){ .chart-row { grid-template-columns:1fr; } }
-    .donut-wrap { max-width:200px; margin:0 auto; }
+    .chart-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .chart-label { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
+    .chart-box { position: relative; height: 240px; }
+    .chart-box-sm { position: relative; height: 200px; }
+    .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    @media(max-width:480px) { .chart-row { grid-template-columns: 1fr; } }
+    .donut-wrap { max-width: 190px; margin: 0 auto; }
 
     /* MILESTONES */
-    .milestones { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:16px; }
-    @media(max-width:420px){ .milestones { grid-template-columns:1fr; } }
-    .ms-card { background:var(--surface); border:1px solid var(--border); border-radius:11px; padding:14px; }
-    .ms-yr { font-size:9.5px; font-weight:700; color:var(--muted-2); letter-spacing:1px; text-transform:uppercase; margin-bottom:5px; }
-    .ms-val { font-size:16px; font-weight:700; color:var(--green); }
-    .ms-pct { font-size:11px; color:var(--muted); margin-top:2px; }
+    .milestones { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 14px; }
+    @media(max-width:420px) { .milestones { grid-template-columns: 1fr; } }
+    .ms-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+    .ms-yr { font-size: 10px; font-weight: 600; color: var(--muted-light); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 5px; }
+    .ms-val { font-size: 16px; font-weight: 700; color: var(--green); }
+    .ms-pct { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
     /* TABLE */
-    .table-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:16px; }
-    .table-label { padding:13px 16px; border-bottom:1px solid var(--border); font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
-    .table-scroll { overflow-x:auto; max-height:280px; overflow-y:auto; }
-    table { width:100%; border-collapse:collapse; }
-    th { font-size:10px; font-weight:700; color:var(--muted-2); padding:9px 14px; text-align:right; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--surface); }
-    th:first-child { text-align:left; }
-    td { font-size:12px; padding:8px 14px; text-align:right; border-bottom:1px solid #111; color:#ccc; }
-    td:first-child { text-align:left; color:var(--muted); font-weight:500; }
-    tr:last-child td { border-bottom:none; }
+    .table-card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    .table-label { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; background: var(--surface); }
+    .table-scroll { overflow-x: auto; max-height: 260px; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 10px; font-weight: 600; color: var(--muted-light); padding: 9px 14px; text-align: right; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); }
+    th:first-child { text-align: left; }
+    td { font-size: 12px; padding: 9px 14px; text-align: right; border-bottom: 1px solid var(--surface); color: var(--text-2); }
+    td:first-child { text-align: left; color: var(--muted); font-weight: 500; }
+    tr:last-child td { border-bottom: none; }
 
     /* DISCLAIMER */
-    .disclaimer { background:var(--surface); border:1px solid var(--border); border-left:2px solid #333; border-radius:10px; padding:12px 16px; margin-bottom:8px; }
-    .disclaimer p { font-size:11px; color:var(--muted-2); line-height:1.7; }
+    .disclaimer { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px; margin-bottom: 8px; }
+    .disclaimer p { font-size: 11px; color: var(--muted-light); line-height: 1.7; }
 
-    /* RETIREMENT */
-    .rp-tag { display:inline-flex;align-items:center;gap:7px;background:var(--green-glow);color:var(--green);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--green-border);margin-bottom:14px; }
-    .rp-hdr { text-align:center;margin-bottom:24px; }
-    .rp-hdr h2 { font-size:clamp(19px,4vw,24px);font-weight:800;letter-spacing:-0.4px;margin-bottom:7px; }
-    .rp-hdr h2 em { color:var(--green);font-style:normal; }
-    .rp-hdr p { font-size:13px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.8; }
-    .rp-card { background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:14px; }
-    .rp-card-title { font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;opacity:0.8; }
-    .rp-g2 { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px; }
-    .rp-g3 { display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px; }
-    @media(max-width:520px){.rp-g2,.rp-g3{grid-template-columns:1fr 1fr;}}
-    .rp-ig { display:flex;flex-direction:column;gap:5px; }
-    .rp-ig label { font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px; }
-    .rp-iw { position:relative; }
-    .rp-pfx { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--green);font-weight:700;pointer-events:none; }
-    .rp-sfx { position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted-2);font-weight:700;pointer-events:none; }
-    .rp-inp { width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:11px 38px 11px 34px;color:var(--text);font-family:var(--font);font-size:14px;font-weight:700;outline:none;transition:border-color 0.2s;-moz-appearance:textfield; }
-    .rp-inp::-webkit-outer-spin-button,.rp-inp::-webkit-inner-spin-button{-webkit-appearance:none;}
-    .rp-inp:focus{border-color:var(--green-border-strong);}
-    .rp-np{padding-left:14px!important;}
-    .rp-hint{font-size:11px;color:var(--muted);font-weight:500;margin-top:2px;}
-    .rp-prob-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
-    .rp-pb{flex:1;min-width:52px;padding:8px 5px;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;color:var(--muted);font-family:var(--font);font-size:11px;font-weight:700;cursor:pointer;transition:all 0.18s;text-align:center;}
-    .rp-pb:hover{border-color:var(--green-border-strong);color:var(--green);}
-    .rp-pb.active{background:var(--green-glow);border-color:var(--green);color:var(--green);}
-    .rp-pb-sub{font-size:9px;font-weight:500;opacity:0.75;display:block;margin-top:2px;}
-    .rp-ab-wrap{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
-    .rp-ab-head{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:6px;}
-    .rp-aeq{color:var(--green);}.rp-adt{color:var(--blue);}
-    .rp-ab{height:5px;border-radius:3px;background:rgba(96,165,250,0.2);overflow:hidden;}
-    .rp-ab-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--green-dim));border-radius:3px;transition:width 0.2s;}
-    .rp-adv-btn{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;background:none;border:none;border-top:1px solid var(--border);padding:11px 0 2px;margin-top:10px;color:var(--muted-2);font-family:var(--font);font-size:11px;font-weight:700;transition:color 0.2s;}
-    .rp-adv-btn:hover{color:var(--green);}
-    .rp-arr{transition:transform 0.3s;font-size:9px;}
-    .rp-arr.open{transform:rotate(180deg);}
-    .rp-adv{display:none;padding-top:16px;}
-    .rp-adv.open{display:block;}
-    .rp-adv-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.7;}
-    .rp-run{width:100%;padding:13px;background:var(--green);color:#060606;border:none;border-radius:11px;font-family:var(--font);font-size:14px;font-weight:800;cursor:pointer;margin-top:16px;transition:all 0.18s;}
-    .rp-run:hover{opacity:0.88;transform:translateY(-1px);}
-    .rp-run:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
-    .rp-pg{display:none;padding:14px 0 4px;}
-    .rp-pg-lbl{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:7px;text-align:center;}
-    .rp-pg-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
-    .rp-pg-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--green),var(--green-dim));border-radius:2px;transition:width 0.1s linear;}
-    #rp-res{display:none;animation:fadeUp 0.35s ease;}
-    .rp-div{display:flex;align-items:center;gap:14px;margin:20px 0 14px;}
-    .rp-div::before,.rp-div::after{content:'';flex:1;height:1px;background:var(--border);}
-    .rp-div span{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2.5px;white-space:nowrap;}
-    .rp-hero{background:var(--green-glow);border:1px solid var(--green-border);border-radius:14px;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;position:relative;overflow:hidden;flex-wrap:wrap;}
-    .rp-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);}
-    .rp-hero-l{flex:1;min-width:180px;}
-    .rp-hero-ey{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;opacity:0.8;}
-    .rp-hero-val{font-size:32px;font-weight:900;color:var(--green);letter-spacing:-1px;line-height:1;margin-bottom:5px;}
-    .rp-hero-sub{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.7;}
-    .rp-hero-meta{display:flex;gap:20px;flex-wrap:wrap;}
-    .rp-cm{display:flex;flex-direction:column;gap:2px;}
-    .rp-cm-val{font-size:13px;font-weight:700;}
-    .rp-cm-lbl{font-size:9px;font-weight:700;color:var(--muted-2);text-transform:uppercase;letter-spacing:0.8px;}
-    .rp-verdict-box{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;margin-top:10px;}
-    .rp-ring{width:82px;height:82px;}
-    .rp-ring-bg{fill:none;stroke:var(--border);stroke-width:8;}
-    .rp-ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s ease,stroke 0.4s;}
-    .rp-ring-num{font-family:var(--font);font-size:13px;font-weight:900;text-anchor:middle;}
-    .rp-ring-lbl{font-family:var(--font);font-size:7px;font-weight:700;text-anchor:middle;fill:var(--muted-2);letter-spacing:0.8px;}
-    .rp-cc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px;}
-    .rp-cc-lbl{font-size:13px;font-weight:700;margin-bottom:3px;}
-    .rp-cc-sub{font-size:11px;color:var(--muted);margin-bottom:12px;}
-    .rp-ch-box{position:relative;height:250px;}
-    .rp-ch-sm{position:relative;height:200px;}
-    .rp-bot{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
-    @media(max-width:520px){.rp-bot{grid-template-columns:1fr;}}
-    .rp-tbl{width:100%;border-collapse:collapse;}
-    .rp-tbl th{text-align:left;padding:7px 9px;font-size:9px;font-weight:700;color:var(--muted-2);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);}
-    .rp-tbl td{padding:10px 9px;font-size:12px;border-bottom:1px solid #111;}
-    .rp-tbl tr:last-child td{border-bottom:none;}
-    .rp-badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:800;}
-    .rp-disc{text-align:center;font-size:11px;color:var(--muted-2);margin-top:20px;padding-top:14px;border-top:1px solid var(--border);line-height:1.9;}
+    /* FREEDOM NUMBER */
+    .rp-hdr { text-align: center; margin-bottom: 24px; }
+    .rp-tag { display: inline-flex; align-items: center; gap: 7px; background: var(--blue-light); color: var(--blue); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; border: 1px solid var(--blue-border); margin-bottom: 14px; }
+    .rp-hdr h2 { font-size: clamp(19px,4vw,23px); font-weight: 700; letter-spacing: -0.4px; margin-bottom: 7px; color: var(--text); }
+    .rp-hdr h2 em { color: var(--blue); font-style: normal; }
+    .rp-hdr p { font-size: 13px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.75; }
+    .rp-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
+    .rp-card-title { font-size: 10px; font-weight: 600; color: var(--muted-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+    .rp-g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .rp-g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    @media(max-width:520px){ .rp-g2,.rp-g3{ grid-template-columns: 1fr 1fr; } }
+    .rp-ig { display: flex; flex-direction: column; gap: 5px; }
+    .rp-ig label { font-size: 11px; font-weight: 600; color: var(--text-2); }
+    .rp-iw { position: relative; }
+    .rp-pfx { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--muted); font-weight: 500; pointer-events: none; }
+    .rp-sfx { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--muted-light); font-weight: 500; pointer-events: none; }
+    .rp-inp { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 38px 10px 34px; color: var(--text); font-family: var(--font); font-size: 14px; font-weight: 600; outline: none; transition: border-color 0.15s, box-shadow 0.15s; -moz-appearance: textfield; }
+    .rp-inp::-webkit-outer-spin-button,.rp-inp::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .rp-inp:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(56,126,209,0.1); background: var(--bg); }
+    .rp-np { padding-left: 14px !important; }
+    .rp-hint { font-size: 11px; color: var(--muted-light); margin-top: 3px; }
+    .rp-prob-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .rp-pb { flex: 1; min-width: 52px; padding: 8px 5px; background: var(--surface); border: 1px solid var(--border); border-radius: 7px; color: var(--muted); font-family: var(--font); font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; text-align: center; }
+    .rp-pb:hover { border-color: var(--blue); color: var(--blue); }
+    .rp-pb.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .rp-pb-sub { font-size: 9px; font-weight: 400; display: block; margin-top: 2px; opacity: 0.8; }
+    .rp-ab-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+    .rp-ab-head { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; margin-bottom: 7px; }
+    .rp-aeq { color: var(--blue); } .rp-adt { color: var(--muted); }
+    .rp-ab { height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
+    .rp-ab-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width 0.2s; }
+    .rp-adv-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; cursor: pointer; background: none; border: none; border-top: 1px solid var(--border); padding: 11px 0 2px; margin-top: 10px; color: var(--muted); font-family: var(--font); font-size: 11px; font-weight: 600; transition: color 0.15s; }
+    .rp-adv-btn:hover { color: var(--blue); }
+    .rp-arr { transition: transform 0.3s; font-size: 9px; }
+    .rp-arr.open { transform: rotate(180deg); }
+    .rp-adv { display: none; padding-top: 16px; }
+    .rp-adv.open { display: block; }
+    .rp-adv-note { font-size: 11px; color: var(--muted-light); margin-top: 10px; line-height: 1.7; }
+    .rp-run { width: 100%; padding: 12px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; transition: background 0.15s; }
+    .rp-run:hover { background: var(--blue-dark); }
+    .rp-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .rp-pg { display: none; padding: 14px 0 4px; }
+    .rp-pg-lbl { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 8px; text-align: center; }
+    .rp-pg-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .rp-pg-fill { height: 100%; width: 0%; background: var(--blue); border-radius: 2px; transition: width 0.1s linear; }
+    #rp-res { display: none; animation: fadeUp 0.3s ease; }
+    .rp-div { display: flex; align-items: center; gap: 14px; margin: 22px 0 14px; }
+    .rp-div::before,.rp-div::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .rp-div span { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; }
+    .rp-hero { background: var(--blue-light); border: 1px solid var(--blue-border); border-radius: 12px; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+    .rp-hero-l { flex: 1; min-width: 180px; }
+    .rp-hero-ey { font-size: 10px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+    .rp-hero-val { font-size: 34px; font-weight: 800; color: var(--blue); letter-spacing: -1px; line-height: 1; margin-bottom: 6px; }
+    .rp-hero-sub { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.7; }
+    .rp-hero-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+    .rp-cm { display: flex; flex-direction: column; gap: 2px; }
+    .rp-cm-val { font-size: 13px; font-weight: 700; color: var(--text); }
+    .rp-cm-lbl { font-size: 9px; font-weight: 600; color: var(--muted-light); text-transform: uppercase; letter-spacing: 0.8px; }
+    .rp-verdict-box { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; margin-top: 10px; }
+    .rp-ring { width: 80px; height: 80px; }
+    .rp-ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+    .rp-ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 1s ease, stroke 0.4s; }
+    .rp-ring-num { font-family: var(--font); font-size: 13px; font-weight: 700; text-anchor: middle; }
+    .rp-ring-lbl { font-family: var(--font); font-size: 7px; font-weight: 500; text-anchor: middle; fill: var(--muted-light); }
+    .rp-cc { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .rp-cc-lbl { font-size: 13px; font-weight: 600; margin-bottom: 3px; color: var(--text); }
+    .rp-cc-sub { font-size: 11px; color: var(--muted-light); margin-bottom: 12px; }
+    .rp-ch-box { position: relative; height: 240px; }
+    .rp-ch-sm { position: relative; height: 200px; }
+    .rp-bot { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+    @media(max-width:520px){ .rp-bot { grid-template-columns: 1fr; } }
+    .rp-tbl { width: 100%; border-collapse: collapse; }
+    .rp-tbl th { text-align: left; padding: 7px 9px; font-size: 9px; font-weight: 600; color: var(--muted-light); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+    .rp-tbl td { padding: 10px 9px; font-size: 12px; border-bottom: 1px solid var(--surface); color: var(--text-2); }
+    .rp-tbl tr:last-child td { border-bottom: none; }
+    .rp-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+    .rp-note { border-left: 3px solid var(--blue); padding: 14px 18px; margin-bottom: 16px; background: var(--blue-light); border-radius: 0 10px 10px 0; }
+    .rp-note-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+    .rp-note-text { font-size: 13px; color: var(--text-2); line-height: 1.8; font-style: italic; }
+    .rp-note-author { font-size: 11px; color: var(--blue); margin-top: 8px; font-weight: 600; font-style: normal; }
+    .rp-disc { text-align: center; font-size: 11px; color: var(--muted-light); margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); line-height: 1.9; }
 
-    footer { text-align:center; margin-top:40px; padding-top:22px; border-top:1px solid var(--border); }
-    footer p { font-size:11px; color:var(--muted-2); }
-    footer a { color:var(--green); text-decoration:none; }
+    footer { text-align: center; margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--border); }
+    footer p { font-size: 11px; color: var(--muted-light); }
+    footer a { color: var(--blue); text-decoration: none; font-weight: 500; }
 
-    @keyframes fadeUp { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
-<div class="ambient"></div>
 <div class="page">
 
   <a href="/" class="back">
@@ -246,65 +256,64 @@
 
   <div class="page-header">
     <h1>Financial Calculators</h1>
-    <p>Free tools to plan your SIP, Lumpsum, Goals, EMI and Retirement</p>
-    <button class="retire-cta" onclick="showPanel('retire',null);setTimeout(()=>document.getElementById('panel-retire').scrollIntoView({behavior:'smooth',block:'start'}),50);">
-      🎲 Know Your Financial Freedom Number →
+    <p>Free tools to plan your SIP, Lumpsum, Goals, EMI and Financial Freedom</p>
+    <button class="freedom-cta" onclick="showPanel('retire',null);setTimeout(()=>document.getElementById('panel-retire').scrollIntoView({behavior:'smooth',block:'start'}),50);">
+      🎯 Know Your Financial Freedom Number →
     </button>
   </div>
 
-  <!-- TABS -->
   <div class="tab-section">
-    <div class="tab-section-label">Calculators</div>
+    <div class="tab-label">Calculators</div>
     <div class="tab-row">
       <button class="tab-btn active" onclick="showPanel('sip',this)"><span class="ti">📊</span>Returns</button>
       <button class="tab-btn" onclick="showPanel('goal',this)"><span class="ti">🎯</span>Goal</button>
       <button class="tab-btn" onclick="showPanel('emi',this)"><span class="ti">🏦</span>EMI</button>
-      <button class="tab-btn" onclick="showPanel('retire',this)"><span class="ti">🎲</span>Freedom Number</button>
+      <button class="tab-btn" onclick="showPanel('retire',this)"><span class="ti">🔢</span>Freedom No.</button>
     </div>
   </div>
 
-  <!-- ═══ PANEL: SIP + LUMPSUM ═══ -->
+  <!-- SIP + LUMPSUM -->
   <div class="calc-panel active" id="panel-sip">
     <div class="inner-tabs">
       <button class="inner-tab active" onclick="switchReturnTab('sip',this)">Regular SIP</button>
       <button class="inner-tab" onclick="switchReturnTab('stepup',this)">Step Up SIP</button>
       <button class="inner-tab" onclick="switchReturnTab('lumpsum',this)">Lumpsum</button>
     </div>
-
-    <!-- SIP / STEP UP -->
     <div id="sip-inputs">
-      <div class="calc-grid">
-        <div class="input-group"><label>Monthly SIP Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="s_amount" value="10000" oninput="ss('s_amount','s_amountR')"/></div><input type="range" id="s_amountR" min="500" max="200000" step="500" value="10000" oninput="si('s_amountR','s_amount')"/></div>
-        <div class="input-group"><label>Expected Annual Return</label><div class="input-row"><input type="number" id="s_rate" value="12" step="0.5" oninput="ss('s_rate','s_rateR')"/><span class="iu">%</span></div><input type="range" id="s_rateR" min="1" max="30" step="0.5" value="12" oninput="si('s_rateR','s_rate')"/></div>
-        <div class="input-group"><label>Investment Duration</label><div class="input-row"><input type="number" id="s_years" value="10" oninput="ss('s_years','s_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="s_yearsR" min="1" max="40" step="1" value="10" oninput="si('s_yearsR','s_years')"/></div>
-        <div class="input-group stepup-field" id="stepupRow"><label>Annual Step Up</label><div class="input-row"><input type="number" id="s_stepup" value="10" oninput="ss('s_stepup','s_stepupR')"/><span class="iu">%</span></div><input type="range" id="s_stepupR" min="1" max="50" step="1" value="10" oninput="si('s_stepupR','s_stepup')"/></div>
+      <div class="form-card">
+        <div class="calc-grid">
+          <div class="input-group"><label>Monthly SIP Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="s_amount" value="10000" oninput="ss('s_amount','s_amountR')"/></div><input type="range" id="s_amountR" min="500" max="200000" step="500" value="10000" oninput="si('s_amountR','s_amount')"/></div>
+          <div class="input-group"><label>Expected Annual Return</label><div class="input-row"><input type="number" id="s_rate" value="12" step="0.5" oninput="ss('s_rate','s_rateR')"/><span class="iu">%</span></div><input type="range" id="s_rateR" min="1" max="30" step="0.5" value="12" oninput="si('s_rateR','s_rate')"/></div>
+          <div class="input-group"><label>Investment Duration</label><div class="input-row"><input type="number" id="s_years" value="10" oninput="ss('s_years','s_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="s_yearsR" min="1" max="40" step="1" value="10" oninput="si('s_yearsR','s_years')"/></div>
+          <div class="input-group stepup-field" id="stepupRow"><label>Annual Step Up</label><div class="input-row"><input type="number" id="s_stepup" value="10" oninput="ss('s_stepup','s_stepupR')"/><span class="iu">%</span></div><input type="range" id="s_stepupR" min="1" max="50" step="1" value="10" oninput="si('s_stepupR','s_stepup')"/></div>
+        </div>
+        <button class="calc-btn" onclick="calcSIP()">Calculate Returns</button>
       </div>
-      <button class="calc-btn" onclick="calcSIP()">Calculate Returns →</button>
       <div class="results" id="sip-results">
         <div class="stats-row c3">
           <div class="stat-card"><div class="stat-lbl">Total Invested</div><div class="stat-val cw" id="s_invested">—</div></div>
           <div class="stat-card"><div class="stat-lbl">Est. Returns</div><div class="stat-val cg" id="s_returns">—</div></div>
-          <div class="stat-card"><div class="stat-lbl">Total Value</div><div class="stat-val cg" id="s_total">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Total Value</div><div class="stat-val cb" id="s_total">—</div></div>
         </div>
         <div class="chart-card"><div class="chart-label">Growth Over Time</div><div class="chart-box"><canvas id="sipChart"></canvas></div></div>
         <div class="table-card"><div class="table-label">Year-by-Year Breakdown</div><div class="table-scroll"><table><thead><tr><th>Year</th><th>Invested</th><th>Returns</th><th>Total Value</th></tr></thead><tbody id="sipTable"></tbody></table></div></div>
         <div class="disclaimer"><p>⚠️ Estimates based on assumed return rates. Mutual fund investments are subject to market risks.</p></div>
       </div>
     </div>
-
-    <!-- LUMPSUM -->
     <div id="lumpsum-inputs" style="display:none;">
-      <div class="calc-grid">
-        <div class="input-group"><label>Investment Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="l_amount" value="100000" oninput="ss('l_amount','l_amountR')"/></div><input type="range" id="l_amountR" min="1000" max="10000000" step="1000" value="100000" oninput="si('l_amountR','l_amount')"/></div>
-        <div class="input-group"><label>Expected Annual Return</label><div class="input-row"><input type="number" id="l_rate" value="12" step="0.5" oninput="ss('l_rate','l_rateR')"/><span class="iu">%</span></div><input type="range" id="l_rateR" min="1" max="30" step="0.5" value="12" oninput="si('l_rateR','l_rate')"/></div>
-        <div class="input-group"><label>Investment Duration</label><div class="input-row"><input type="number" id="l_years" value="10" oninput="ss('l_years','l_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="l_yearsR" min="1" max="40" step="1" value="10" oninput="si('l_yearsR','l_years')"/></div>
+      <div class="form-card">
+        <div class="calc-grid">
+          <div class="input-group"><label>Investment Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="l_amount" value="100000" oninput="ss('l_amount','l_amountR')"/></div><input type="range" id="l_amountR" min="1000" max="10000000" step="1000" value="100000" oninput="si('l_amountR','l_amount')"/></div>
+          <div class="input-group"><label>Expected Annual Return</label><div class="input-row"><input type="number" id="l_rate" value="12" step="0.5" oninput="ss('l_rate','l_rateR')"/><span class="iu">%</span></div><input type="range" id="l_rateR" min="1" max="30" step="0.5" value="12" oninput="si('l_rateR','l_rate')"/></div>
+          <div class="input-group"><label>Investment Duration</label><div class="input-row"><input type="number" id="l_years" value="10" oninput="ss('l_years','l_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="l_yearsR" min="1" max="40" step="1" value="10" oninput="si('l_yearsR','l_years')"/></div>
+        </div>
+        <button class="calc-btn" onclick="calcLumpsum()">Calculate Returns</button>
       </div>
-      <button class="calc-btn" onclick="calcLumpsum()">Calculate Returns →</button>
       <div class="results" id="lumpsum-results">
         <div class="stats-row c3">
           <div class="stat-card"><div class="stat-lbl">Amount Invested</div><div class="stat-val cw" id="l_invested">—</div></div>
           <div class="stat-card"><div class="stat-lbl">Est. Returns</div><div class="stat-val cg" id="l_returns">—</div></div>
-          <div class="stat-card"><div class="stat-lbl">Total Value</div><div class="stat-val cg" id="l_total">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Total Value</div><div class="stat-val cb" id="l_total">—</div></div>
         </div>
         <div class="chart-card"><div class="chart-label">Growth Over Time</div><div class="chart-box"><canvas id="lumpsumChart"></canvas></div></div>
         <div class="table-card"><div class="table-label">Year-by-Year Breakdown</div><div class="table-scroll"><table><thead><tr><th>Year</th><th>Value</th><th>Gain</th><th>Growth %</th></tr></thead><tbody id="lumpsumTable"></tbody></table></div></div>
@@ -313,7 +322,7 @@
     </div>
   </div>
 
-  <!-- ═══ PANEL: GOAL ═══ -->
+  <!-- GOAL -->
   <div class="calc-panel" id="panel-goal">
     <div class="presets" id="goalPresets">
       <button class="preset-btn" onclick="setGoalPreset(50000000,25,this)">🏖️ Retirement</button>
@@ -322,26 +331,28 @@
       <button class="preset-btn" onclick="setGoalPreset(2000000,5,this)">🚗 Car</button>
       <button class="preset-btn" onclick="setGoalPreset(500000,2,this)">✈️ Travel</button>
     </div>
-    <div class="calc-grid">
-      <div class="input-group"><label>Target Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="g_goal" value="10000000" oninput="ss('g_goal','g_goalR')"/></div><input type="range" id="g_goalR" min="100000" max="100000000" step="100000" value="10000000" oninput="si('g_goalR','g_goal')"/></div>
-      <div class="input-group"><label>Time to Achieve</label><div class="input-row"><input type="number" id="g_years" value="10" oninput="ss('g_years','g_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="g_yearsR" min="1" max="40" step="1" value="10" oninput="si('g_yearsR','g_years')"/></div>
-      <div class="input-group"><label>Expected Return</label><div class="input-row"><input type="number" id="g_rate" value="12" step="0.5" oninput="ss('g_rate','g_rateR')"/><span class="iu">%</span></div><input type="range" id="g_rateR" min="1" max="30" step="0.5" value="12" oninput="si('g_rateR','g_rate')"/></div>
-      <div class="input-group"><label>Inflation Rate</label><div class="input-row"><input type="number" id="g_inflation" value="6" step="0.5" oninput="ss('g_inflation','g_inflationR')"/><span class="iu">%</span></div><input type="range" id="g_inflationR" min="0" max="15" step="0.5" value="6" oninput="si('g_inflationR','g_inflation')"/></div>
+    <div class="form-card">
+      <div class="calc-grid">
+        <div class="input-group"><label>Target Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="g_goal" value="10000000" oninput="ss('g_goal','g_goalR')"/></div><input type="range" id="g_goalR" min="100000" max="100000000" step="100000" value="10000000" oninput="si('g_goalR','g_goal')"/></div>
+        <div class="input-group"><label>Time to Achieve</label><div class="input-row"><input type="number" id="g_years" value="10" oninput="ss('g_years','g_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="g_yearsR" min="1" max="40" step="1" value="10" oninput="si('g_yearsR','g_years')"/></div>
+        <div class="input-group"><label>Expected Return</label><div class="input-row"><input type="number" id="g_rate" value="12" step="0.5" oninput="ss('g_rate','g_rateR')"/><span class="iu">%</span></div><input type="range" id="g_rateR" min="1" max="30" step="0.5" value="12" oninput="si('g_rateR','g_rate')"/></div>
+        <div class="input-group"><label>Inflation Rate</label><div class="input-row"><input type="number" id="g_inflation" value="6" step="0.5" oninput="ss('g_inflation','g_inflationR')"/><span class="iu">%</span></div><input type="range" id="g_inflationR" min="0" max="15" step="0.5" value="6" oninput="si('g_inflationR','g_inflation')"/></div>
+      </div>
+      <button class="calc-btn" onclick="calcGoal()">Calculate Goal SIP</button>
     </div>
-    <button class="calc-btn" onclick="calcGoal()">Calculate Goal SIP →</button>
     <div class="results" id="goal-results">
       <div class="stats-row c3">
-        <div class="stat-card"><div class="stat-lbl">Monthly SIP Needed</div><div class="stat-val cg" id="g_sip">—</div></div>
-        <div class="stat-card"><div class="stat-lbl">Inflation Adj. Goal</div><div class="stat-val cb" id="g_inflated">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Monthly SIP Needed</div><div class="stat-val cb" id="g_sip">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Inflation Adj. Goal</div><div class="stat-val cw" id="g_inflated">—</div></div>
         <div class="stat-card"><div class="stat-lbl">Total You'll Invest</div><div class="stat-val cw" id="g_invest">—</div></div>
       </div>
       <div class="milestones" id="goalMilestones"></div>
       <div class="chart-card"><div class="chart-label">Portfolio Growth Towards Goal</div><div class="chart-box"><canvas id="goalChart"></canvas></div></div>
-      <div class="disclaimer"><p>⚠️ Estimates based on assumed rates. Inflation assumptions are indicative. Consult a SEBI-registered financial advisor before investing.</p></div>
+      <div class="disclaimer"><p>⚠️ Estimates based on assumed rates. Consult a SEBI-registered financial advisor before investing.</p></div>
     </div>
   </div>
 
-  <!-- ═══ PANEL: EMI ═══ -->
+  <!-- EMI -->
   <div class="calc-panel" id="panel-emi">
     <div class="presets" id="emiPresets">
       <button class="preset-btn" onclick="setEmiPreset(5000000,8.5,20,this)">🏠 Home Loan</button>
@@ -349,12 +360,14 @@
       <button class="preset-btn" onclick="setEmiPreset(500000,14,3,this)">💳 Personal Loan</button>
       <button class="preset-btn" onclick="setEmiPreset(1500000,10,7,this)">🎓 Education Loan</button>
     </div>
-    <div class="calc-grid">
-      <div class="input-group"><label>Loan Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="e_amount" value="5000000" oninput="ss('e_amount','e_amountR')"/></div><input type="range" id="e_amountR" min="10000" max="50000000" step="10000" value="5000000" oninput="si('e_amountR','e_amount')"/></div>
-      <div class="input-group"><label>Annual Interest Rate</label><div class="input-row"><input type="number" id="e_rate" value="8.5" step="0.1" oninput="ss('e_rate','e_rateR')"/><span class="iu">%</span></div><input type="range" id="e_rateR" min="1" max="30" step="0.1" value="8.5" oninput="si('e_rateR','e_rate')"/></div>
-      <div class="input-group"><label>Loan Tenure</label><div class="input-row"><input type="number" id="e_years" value="20" oninput="ss('e_years','e_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="e_yearsR" min="1" max="30" step="1" value="20" oninput="si('e_yearsR','e_years')"/></div>
+    <div class="form-card">
+      <div class="calc-grid">
+        <div class="input-group"><label>Loan Amount</label><div class="input-row"><span class="iul">₹</span><input type="number" id="e_amount" value="5000000" oninput="ss('e_amount','e_amountR')"/></div><input type="range" id="e_amountR" min="10000" max="50000000" step="10000" value="5000000" oninput="si('e_amountR','e_amount')"/></div>
+        <div class="input-group"><label>Annual Interest Rate</label><div class="input-row"><input type="number" id="e_rate" value="8.5" step="0.1" oninput="ss('e_rate','e_rateR')"/><span class="iu">%</span></div><input type="range" id="e_rateR" min="1" max="30" step="0.1" value="8.5" oninput="si('e_rateR','e_rate')"/></div>
+        <div class="input-group"><label>Loan Tenure</label><div class="input-row"><input type="number" id="e_years" value="20" oninput="ss('e_years','e_yearsR')"/><span class="iu">Yrs</span></div><input type="range" id="e_yearsR" min="1" max="30" step="1" value="20" oninput="si('e_yearsR','e_years')"/></div>
+      </div>
+      <button class="calc-btn" onclick="calcEMI()">Calculate EMI</button>
     </div>
-    <button class="calc-btn" onclick="calcEMI()">Calculate EMI →</button>
     <div class="results" id="emi-results">
       <div class="emi-hero">
         <div class="emi-lbl">Your Monthly EMI</div>
@@ -362,29 +375,29 @@
         <div class="emi-sub">per month for <span id="e_tenure">—</span></div>
       </div>
       <div class="stats-row c2">
-        <div class="stat-card"><div class="stat-lbl">Principal Amount</div><div class="stat-val cg" id="e_principal">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Principal Amount</div><div class="stat-val cw" id="e_principal">—</div></div>
         <div class="stat-card"><div class="stat-lbl">Total Interest</div><div class="stat-val cr" id="e_interest">—</div></div>
-        <div class="stat-card"><div class="stat-lbl">Total Payment</div><div class="stat-val cg" id="e_total">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Payment</div><div class="stat-val cw" id="e_total">—</div></div>
         <div class="stat-card"><div class="stat-lbl">Interest to Principal</div><div class="stat-val cw" id="e_ratio">—</div></div>
       </div>
       <div class="chart-row">
         <div class="chart-card"><div class="chart-label">Principal vs Interest</div><div class="donut-wrap"><canvas id="emiDonut"></canvas></div></div>
         <div class="chart-card"><div class="chart-label">Balance Over Time</div><div class="chart-box-sm"><canvas id="emiBalance"></canvas></div></div>
       </div>
-      <div class="table-card"><div class="table-label">Yearly Amortization Schedule</div><div class="table-scroll"><table><thead><tr><th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Balance</th></tr></thead><tbody id="emiTable"></tbody></table></div></div>
+      <div class="table-card"><div class="table-label">Yearly Amortization</div><div class="table-scroll"><table><thead><tr><th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Balance</th></tr></thead><tbody id="emiTable"></tbody></table></div></div>
       <div class="disclaimer"><p>⚠️ EMI calculated using reducing balance method. Verify with your bank for actual terms.</p></div>
     </div>
   </div>
 
-  <!-- ═══ PANEL: RETIREMENT ═══ -->
+  <!-- FREEDOM NUMBER -->
   <div class="calc-panel" id="panel-retire">
     <div class="rp-hdr">
-      <div class="rp-tag">🎯 Financial Freedom · Monte Carlo · 1,000 Simulations</div>
+      <div class="rp-tag">🎯 Monte Carlo · 1,000 Simulations</div>
       <h2>Know Your <em>Financial Freedom Number</em></h2>
-      <p>Pick your target success probability. The simulator runs 1,000 randomised scenarios of equity returns, debt returns, and inflation — then calculates exactly the corpus you need to retire safely.</p>
+      <p>The simulator runs 1,000 randomised market scenarios and finds exactly the corpus you need to retire safely — without running out of money.</p>
     </div>
     <div class="rp-card">
-      <div class="rp-card-title">Retirement Parameters</div>
+      <div class="rp-card-title">Your Details</div>
       <div class="rp-g2">
         <div class="rp-ig"><label>Annual Expenses (Today's Value)</label><div class="rp-iw"><span class="rp-pfx">₹</span><input type="number" class="rp-inp" id="rp_expenses" value="600000" oninput="rpUpdHint()"></div><div class="rp-hint" id="rp_exp_hint">₹6,00,000 / year · ₹50,000 / month</div></div>
         <div class="rp-ig"><label>Equity Allocation in Retirement</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_equityAlloc" value="50" min="0" max="100" oninput="rpUpdAlloc()"><span class="rp-sfx">%</span></div><div style="margin-top:8px;"><div class="rp-ab-wrap"><div class="rp-ab-head"><span class="rp-aeq" id="rp_eq_lbl">Equity 50%</span><span class="rp-adt" id="rp_dt_lbl">Debt 50%</span></div><div class="rp-ab"><div class="rp-ab-fill" id="rp_abar" style="width:50%"></div></div></div></div></div>
@@ -403,7 +416,7 @@
           <button class="rp-pb" data-p="95" onclick="rpSetProb(this)">95%<span class="rp-pb-sub">Very Safe</span></button>
         </div>
       </div>
-      <button class="rp-adv-btn" onclick="rpTogAdv()"><span>⚙ &nbsp; Advanced — Equity · Debt · Inflation Parameters</span><span class="rp-arr" id="rp_arr">▼</span></button>
+      <button class="rp-adv-btn" onclick="rpTogAdv()"><span>⚙ Advanced — Equity · Debt · Inflation Parameters</span><span class="rp-arr" id="rp_arr">▼</span></button>
       <div class="rp-adv" id="rp_advPanel">
         <div class="rp-g3">
           <div class="rp-ig"><label>Equity Mean Return</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_eqMean" value="12" step="0.5"><span class="rp-sfx">%</span></div></div>
@@ -420,9 +433,9 @@
           <div class="rp-ig"><label>Inflation Volatility (σ)</label><div class="rp-iw"><input type="number" class="rp-inp rp-np" id="rp_infStd" value="2" step="0.5"><span class="rp-sfx">%</span></div></div>
           <div></div>
         </div>
-        <p class="rp-adv-note">Defaults calibrated to Indian market history — Nifty 50 CAGR ~12%, India CPI ~6%. σ controls year-to-year randomness in returns.</p>
+        <p class="rp-adv-note">Defaults calibrated to Indian market history — Nifty 50 CAGR ~12%, India CPI ~6%. σ controls year-to-year variability.</p>
       </div>
-      <button class="rp-run" id="rp_runBtn" onclick="rpGo()">▶ &nbsp; Calculate My Financial Freedom Number</button>
+      <button class="rp-run" id="rp_runBtn" onclick="rpGo()">▶ Calculate My Financial Freedom Number</button>
     </div>
     <div class="rp-pg" id="rp_pgWrap"><div class="rp-pg-lbl" id="rp_pgLbl">Running simulations…</div><div class="rp-pg-bar"><div class="rp-pg-fill" id="rp_pgFill"></div></div></div>
     <div id="rp-res">
@@ -440,21 +453,19 @@
           </div>
           <div id="rp_verdict"></div>
         </div>
-        <div><svg class="rp-ring" viewBox="0 0 110 110"><circle class="rp-ring-bg" cx="55" cy="55" r="43"/><circle class="rp-ring-fill" id="rp_ringFill" cx="55" cy="55" r="43" stroke-dasharray="270.18" stroke-dashoffset="270.18"/><text class="rp-ring-num" id="rp_ringNum" x="55" y="52" fill="#f0f0f0">0%</text><text class="rp-ring-lbl" x="55" y="63">Actual</text></svg></div>
+        <div><svg class="rp-ring" viewBox="0 0 110 110"><circle class="rp-ring-bg" cx="55" cy="55" r="43"/><circle class="rp-ring-fill" id="rp_ringFill" cx="55" cy="55" r="43" stroke-dasharray="270.18" stroke-dashoffset="270.18"/><text class="rp-ring-num" id="rp_ringNum" x="55" y="52" fill="#111827">0%</text><text class="rp-ring-lbl" x="55" y="63">Actual</text></svg></div>
       </div>
-
-      <!-- PERSONAL NOTE -->
-      <div id="rp_personalNote" style="border-left:2px solid var(--green);padding:14px 18px;margin-bottom:16px;background:rgba(0,200,150,0.04);border-radius:0 10px 10px 0;">
-        <p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;opacity:0.8;">What this means</p>
-        <p id="rp_noteText" style="font-size:13px;color:#ccc;line-height:1.85;font-style:italic;"></p>
-        <p style="font-size:11px;color:var(--green);margin-top:8px;font-weight:600;font-style:normal;">Nataraj Malavade</p>
+      <div class="rp-note">
+        <div class="rp-note-label">What this means</div>
+        <p class="rp-note-text" id="rp_noteText"></p>
+        <p class="rp-note-author">Nataraj Malavade</p>
       </div>
-      <div class="rp-cc"><div class="rp-cc-lbl">Corpus Projection Fan Chart</div><div class="rp-cc-sub">Shaded bands = P5–P95. Darker core = P25–P75. Green = Median. Dashed = P90/P10.</div><div class="rp-ch-box"><canvas id="rp_fanC"></canvas></div></div>
+      <div class="rp-cc"><div class="rp-cc-lbl">Corpus Projection Fan Chart</div><div class="rp-cc-sub">Shaded bands show P5–P95 range. Blue line = Median (P50). Dashed lines = P90 and P10.</div><div class="rp-ch-box"><canvas id="rp_fanC"></canvas></div></div>
       <div class="rp-bot">
         <div class="rp-cc"><div class="rp-cc-lbl">Final Corpus Distribution</div><div class="rp-cc-sub">Spread across 1,000 simulations</div><div class="rp-ch-sm"><canvas id="rp_histC"></canvas></div></div>
-        <div class="rp-cc"><div class="rp-cc-lbl">Scenario Outcome Table</div><div class="rp-cc-sub">Remaining corpus at end of retirement</div><table class="rp-tbl"><thead><tr><th>Scenario</th><th>What it means</th><th>Final Corpus</th></tr></thead><tbody id="rp_tBody"></tbody></table></div>
+        <div class="rp-cc"><div class="rp-cc-lbl">Scenario Outcomes</div><div class="rp-cc-sub">Remaining corpus at end of retirement</div><table class="rp-tbl"><thead><tr><th>Scenario</th><th>What it means</th><th>Final Corpus</th></tr></thead><tbody id="rp_tBody"></tbody></table></div>
       </div>
-      <div class="rp-disc">For educational purposes only. Past data ≠ future results.</div>
+      <div class="rp-disc">For educational purposes only. Past data ≠ future results.<br>natarajmalavade.in</div>
     </div>
   </div>
 
@@ -462,7 +473,9 @@
 </div>
 
 <script>
-  const G = '#00C896';
+  const BL = '#387ED1';
+  const GR = '#059669';
+  const RD = '#DC2626';
   let sipChartInst=null, lumpsumChartInst=null, goalChartInst=null, emiDonutInst=null, emiBalInst=null;
   let returnTabType = 'sip';
 
@@ -471,25 +484,25 @@
   function fmt(n){if(n>=10000000)return'₹'+(n/10000000).toFixed(2)+' Cr';if(n>=100000)return'₹'+(n/100000).toFixed(2)+' L';return'₹'+Math.round(n).toLocaleString('en-IN');}
 
   const CD = {
-    plugins:{legend:{labels:{color:'#888',font:{family:'Poppins',size:11},boxWidth:12}},tooltip:{backgroundColor:'#0f0f0f',titleColor:'#f0f0f0',bodyColor:'#aaa',borderColor:'#1e1e1e',borderWidth:1}},
-    scales:{x:{ticks:{color:'#555',font:{family:'Poppins',size:10}},grid:{color:'#131313'}},y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#131313'}}}
+    plugins:{legend:{labels:{color:'#9CA3AF',font:{family:'Inter',size:11},boxWidth:12}},tooltip:{backgroundColor:'#111827',titleColor:'#fff',bodyColor:'#D1D5DB',borderColor:'#374151',borderWidth:1,padding:10,cornerRadius:8}},
+    scales:{x:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10}},grid:{color:'#F3F4F6'}},y:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10},callback:v=>fmt(v)},grid:{color:'#F3F4F6'}}}
   };
 
   function showPanel(name,el){
     document.querySelectorAll('.calc-panel').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
     document.getElementById('panel-'+name).classList.add('active');
-    if(el) el.classList.add('active');
+    if(el)el.classList.add('active');
   }
 
   function switchReturnTab(type,el){
-    returnTabType = type;
+    returnTabType=type;
     document.querySelectorAll('#panel-sip .inner-tab').forEach(t=>t.classList.remove('active'));
-    if(el) el.classList.add('active');
-    document.getElementById('sip-inputs').style.display = type!=='lumpsum' ? '' : 'none';
-    document.getElementById('lumpsum-inputs').style.display = type==='lumpsum' ? '' : 'none';
-    const sf = document.getElementById('stepupRow');
-    type==='stepup' ? sf.classList.add('show') : sf.classList.remove('show');
+    if(el)el.classList.add('active');
+    document.getElementById('sip-inputs').style.display=type!=='lumpsum'?'':'none';
+    document.getElementById('lumpsum-inputs').style.display=type==='lumpsum'?'':'none';
+    const sf=document.getElementById('stepupRow');
+    type==='stepup'?sf.classList.add('show'):sf.classList.remove('show');
     document.getElementById('sip-results').classList.remove('visible');
     document.getElementById('lumpsum-results').classList.remove('visible');
   }
@@ -516,19 +529,15 @@
     const years=parseInt(document.getElementById('s_years').value);
     const stepup=returnTabType==='stepup'?parseFloat(document.getElementById('s_stepup').value)/100:0;
     if(!monthly||!rate||!years)return;
-    const mr=rate/100/12; let total=0,invested=0,cur=monthly; const yd=[];
-    for(let y=1;y<=years;y++){
-      for(let m=0;m<12;m++){total=(total+cur)*(1+mr);invested+=cur;}
-      yd.push({year:y,invested,value:total,returns:total-invested});
-      if(stepup>0)cur*=(1+stepup);
-    }
+    const mr=rate/100/12;let total=0,invested=0,cur=monthly;const yd=[];
+    for(let y=1;y<=years;y++){for(let m=0;m<12;m++){total=(total+cur)*(1+mr);invested+=cur;}yd.push({year:y,invested,value:total,returns:total-invested});if(stepup>0)cur*=(1+stepup);}
     document.getElementById('s_invested').textContent=fmt(invested);
     document.getElementById('s_returns').textContent=fmt(total-invested);
     document.getElementById('s_total').textContent=fmt(total);
     const tbody=document.getElementById('sipTable');tbody.innerHTML='';
-    yd.forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=`<td>Year ${r.year}</td><td>${fmt(r.invested)}</td><td style="color:${G}">${fmt(r.returns)}</td><td style="color:${G}">${fmt(r.value)}</td>`;tbody.appendChild(tr);});
+    yd.forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=`<td>Year ${r.year}</td><td>${fmt(r.invested)}</td><td style="color:${GR};font-weight:600">${fmt(r.returns)}</td><td style="color:${BL};font-weight:600">${fmt(r.value)}</td>`;tbody.appendChild(tr);});
     if(sipChartInst)sipChartInst.destroy();
-    sipChartInst=new Chart(document.getElementById('sipChart').getContext('2d'),{type:'bar',data:{labels:yd.map(d=>'Yr '+d.year),datasets:[{label:'Invested',data:yd.map(d=>Math.round(d.invested)),backgroundColor:'rgba(255,255,255,0.05)',borderColor:'rgba(255,255,255,0.1)',borderWidth:1,borderRadius:4},{label:'Total Value',data:yd.map(d=>Math.round(d.value)),type:'line',borderColor:G,backgroundColor:'rgba(0,200,150,0.08)',borderWidth:2,fill:false,tension:0.4,pointBackgroundColor:G,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},...CD,plugins:{...CD.plugins,tooltip:{...CD.plugins.tooltip,callbacks:{label:c=>' '+c.dataset.label+': '+fmt(c.raw)}}}}});
+    sipChartInst=new Chart(document.getElementById('sipChart').getContext('2d'),{type:'bar',data:{labels:yd.map(d=>'Yr '+d.year),datasets:[{label:'Invested',data:yd.map(d=>Math.round(d.invested)),backgroundColor:'#E5E7EB',borderColor:'#D1D5DB',borderWidth:1,borderRadius:3},{label:'Total Value',data:yd.map(d=>Math.round(d.value)),type:'line',borderColor:BL,backgroundColor:'rgba(56,126,209,0.06)',borderWidth:2,fill:false,tension:0.4,pointBackgroundColor:BL,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},...CD,plugins:{...CD.plugins,tooltip:{...CD.plugins.tooltip,callbacks:{label:c=>' '+c.dataset.label+': '+fmt(c.raw)}}}}});
     document.getElementById('sip-results').classList.add('visible');
   }
 
@@ -543,9 +552,9 @@
     document.getElementById('l_total').textContent=fmt(total);
     const tbody=document.getElementById('lumpsumTable');tbody.innerHTML='';
     const lbls=[],vals=[];
-    for(let y=1;y<=years;y++){const val=amount*Math.pow(1+rate/100,y);lbls.push('Yr '+y);vals.push(Math.round(val));const tr=document.createElement('tr');tr.innerHTML=`<td>Year ${y}</td><td style="color:${G}">${fmt(val)}</td><td style="color:${G}">${fmt(val-amount)}</td><td style="color:#aaa">${((val/amount-1)*100).toFixed(1)}%</td>`;tbody.appendChild(tr);}
+    for(let y=1;y<=years;y++){const val=amount*Math.pow(1+rate/100,y);lbls.push('Yr '+y);vals.push(Math.round(val));const tr=document.createElement('tr');tr.innerHTML=`<td>Year ${y}</td><td style="color:${BL};font-weight:600">${fmt(val)}</td><td style="color:${GR};font-weight:600">${fmt(val-amount)}</td><td style="color:#6B7280">${((val/amount-1)*100).toFixed(1)}%</td>`;tbody.appendChild(tr);}
     if(lumpsumChartInst)lumpsumChartInst.destroy();
-    lumpsumChartInst=new Chart(document.getElementById('lumpsumChart').getContext('2d'),{type:'line',data:{labels:lbls,datasets:[{label:'Investment Value',data:vals,borderColor:G,backgroundColor:'rgba(0,200,150,0.08)',borderWidth:2,fill:true,tension:0.4,pointBackgroundColor:G,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f0f0f',titleColor:'#f0f0f0',bodyColor:'#aaa',borderColor:'#1e1e1e',borderWidth:1,callbacks:{label:c=>' Value: '+fmt(c.raw)}}},scales:{x:{ticks:{color:'#555',font:{family:'Poppins',size:10}},grid:{color:'#131313'}},y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#131313'}}}}});
+    lumpsumChartInst=new Chart(document.getElementById('lumpsumChart').getContext('2d'),{type:'line',data:{labels:lbls,datasets:[{label:'Investment Value',data:vals,borderColor:BL,backgroundColor:'rgba(56,126,209,0.06)',borderWidth:2,fill:true,tension:0.4,pointBackgroundColor:BL,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...CD.plugins.tooltip,callbacks:{label:c=>' Value: '+fmt(c.raw)}}},scales:{x:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10}},grid:{color:'#F3F4F6'}},y:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10},callback:v=>fmt(v)},grid:{color:'#F3F4F6'}}}}});
     document.getElementById('lumpsum-results').classList.add('visible');
   }
 
@@ -566,7 +575,7 @@
     const labels=[],inv=[],val=[],gl=[];
     for(let y=1;y<=years;y++){labels.push('Yr '+y);const m=y*12;const v=sip*(Math.pow(1+mr,m)-1)/mr;inv.push(Math.round(sip*m));val.push(Math.round(v));gl.push(Math.round(inflated));}
     if(goalChartInst)goalChartInst.destroy();
-    goalChartInst=new Chart(document.getElementById('goalChart').getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Invested',data:inv,backgroundColor:'rgba(255,255,255,0.05)',borderColor:'rgba(255,255,255,0.08)',borderWidth:1,borderRadius:4},{label:'Portfolio Value',data:val,type:'line',borderColor:G,backgroundColor:'rgba(0,200,150,0.08)',borderWidth:2,fill:false,tension:0.4,pointBackgroundColor:G,pointRadius:3},{label:'Goal',data:gl,type:'line',borderColor:'#60a5fa',borderWidth:1.5,borderDash:[5,5],fill:false,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},...CD,plugins:{...CD.plugins,tooltip:{...CD.plugins.tooltip,callbacks:{label:c=>' '+c.dataset.label+': '+fmt(c.raw)}}}}});
+    goalChartInst=new Chart(document.getElementById('goalChart').getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Invested',data:inv,backgroundColor:'#E5E7EB',borderColor:'#D1D5DB',borderWidth:1,borderRadius:3},{label:'Portfolio Value',data:val,type:'line',borderColor:BL,backgroundColor:'rgba(56,126,209,0.06)',borderWidth:2,fill:false,tension:0.4,pointBackgroundColor:BL,pointRadius:3},{label:'Goal Target',data:gl,type:'line',borderColor:GR,borderWidth:1.5,borderDash:[6,4],fill:false,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},...CD,plugins:{...CD.plugins,tooltip:{...CD.plugins.tooltip,callbacks:{label:c=>' '+c.dataset.label+': '+fmt(c.raw)}}}}});
     document.getElementById('goal-results').classList.add('visible');
   }
 
@@ -586,17 +595,17 @@
     document.getElementById('e_ratio').textContent=((totalInt/principal)*100).toFixed(1)+'%';
     const tbody=document.getElementById('emiTable');tbody.innerHTML='';
     let bal=principal;const lbls=[],bals=[];
-    for(let y=1;y<=years;y++){let yp=0,yi=0;for(let m=0;m<12;m++){const ip=bal*mr;const pp=emi-ip;yp+=pp;yi+=ip;bal-=pp;if(bal<0)bal=0;}lbls.push('Yr '+y);bals.push(Math.round(Math.max(bal,0)));const tr=document.createElement('tr');tr.innerHTML=`<td>Year ${y}</td><td style="color:${G}">${fmt(yp)}</td><td style="color:#f87171">${fmt(yi)}</td><td style="color:${G}">${fmt(Math.max(bal,0))}</td>`;tbody.appendChild(tr);}
+    for(let y=1;y<=years;y++){let yp=0,yi=0;for(let m=0;m<12;m++){const ip=bal*mr;const pp=emi-ip;yp+=pp;yi+=ip;bal-=pp;if(bal<0)bal=0;}lbls.push('Yr '+y);bals.push(Math.round(Math.max(bal,0)));const tr=document.createElement('tr');tr.innerHTML=`<td>Year ${y}</td><td style="color:${GR};font-weight:600">${fmt(yp)}</td><td style="color:${RD};font-weight:600">${fmt(yi)}</td><td>${fmt(Math.max(bal,0))}</td>`;tbody.appendChild(tr);}
     if(emiDonutInst)emiDonutInst.destroy();
-    emiDonutInst=new Chart(document.getElementById('emiDonut').getContext('2d'),{type:'doughnut',data:{labels:['Principal','Interest'],datasets:[{data:[Math.round(principal),Math.round(totalInt)],backgroundColor:['rgba(0,200,150,0.6)','rgba(248,113,113,0.6)'],borderColor:[G,'#f87171'],borderWidth:1.5}]},options:{responsive:true,cutout:'65%',plugins:{legend:{labels:{color:'#888',font:{family:'Poppins',size:11},boxWidth:12}},tooltip:{backgroundColor:'#0f0f0f',titleColor:'#f0f0f0',bodyColor:'#aaa',borderColor:'#1e1e1e',borderWidth:1,callbacks:{label:c=>' '+c.label+': '+fmt(c.raw)}}}}});
+    emiDonutInst=new Chart(document.getElementById('emiDonut').getContext('2d'),{type:'doughnut',data:{labels:['Principal','Interest'],datasets:[{data:[Math.round(principal),Math.round(totalInt)],backgroundColor:['rgba(56,126,209,0.7)','rgba(220,38,38,0.65)'],borderColor:['#387ED1','#DC2626'],borderWidth:1.5}]},options:{responsive:true,cutout:'65%',plugins:{legend:{labels:{color:'#6B7280',font:{family:'Inter',size:11},boxWidth:12}},tooltip:{...CD.plugins.tooltip,callbacks:{label:c=>' '+c.label+': '+fmt(c.raw)}}}}});
     if(emiBalInst)emiBalInst.destroy();
-    emiBalInst=new Chart(document.getElementById('emiBalance').getContext('2d'),{type:'line',data:{labels:lbls,datasets:[{label:'Balance',data:bals,borderColor:G,backgroundColor:'rgba(0,200,150,0.08)',borderWidth:2,fill:true,tension:0.4,pointBackgroundColor:G,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f0f0f',titleColor:'#f0f0f0',bodyColor:'#aaa',borderColor:'#1e1e1e',borderWidth:1,callbacks:{label:c=>' Balance: '+fmt(c.raw)}}},scales:{x:{ticks:{color:'#555',font:{family:'Poppins',size:10}},grid:{color:'#131313'}},y:{ticks:{color:'#555',font:{family:'Poppins',size:10},callback:v=>fmt(v)},grid:{color:'#131313'}}}}});
+    emiBalInst=new Chart(document.getElementById('emiBalance').getContext('2d'),{type:'line',data:{labels:lbls,datasets:[{label:'Balance',data:bals,borderColor:BL,backgroundColor:'rgba(56,126,209,0.06)',borderWidth:2,fill:true,tension:0.4,pointBackgroundColor:BL,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...CD.plugins.tooltip,callbacks:{label:c=>' Balance: '+fmt(c.raw)}}},scales:{x:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10}},grid:{color:'#F3F4F6'}},y:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10},callback:v=>fmt(v)},grid:{color:'#F3F4F6'}}}}});
     document.getElementById('emi-results').classList.add('visible');
   }
 
   window.addEventListener('load',()=>{ calcSIP(); });
 
-  // ── MONTE CARLO RETIREMENT ──
+  // MONTE CARLO
   function rpRn(mean,std){let u,v;do{u=Math.random();}while(u===0);do{v=Math.random();}while(v===0);return mean+std*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
   function rpFmt(v){if(v<=0)return'₹0';if(v>=1e7)return'₹'+(v/1e7).toFixed(2)+' Cr';if(v>=1e5)return'₹'+(v/1e5).toFixed(2)+' L';return'₹'+Math.round(v).toLocaleString('en-IN');}
   function rpPctile(sorted,p){if(!sorted.length)return 0;const idx=(p/100)*(sorted.length-1),lo=Math.floor(idx),hi=Math.ceil(idx);return lo===hi?sorted[lo]:sorted[lo]+(sorted[hi]-sorted[lo])*(idx-lo);}
@@ -609,18 +618,33 @@
   function rpSim(corpus,expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,N){let success=0;const paths=[],finals=[];for(let s=0;s<N;s++){let c=corpus,exp=expenses;const path=[c];let ok=true;for(let y=0;y<yrs;y++){const portR=eqPct*rpRn(eqMn,eqSd)+dPct*rpRn(dtMn,dtSd);const inf=rpRn(infMn,infSd);c=c*(1+portR)-exp;exp=exp*(1+inf);if(c<=0){c=0;ok=false;for(let r=y;r<yrs;r++)path.push(0);break;}path.push(c);}if(ok)success++;paths.push(path);finals.push(c);}return{sr:(success/N)*100,paths,finals};}
   function rpFind(expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,tp){let lo=expenses*3,hi=expenses*200,best=hi;for(let i=0;i<22;i++){const mid=(lo+hi)/2;const{sr}=rpSim(mid,expenses,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,300);if(sr>=tp){best=mid;hi=mid;}else{lo=mid;}}return best;}
   let rpFanInst=null,rpHistInst=null;
-  const rpTT={backgroundColor:'#0f0f0f',borderColor:'rgba(0,200,150,0.2)',borderWidth:1,titleFont:{family:'Poppins',weight:'700',size:11},bodyFont:{family:'Poppins',size:11},titleColor:G,bodyColor:'#aaa'};
-  function rpBuildFan(paths,yrs){if(rpFanInst){rpFanInst.destroy();rpFanInst=null;}
+  const rpTT={backgroundColor:'#111827',titleColor:'#fff',bodyColor:'#D1D5DB',borderColor:'#374151',borderWidth:1,padding:10,cornerRadius:8,titleFont:{family:'Inter',weight:'600',size:11},bodyFont:{family:'Inter',size:11}};
+  function rpBuildFan(paths,yrs){
+    if(rpFanInst){rpFanInst.destroy();rpFanInst=null;}
     const labels=Array.from({length:yrs+1},(_,i)=>'Yr '+i);
     const bands={p5:[],p10:[],p25:[],p50:[],p75:[],p90:[],p95:[]};
     for(let y=0;y<=yrs;y++){const yv=paths.map(p=>p[y]??0).sort((a,b)=>a-b);bands.p5.push(rpPctile(yv,5));bands.p10.push(rpPctile(yv,10));bands.p25.push(rpPctile(yv,25));bands.p50.push(rpPctile(yv,50));bands.p75.push(rpPctile(yv,75));bands.p90.push(rpPctile(yv,90));bands.p95.push(rpPctile(yv,95));}
-    const ds=[{data:bands.p95,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},{data:bands.p5,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(0,200,150,0.04)',tension:0.35,borderColor:'transparent'},{data:bands.p90,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},{data:bands.p10,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(0,200,150,0.08)',tension:0.35,borderColor:'transparent'},{data:bands.p75,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},{data:bands.p25,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(0,200,150,0.14)',tension:0.35,borderColor:'transparent'},{label:'P90',data:bands.p90,borderWidth:1.5,pointRadius:0,fill:false,borderColor:'rgba(96,165,250,0.6)',borderDash:[6,4],tension:0.35},{label:'P50 — Median',data:bands.p50,borderWidth:2.5,pointRadius:0,fill:false,borderColor:G,tension:0.35},{label:'P10',data:bands.p10,borderWidth:1.5,pointRadius:0,fill:false,borderColor:'rgba(248,113,113,0.6)',borderDash:[6,4],tension:0.35}];
-    rpFanInst=new Chart(document.getElementById('rp_fanC').getContext('2d'),{type:'line',data:{labels,datasets:ds},options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#666',font:{family:'Poppins',size:11},boxWidth:18,usePointStyle:true,pointStyle:'line',filter:item=>!!item.text}},tooltip:{...rpTT,mode:'index',intersect:false,callbacks:{label:c=>c.dataset.label?c.dataset.label+': '+rpFmt(c.raw):null}}},scales:{x:{ticks:{color:'#444',font:{family:'Poppins',size:10},maxTicksLimit:12},grid:{color:'#131313'}},y:{ticks:{color:'#444',font:{family:'Poppins',size:10},callback:v=>rpFmt(v)},grid:{color:'#131313'}}}}});}
-  function rpBuildHist(finals){if(rpHistInst){rpHistInst.destroy();rpHistInst=null;}
+    const ds=[
+      {data:bands.p95,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},
+      {data:bands.p5,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(56,126,209,0.05)',tension:0.35,borderColor:'transparent'},
+      {data:bands.p90,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},
+      {data:bands.p10,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(56,126,209,0.08)',tension:0.35,borderColor:'transparent'},
+      {data:bands.p75,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent',tension:0.35},
+      {data:bands.p25,borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(56,126,209,0.12)',tension:0.35,borderColor:'transparent'},
+      {label:'P90 — Good case',data:bands.p90,borderWidth:1.5,pointRadius:0,fill:false,borderColor:'rgba(5,150,105,0.6)',borderDash:[6,4],tension:0.35},
+      {label:'P50 — Median',data:bands.p50,borderWidth:2.5,pointRadius:0,fill:false,borderColor:BL,tension:0.35},
+      {label:'P10 — Poor case',data:bands.p10,borderWidth:1.5,pointRadius:0,fill:false,borderColor:'rgba(220,38,38,0.5)',borderDash:[6,4],tension:0.35}
+    ];
+    rpFanInst=new Chart(document.getElementById('rp_fanC').getContext('2d'),{type:'line',data:{labels,datasets:ds},options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9CA3AF',font:{family:'Inter',size:11},boxWidth:18,usePointStyle:true,pointStyle:'line',filter:item=>!!item.text}},tooltip:{...rpTT,mode:'index',intersect:false,callbacks:{label:c=>c.dataset.label?c.dataset.label+': '+rpFmt(c.raw):null}}},scales:{x:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10},maxTicksLimit:12},grid:{color:'#F3F4F6'}},y:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10},callback:v=>rpFmt(v)},grid:{color:'#F3F4F6'}}}}});
+  }
+  function rpBuildHist(finals){
+    if(rpHistInst){rpHistInst.destroy();rpHistInst=null;}
     const depleted=finals.filter(v=>v<=0).length,alive=finals.filter(v=>v>0);
-    const BINS=16;const labels=['Depleted'],counts=[depleted],colors=['rgba(248,113,113,0.65)'];
-    if(alive.length){const mn=Math.min(...alive),mx=Math.max(...alive),bw=(mx-mn)/BINS;for(let i=0;i<BINS;i++){const lo=mn+i*bw,hi=lo+bw;labels.push(rpFmt(lo));counts.push(alive.filter(v=>v>=lo&&(i===BINS-1?v<=hi:v<hi)).length);colors.push('rgba(0,200,150,0.55)');}}
-    rpHistInst=new Chart(document.getElementById('rp_histC').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:counts,backgroundColor:colors,borderWidth:0,borderRadius:3}]},options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...rpTT,callbacks:{label:c=>c.raw+' simulations'}}},scales:{x:{ticks:{color:'#444',font:{family:'Poppins',size:9},maxRotation:55,maxTicksLimit:10},grid:{display:false}},y:{ticks:{color:'#444',font:{family:'Poppins',size:10}},grid:{color:'#131313'}}}}});}
+    const BINS=16;const labels=['Depleted'],counts=[depleted],colors=['rgba(220,38,38,0.6)'];
+    if(alive.length){const mn=Math.min(...alive),mx=Math.max(...alive),bw=(mx-mn)/BINS;for(let i=0;i<BINS;i++){const lo=mn+i*bw,hi=lo+bw;labels.push(rpFmt(lo));counts.push(alive.filter(v=>v>=lo&&(i===BINS-1?v<=hi:v<hi)).length);colors.push('rgba(56,126,209,0.55)');}}
+    rpHistInst=new Chart(document.getElementById('rp_histC').getContext('2d'),{type:'bar',data:{labels,datasets:[{data:counts,backgroundColor:colors,borderWidth:0,borderRadius:3}]},options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...rpTT,callbacks:{label:c=>c.raw+' simulations'}}},scales:{x:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:9},maxRotation:55,maxTicksLimit:10},grid:{display:false}},y:{ticks:{color:'#9CA3AF',font:{family:'Inter',size:10}},grid:{color:'#F3F4F6'}}}}});
+  }
+
   function rpGo(){
     const expenses=+document.getElementById('rp_expenses').value;
     const currentAge=+document.getElementById('rp_currentAge').value;
@@ -636,11 +660,12 @@
     if(yrs<=0){alert('Life expectancy must be greater than retirement age.');return;}
     if(yearsToRetire<0){alert('Retirement age must be greater than current age.');return;}
     if(!expenses){alert('Please enter annual expenses.');return;}
-    // Inflate today's expenses to retirement-day value
-    const expensesAtRetirement = expenses * Math.pow(1 + infMn, yearsToRetire);
+    const expensesAtRetirement=expenses*Math.pow(1+infMn,yearsToRetire);
     const btn=document.getElementById('rp_runBtn');
-    btn.disabled=true;document.getElementById('rp-res').style.display='none';
-    document.getElementById('rp_pgWrap').style.display='block';document.getElementById('rp_pgFill').style.width='0%';
+    btn.disabled=true;
+    document.getElementById('rp-res').style.display='none';
+    document.getElementById('rp_pgWrap').style.display='block';
+    document.getElementById('rp_pgFill').style.width='0%';
     document.getElementById('rp_pgLbl').textContent='Finding optimal corpus for '+rpTargetProb+'% probability…';
     let pg=0;const pgT=setInterval(()=>{pg=Math.min(pg+1.8,85);document.getElementById('rp_pgFill').style.width=pg+'%';},80);
     setTimeout(()=>{
@@ -649,40 +674,45 @@
       document.getElementById('rp_pgFill').style.width='88%';
       setTimeout(()=>{
         const{sr,paths,finals}=rpSim(reqCorpus,expensesAtRetirement,yrs,eqPct,dPct,eqMn,eqSd,dtMn,dtSd,infMn,infSd,1000);
-        clearInterval(pgT);document.getElementById('rp_pgFill').style.width='100%';
+        clearInterval(pgT);
+        document.getElementById('rp_pgFill').style.width='100%';
         const sf=[...finals].sort((a,b)=>a-b);
         const p10v=rpPctile(sf,10),p50v=rpPctile(sf,50),p90v=rpPctile(sf,90);
         const swr=((expensesAtRetirement/reqCorpus)*100).toFixed(2),surv=Math.round(sr*10);
-        document.getElementById('rp_heroEy').textContent='Financial Freedom Number at '+rpTargetProb+'% Success Probability';
+        document.getElementById('rp_heroEy').textContent='Financial Freedom Number at '+rpTargetProb+'% Success';
         document.getElementById('rp_heroVal').textContent=rpFmt(reqCorpus);
-        document.getElementById('rp_heroSub').textContent=
-          'Today\'s ₹'+Math.round(expenses/12).toLocaleString('en-IN')+'/month expense → inflates to ₹'+
-          Math.round(expensesAtRetirement/12).toLocaleString('en-IN')+'/month at age '+retAge+
-          ' ('+yearsToRetire+' yrs × '+Math.round(infMn*100)+'% inflation). You need '+rpFmt(reqCorpus)+' saved at retirement.';
-        document.getElementById('rp_swr').textContent=swr+'%';document.getElementById('rp_yrs').textContent=yrs+' years';
-        document.getElementById('rp_monthly').textContent=rpFmt(expensesAtRetirement/12);document.getElementById('rp_sim').textContent=surv+' / 1000';
+        document.getElementById('rp_heroSub').textContent='Today\'s ₹'+Math.round(expenses/12).toLocaleString('en-IN')+'/month → ₹'+Math.round(expensesAtRetirement/12).toLocaleString('en-IN')+'/month at age '+retAge+' after inflation. Corpus needed at retirement: '+rpFmt(reqCorpus)+'.';
+        document.getElementById('rp_swr').textContent=swr+'%';
+        document.getElementById('rp_yrs').textContent=yrs+' years';
+        document.getElementById('rp_monthly').textContent=rpFmt(expensesAtRetirement/12);
+        document.getElementById('rp_sim').textContent=surv+' / 1000';
         const circ=270.18,rf=document.getElementById('rp_ringFill'),rn=document.getElementById('rp_ringNum');
-        let col=sr>=85?G:sr>=70?'#fbbf24':'#f87171';
-        rf.style.stroke=col;rf.style.strokeDashoffset=circ*(1-sr/100);rn.textContent=sr.toFixed(1)+'%';rn.setAttribute('fill',col);
+        let col=sr>=85?GR:sr>=70?'#D97706':RD;
+        rf.style.stroke=col;rf.style.strokeDashoffset=circ*(1-sr/100);
+        rn.textContent=sr.toFixed(1)+'%';rn.setAttribute('fill',col);
         let vt,vb,vc;
-        if(sr>=85){vt='✅ Well-calibrated for your target probability.';vb='rgba(0,200,150,0.1)';vc=G;}
-        else if(sr>=70){vt='⚠️ Slightly below target. Try higher equity allocation.';vb='rgba(251,191,36,0.1)';vc='#fbbf24';}
-        else{vt='🔴 High uncertainty. Consider reducing expenses or extending working years.';vb='rgba(248,113,113,0.1)';vc='#f87171';}
-        document.getElementById('rp_verdict').innerHTML=`<div class="rp-verdict-box" style="background:${vb};color:${vc};border:1px solid ${vc}30">${vt}</div>`;
-        const rows=[{lbl:'P10',color:'#f87171',bg:'rgba(248,113,113,0.12)',meaning:'Worst 10%',val:p10v},{lbl:'P50',color:G,bg:'rgba(0,200,150,0.12)',meaning:'Median',val:p50v},{lbl:'P90',color:'#60a5fa',bg:'rgba(96,165,250,0.12)',meaning:'Best 10%',val:p90v}];
+        if(sr>=85){vt='✅ Well-calibrated for your target.';vb='#ECFDF5';vc=GR;}
+        else if(sr>=70){vt='⚠️ Slightly below target. Try a higher equity allocation.';vb='#FFFBEB';vc='#D97706';}
+        else{vt='❌ High uncertainty. Consider reducing expenses or retiring later.';vb='#FEF2F2';vc=RD;}
+        document.getElementById('rp_verdict').innerHTML=`<div class="rp-verdict-box" style="background:${vb};color:${vc};border:1px solid ${vc}40;margin-top:10px;">${vt}</div>`;
+        const rows=[{lbl:'P10',color:RD,bg:'#FEF2F2',meaning:'Worst 10%',val:p10v},{lbl:'P50',color:BL,bg:'#EBF3FF',meaning:'Median outcome',val:p50v},{lbl:'P90',color:GR,bg:'#ECFDF5',meaning:'Best 10%',val:p90v}];
         const tbody=document.getElementById('rp_tBody');tbody.innerHTML='';
-        rows.forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=`<td><span class="rp-badge" style="background:${r.bg};color:${r.color}">${r.lbl}</span></td><td style="color:#888;font-size:11px">${r.meaning}</td><td style="font-weight:700">${rpFmt(r.val)}</td>`;tbody.appendChild(tr);});
+        rows.forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=`<td><span class="rp-badge" style="background:${r.bg};color:${r.color}">${r.lbl}</span></td><td style="color:#6B7280;font-size:11px">${r.meaning}</td><td style="font-weight:700;color:#111827">${rpFmt(r.val)}</td>`;tbody.appendChild(tr);});
         rpBuildFan(paths,yrs);rpBuildHist(finals);
-        // PERSONAL NOTE
-        const G2 = `style="color:#00C896;font-weight:700;font-style:normal;"`;
-        const noteText =
-          `You spend <span ${G2}>₹${Math.round(expenses/12).toLocaleString('en-IN')}/month</span> today. ` +
-          `By the time you reach <span ${G2}>${retAge}</span>, inflation will push that to <span ${G2}>₹${Math.round(expensesAtRetirement/12).toLocaleString('en-IN')}/month</span> — that is what your lifestyle will actually cost then. ` +
-          `To fund that lifestyle without a salary, you need a corpus large enough that its returns alone cover your expenses. ` +
-          `This calculator ran <span ${G2}>1,000 different market scenarios</span> to find that number. ` +
-          `In <span ${G2}>${surv} out of 1,000</span> futures, <span ${G2}>${rpFmt(reqCorpus)}</span> is enough. Your money never runs out. That is financial freedom.`;
-        document.getElementById('rp_noteText').innerHTML = noteText;
-        setTimeout(()=>{document.getElementById('rp_pgWrap').style.display='none';document.getElementById('rp-res').style.display='block';btn.disabled=false;btn.textContent='↺  Recalculate';document.getElementById('rp-res').scrollIntoView({behavior:'smooth',block:'start'});},100);
+        // Personal note
+        const H=`style="color:${BL};font-weight:600;font-style:normal;"`;
+        document.getElementById('rp_noteText').innerHTML=
+          `You spend <span ${H}>₹${Math.round(expenses/12).toLocaleString('en-IN')}/month</span> today. `+
+          `By the time you reach <span ${H}>${retAge}</span>, inflation will push that to <span ${H}>₹${Math.round(expensesAtRetirement/12).toLocaleString('en-IN')}/month</span> — that is what your lifestyle will actually cost then. `+
+          `To fund that lifestyle without a salary, you need a corpus large enough that its returns alone cover your expenses. `+
+          `This calculator ran <span ${H}>1,000 different market scenarios</span> to find that number. `+
+          `In <span ${H}>${surv} out of 1,000</span> futures, <span ${H}>${rpFmt(reqCorpus)}</span> is enough. Your money never runs out. That is financial freedom.`;
+        setTimeout(()=>{
+          document.getElementById('rp_pgWrap').style.display='none';
+          document.getElementById('rp-res').style.display='block';
+          btn.disabled=false;btn.textContent='↺ Recalculate';
+          document.getElementById('rp-res').scrollIntoView({behavior:'smooth',block:'start'});
+        },100);
       },80);
     },60);
   }
