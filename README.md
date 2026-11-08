@@ -65,7 +65,7 @@ Each short-link visit is recorded in Google Analytics as a `short_link` event.
 | Short link | Goes to |
 |---|---|
 | `/youtube` `/yt` `/kannada` | YouTube — Kannada (subscribe) |
-| `/english` `/yt-english` | YouTube — English |
+| `/trading-channel` `/english` `/yt-english` | YouTube — Trading (English) |
 | `/growguru` `/community` `/investing` | growguru.in (community) |
 | `/trading` `/courses` | trading.natarajmalavade.in |
 | `/blog` | blog.natarajmalavade.in |

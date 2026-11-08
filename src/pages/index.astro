@@ -11,6 +11,7 @@ const books = byGroup('books');
 const community = byGroup('community');
 const calculators = byId('calculators');
 const ytKannada = byId('yt-kannada');
+const ytTrading = byId('yt-english');
 const growguru = byId('growguru');
 
 // Quick directory under the hero
@@ -46,13 +47,15 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
         </h1>
         <p class="hero__lead anim-in" style="--d:2">
           I've been in the markets since 2013. Every strategy I share is tested on real numbers first,
-          and I teach it in Kannada and English so anyone can follow along.
+          and I share it on two channels: investing in Kannada, and trading in English.
         </p>
         <div class="hero__ctas anim-in" style="--d:3">
-          <a href={ytKannada.url} target="_blank" rel="noopener" class="btn btn-primary">
-            <Icon name="youtube" /> Watch on YouTube
+          <a href={ytKannada.url} target="_blank" rel="noopener" class="btn btn-primary btn-yt">
+            <Icon name="youtube" /> Kannada channel
           </a>
-          <a href={growguru.url} target="_blank" rel="noopener" class="btn btn-ghost-dark">Join GrowGuru</a>
+          <a href={ytTrading.url} target="_blank" rel="noopener" class="btn btn-light btn-yt">
+            <Icon name="youtube" /> Trading channel
+          </a>
         </div>
       </div>
 
@@ -81,8 +84,8 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
           </div>
           <div class="hero-card__motto"><span>Data</span><span>Rules</span><span>Discipline</span></div>
           <div class="hero-card__links">
-            <a href={ytKannada.url} target="_blank" rel="noopener"><Icon name="youtube" size={16} /> Kannada channel</a>
-            <a href={byId('yt-english').url} target="_blank" rel="noopener"><Icon name="youtube" size={16} /> English channel</a>
+            <a href={growguru.url} target="_blank" rel="noopener"><Icon name="users" size={16} /> Join GrowGuru</a>
+            <a href="/tools.html"><Icon name="calculator" size={16} /> Calculators</a>
           </div>
         </aside>
       </div>
@@ -264,6 +267,9 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
   @keyframes shine { to { background-position: 200% center; } }
   .hero__lead { margin-top: 22px; font-size: 18px; line-height: 1.7; color: var(--ink-muted); max-width: 560px; }
   .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+  .btn-yt { height: 50px; padding: 0 22px; font-size: 15px; }
+  .btn-light.btn-yt :global(svg) { color: #EF4444; }
+  .btn-yt :global(svg) { width: 18px; height: 18px; }
 
   .hero-card {
     background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
@@ -302,7 +308,7 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
     color: #fff; text-decoration: none; background: rgba(255,255,255,0.06); border: 1px solid var(--ink-line);
     transition: background .15s;
   }
-  .hero-card__links a :global(svg) { color: #F87171; }
+  .hero-card__links a :global(svg) { color: #93C5FD; }
   .hero-card__links a:hover { background: rgba(255,255,255,0.12); }
 
   .stats {

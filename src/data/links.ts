@@ -42,7 +42,7 @@ export const links: LinkItem[] = [
   {
     id: 'yt-kannada',
     group: 'learn',
-    title: 'Kannada YouTube',
+    title: 'Kannada YouTube Channel',
     description: 'Investing, ETFs, mutual funds and managing money, all in Kannada.',
     url: 'https://www.youtube.com/@natarajmalavadekannada?sub_confirmation=1',
     icon: 'youtube',
@@ -53,13 +53,13 @@ export const links: LinkItem[] = [
   {
     id: 'yt-english',
     group: 'learn',
-    title: 'English YouTube',
-    description: 'Trading setups, market analysis and finance in English.',
+    title: 'Trading YouTube Channel',
+    description: 'Price action, market profile, options and market analysis, in English.',
     url: 'https://www.youtube.com/@natarajmalavade',
     icon: 'youtube',
     lang: 'English',
     cta: 'Watch',
-    short: ['english', 'yt-english'],
+    short: ['trading-channel', 'english', 'yt-english'],
   },
   {
     id: 'blog',
