@@ -13,6 +13,7 @@ const calculators = byId('calculators');
 const ytKannada = byId('yt-kannada');
 const ytTrading = byId('yt-english');
 const growguru = byId('growguru');
+const waBusiness = `https://wa.me/${site.contact.whatsappNumber}?text=${encodeURIComponent('Hi Nataraj, I would like to discuss a brand collaboration.')}`;
 
 // Quick directory under the hero
 const directory = [
@@ -113,6 +114,27 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
     <div class="ticker anim-in" style="--d:5" aria-hidden="true">
       <div class="ticker__track">
         {[0, 1].map(() => topics.map((t) => <span class="ticker__item">{t}</span>))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BRANDS ================= -->
+  <section class="brands-wrap" id="brands">
+    <div class="container">
+      <div class="brands reveal">
+        <div class="brands__copy">
+          <span class="eyebrow">For brands</span>
+          <h2>Want to work together?</h2>
+          <p>For brand deals and collaborations, message me on WhatsApp or send an email.</p>
+        </div>
+        <div class="brands__actions">
+          <a href={waBusiness} target="_blank" rel="noopener" class="btn btn-whatsapp" data-link-id="brands-whatsapp">
+            <Icon name="whatsapp" /> Message on WhatsApp
+          </a>
+          <a href="/contact.html" class="btn btn-outline" data-email-user={site.contact.businessEmailUser} data-link-id="brands-email">
+            <Icon name="mail" /> Email
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -224,16 +246,6 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
       </div>
       <div class="grid grid-4 reveal-stagger">
         {community.map((item) => <LinkCard item={item} variant="compact" />)}
-      </div>
-
-      <div class="biz reveal">
-        <div>
-          <h3>Want to work together?</h3>
-          <p>For brand deals and collaborations, message me on WhatsApp.</p>
-        </div>
-        <a href={`https://wa.me/${site.contact.whatsappNumber}`} target="_blank" rel="noopener" class="btn btn-whatsapp">
-          <Icon name="whatsapp" /> Message on WhatsApp
-        </a>
       </div>
     </div>
   </section>
@@ -436,17 +448,35 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
   @media (max-width: 860px) { .books { grid-template-columns: 1fr; } }
   @media (max-width: 420px) { .book { grid-template-columns: 110px 1fr; gap: 16px; } .book h3 { font-size: 17px; } }
 
-  /* ---------- Business CTA ---------- */
-  .biz {
-    margin-top: 32px; padding: 24px 28px; border-radius: var(--r-lg);
-    border: 1px solid var(--border); background: var(--surface);
-    display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  /* ---------- Brands ---------- */
+  .brands-wrap { padding: 40px 0 8px; }
+  .brands {
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    padding: 28px 32px; border-radius: var(--r-xl);
+    border: 1px solid #BBF7D0;
+    background:
+      radial-gradient(420px 200px at 100% 0%, rgba(37,211,102,.16), transparent 70%),
+      linear-gradient(180deg, #F7FEF9, #FFFFFF);
   }
-  .biz h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
-  .biz p { color: var(--muted); font-size: 14.5px; }
+  .brands h2 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 28px); font-weight: 700; letter-spacing: -0.025em; margin: 8px 0 6px; }
+  .brands p { color: var(--muted); font-size: 15.5px; }
+  .brands .eyebrow { color: #15803D; }
+  .brands__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  @media (max-width: 620px) {
+    .brands { padding: 24px 20px; }
+    .brands__actions { width: 100%; }
+    .brands__actions .btn { flex: 1; }
+  }
 </style>
 
 <script>
+  // Build mailto links at runtime so the address isn't scraped from the HTML
+  document.querySelectorAll<HTMLAnchorElement>('[data-email-user]').forEach((a) => {
+    const user = a.dataset.emailUser;
+    if (user) a.href = 'mai' + 'lto:' + user + '@' + 'natarajmalavade.in?subject=' + encodeURIComponent('Brand collaboration');
+  });
+
   // Count-up animation for the hero stats
   const nums = document.querySelectorAll<HTMLElement>('[data-count]');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
