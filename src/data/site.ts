@@ -12,7 +12,14 @@ export const site = {
   avatar: 'https://i.ibb.co/FbvTDHZx/DP-Images-3.png',
   analyticsId: 'G-CGSZK6XNE7',
   googleSiteVerification: 'GwfigfQ6R-6L2TSRdBshxikpeF8kq8VqDU8UxIMJB8s',
-  credentials: ['Certified Research Analyst', 'Content Creator', 'Author', 'In Markets Since 2013'],
+  // Hero pills, kept on one line. On smaller screens `short` replaces `label`,
+  // and pills with `optional: true` are hidden so the row never wraps.
+  credentials: [
+    { label: 'Certified Research Analyst' },
+    { label: 'Content Creator', optional: true },
+    { label: 'Author' },
+    { label: 'In Markets Since 2013', short: 'Since 2013' },
+  ],
   contact: {
     whatsappNumber: '919844617636',
     whatsappDisplay: '+91 98446 17636',

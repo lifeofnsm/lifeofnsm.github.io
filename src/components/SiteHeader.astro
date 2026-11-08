@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { site, nav } from '../data/site';
+const waBusiness = `https://wa.me/${site.contact.whatsappNumber}?text=${encodeURIComponent('Hi Nataraj, I would like to discuss a brand collaboration.')}`;
 ---
 <header class="site-header" data-header>
   <div class="container site-header__inner">
@@ -11,7 +12,9 @@ import { site, nav } from '../data/site';
     </nav>
 
     <div class="site-header__actions">
-      <a href="/tools.html" class="btn btn-primary btn-sm site-header__cta">Free calculators</a>
+      <a href={waBusiness} target="_blank" rel="noopener" class="btn btn-sm site-header__cta" data-link-id="header-business">
+        <Icon name="whatsapp" size={16} /> <span class="cta-full">Collaborate</span><span class="cta-short">Collab</span>
+      </a>
       <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav" data-menu-btn>
         <span class="menu-btn__open"><Icon name="menu" size={22} /></span>
         <span class="menu-btn__close"><Icon name="close" size={22} /></span>
@@ -21,8 +24,8 @@ import { site, nav } from '../data/site';
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" data-mobile-nav hidden>
     <div class="container">
+      <a href={waBusiness} target="_blank" rel="noopener" class="btn btn-whatsapp mobile-nav__collab"><Icon name="whatsapp" size={18} /> Brands &amp; collaborations</a>
       {nav.map((item) => <a href={item.href}>{item.label}<Icon name="chevron" size={18} /></a>)}
-      <a href="/tools.html" class="btn btn-primary">Free calculators</a>
     </div>
   </nav>
 </header>
@@ -56,6 +59,9 @@ import { site, nav } from '../data/site';
   .site-nav a:hover { background: var(--surface-2); color: var(--text); }
 
   .site-header__actions { display: flex; align-items: center; gap: 8px; }
+  .site-header__cta { background: var(--ink); color: #fff; }
+  .site-header__cta :global(svg) { color: #4ADE80; }
+  .site-header__cta:hover { background: #1E293B; }
 
   .menu-btn {
     display: none; width: 42px; height: 42px; border-radius: 12px;
@@ -74,12 +80,19 @@ import { site, nav } from '../data/site';
     font-weight: 600; text-decoration: none; color: var(--text);
   }
   .mobile-nav a:not(.btn) :global(svg) { color: var(--muted-light); }
-  .mobile-nav .btn { margin-top: 16px; }
+  .mobile-nav .mobile-nav__collab { margin: 8px 0 8px; }
+  .cta-short { display: none; }
 
   @media (max-width: 860px) {
-    .site-nav, .site-header__cta { display: none; }
+    .site-nav { display: none; }
     .site-header__actions { margin-left: auto; }
     .menu-btn { display: grid; }
+    .site-header__cta { height: 42px; padding: 0 14px; }
+    .cta-full { display: none; }
+    .cta-short { display: inline; }
+  }
+  @media (max-width: 400px) {
+    .brand { font-size: 18px; }
   }
 </style>
 

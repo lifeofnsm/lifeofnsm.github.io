@@ -117,11 +117,11 @@ export const links: LinkItem[] = [
     group: 'books',
     title: 'Mastermind of Day Trading',
     description: 'by Nataraj Malavade',
-    url: 'https://www.amazon.in/s?k=mastermind+of+day+trading+nataraj+malavade',
+    url: 'https://www.amazon.in/MASTER-MIND-DAY-TRADING-Techniques-ebook/dp/B08JJ3D8K7',
     icon: 'book',
     cover: '/images/book2.jpg',
     stores: [
-      { label: 'Amazon', url: 'https://www.amazon.in/s?k=mastermind+of+day+trading+nataraj+malavade' },
+      { label: 'Amazon', url: 'https://www.amazon.in/MASTER-MIND-DAY-TRADING-Techniques-ebook/dp/B08JJ3D8K7' },
       { label: 'Flipkart', url: 'https://www.flipkart.com/search?q=mastermind+of+day+trading+nataraj+malavade' },
     ],
     short: ['book-day-trading'],
