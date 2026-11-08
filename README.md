@@ -79,4 +79,15 @@ Each short-link visit is recorded in Google Analytics as a `short_link` event.
 
 Every push to `main` builds the site and publishes it through `.github/workflows/deploy.yml`.
 This needs one setting in GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-The custom domain comes from `public/CNAME`.
+The custom domain (`www.natarajmalavade.in`) is set in **Settings → Pages → Custom domain**.
+
+## SEO
+
+- Page titles and descriptions: `title` / `description` on each page (defaults in `src/data/site.ts`).
+  Keep titles under ~60 characters and descriptions under ~160.
+- Social preview image: `public/og-image.png` (1200×630). Edit the text in `scripts/og-image.mjs`, then run `npm run og`.
+- Structured data (Google rich results) is generated in `src/components/Seo.astro`:
+  Person + WebSite on every page, Books on the home page, WebApplication on the calculators page,
+  and breadcrumbs on inner pages (`breadcrumb` prop).
+- `sitemap.xml` (with last-modified dates) and `robots.txt` are generated automatically.
+  Add new pages to `src/pages/sitemap.xml.ts`.

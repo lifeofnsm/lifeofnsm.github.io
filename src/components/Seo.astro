@@ -1,0 +1,88 @@
+---
+// All search-engine and social-preview tags for a page.
+// Used by BaseLayout; pages pass extra structured data through `schema`.
+import { site } from '../data/site';
+import { byId } from '../data/links';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  /** extra schema.org nodes for this page (Book, WebApplication, …) */
+  schema?: Record<string, unknown>[];
+  /** page name for a Home › Page breadcrumb (omit on the home page) */
+  breadcrumb?: string;
+}
+
+const { title, description, canonical, image = site.ogImage, imageAlt, noindex = false, schema = [], breadcrumb } = Astro.props;
+const abs = (u: string) => (u.startsWith('http') ? u : new URL(u, site.url).toString());
+const imageUrl = abs(image);
+const home = `${site.url}/`;
+
+const stripQuery = (u: string) => u.split('?')[0];
+const sameAs = ['yt-kannada', 'yt-english', 'instagram', 'facebook', 'x'].map((id) => stripQuery(byId(id).url));
+
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': 'WebSite',
+    '@id': `${home}#website`,
+    url: home,
+    name: site.name,
+    description: site.description,
+    inLanguage: 'en-IN',
+    publisher: { '@id': `${home}#person` },
+  },
+  {
+    '@type': 'Person',
+    '@id': `${home}#person`,
+    name: site.name,
+    url: home,
+    image: site.avatar,
+    jobTitle: site.jobTitle,
+    description: site.tagline,
+    knowsAbout: site.knowsAbout,
+    knowsLanguage: ['kn', 'en'],
+    address: { '@type': 'PostalAddress', addressLocality: site.city, addressRegion: site.region, addressCountry: 'IN' },
+    sameAs,
+  },
+  ...(breadcrumb
+    ? [{
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: home },
+          { '@type': 'ListItem', position: 2, name: breadcrumb, item: canonical },
+        ],
+      }]
+    : []),
+  ...schema,
+];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+<meta name="author" content={site.name} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt ?? `${site.name}: ${site.tagline}`} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={site.twitter} />
+<meta name="twitter:creator" content={site.twitter} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+{!noindex && <script type="application/ld+json" set:html={jsonLd} />}

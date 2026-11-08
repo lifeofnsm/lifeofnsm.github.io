@@ -31,7 +31,8 @@ const ga = site.analyticsId;
   <meta http-equiv="refresh" content={`2;url=${to}`} />
   <meta property="og:title" content={`${title} — ${site.name}`} />
   <meta property="og:description" content={site.description} />
-  <meta property="og:image" content={site.avatar} />
+  <meta property="og:image" content={`${site.url}${site.ogImage}`} />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>
   <script is:inline define:vars={{ ga, to, slug, id }}>

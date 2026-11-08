@@ -3,10 +3,25 @@
 // and the calculator-specific styles in src/styles/calculators.css.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/calculators.css';
+import { site } from '../data/site';
+
+const schema = [{
+  '@type': 'WebApplication',
+  name: 'Financial Calculators by Nataraj Malavade',
+  url: `${site.url}/tools.html`,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  featureList: ['SIP calculator', 'Step-up SIP calculator', 'Lumpsum calculator', 'Goal planner', 'EMI calculator', 'Monte Carlo retirement (Financial Freedom Number) calculator'],
+  creator: { '@id': `${site.url}/#person` },
+}];
 ---
 <BaseLayout
-  title="Financial Calculators"
-  description="Free SIP, Step-up SIP, Lumpsum, Goal, EMI and Monte Carlo Financial Freedom Number calculators. No sign-up, instant results."
+  title="SIP, EMI & Retirement Calculators"
+  description="Free SIP, step-up SIP, lumpsum, goal and EMI calculators, plus a Monte Carlo test for your Financial Freedom Number. No sign-up, instant results."
+  breadcrumb="Financial Calculators"
+  schema={schema}
 >
   <section class="page-hero">
     <div class="container-narrow">

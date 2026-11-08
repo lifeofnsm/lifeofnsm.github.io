@@ -13,7 +13,7 @@ interface Props {
 const fm = Astro.props.frontmatter ?? Astro.props;
 const { title = '', description, updated, intro } = fm;
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} breadcrumb={title}>
   <section class="page-hero">
     <div class="container-narrow">
       <a href="/" class="crumb">Home</a><span class="crumb-sep">/</span><span class="crumb-current">{title}</span>

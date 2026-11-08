@@ -30,8 +30,18 @@ const topics = [
 ];
 
 const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Financial Freedom Number'];
+
+// Structured data for Google: the two books, linked to the Person in Seo.astro
+const schema = books.map((b) => ({
+  '@type': 'Book',
+  name: b.title,
+  author: { '@id': `${site.url}/#person` },
+  image: new URL(b.cover ?? '', site.url).toString(),
+  url: b.url,
+  ...(b.stores ? { sameAs: b.stores.map((s) => s.url) } : {}),
+}));
 ---
-<BaseLayout>
+<BaseLayout schema={schema}>
   <!-- ================= HERO ================= -->
   <section class="hero">
     <div class="hero__bg" aria-hidden="true"></div>
@@ -85,7 +95,7 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
                 </linearGradient>
               </defs>
               <path class="spark__area" d="M0 78 L25 70 L50 74 L75 60 L100 63 L125 50 L150 54 L175 40 L200 43 L225 28 L250 32 L275 16 L300 10 L300 90 L0 90 Z" fill="url(#sparkFill)" />
-              <path class="spark__line" pathLength="1" d="M0 78 L25 70 L50 74 L75 60 L100 63 L125 50 L150 54 L175 40 L200 43 L225 28 L250 32 L275 16 L300 10" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+              <path class="spark__line" d="M0 78 L25 70 L50 74 L75 60 L100 63 L125 50 L150 54 L175 40 L200 43 L225 28 L250 32 L275 16 L300 10" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" />
             </svg>
             <span class="spark__dot" aria-hidden="true"></span>
           </div>
@@ -198,7 +208,7 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
         </div>
         <ul class="tools-band__list reveal-stagger">
           {calcList.map((c) => (
-            <li><Icon name="check" size={16} /> {c}</li>
+            <li><Icon name="check" size={16} /> <span>{c.startsWith('Financial ') ? <><span class="hide-sm">Financial </span>{c.replace('Financial ', '')}</> : c}</span></li>
           ))}
         </ul>
       </div>
@@ -217,7 +227,7 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
         {books.map((b) => (
           <div class="card book">
             <a href={b.url} target="_blank" rel="noopener" class="book__cover" aria-label={`${b.title} on Amazon`}>
-              <img src={b.cover} alt={b.title} loading="lazy" />
+              <img src={b.cover} alt={`${b.title} by Nataraj Malavade, book cover`} width="300" height="460" loading="lazy" decoding="async" />
             </a>
             <div class="book__body">
               <h3>{b.title}</h3>
@@ -318,16 +328,15 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
   .hero-card__badge { margin-left: auto; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: #fff; }
 
   .spark { position: relative; margin: 22px 0 8px; height: 110px; }
-  .spark__svg { width: 100%; height: 100%; overflow: visible; }
-  .spark__line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2s var(--ease-out) .7s forwards; }
-  .spark__area { opacity: 0; animation: fade 1.2s ease 1.6s forwards; }
+  /* Left-to-right wipe: works at any card width (unlike stroke-dash drawing on a stretched SVG) */
+  .spark__svg { width: 100%; height: 100%; overflow: visible; clip-path: inset(-6px 100% -6px -6px); animation: wipe 1.8s var(--ease-out) .7s forwards; }
+  @keyframes wipe { to { clip-path: inset(-6px -6px -6px -6px); } }
   .spark__dot {
     position: absolute; right: 0; top: calc(10 / 90 * 100%);
     width: 10px; height: 10px; margin: -5px -5px 0 0; border-radius: 50%;
     background: #60A5FA; box-shadow: 0 0 0 0 rgba(96,165,250,.6);
     opacity: 0; animation: fade .3s ease 2.5s forwards, ping 2s ease-out 2.6s infinite;
   }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
   @keyframes fade { to { opacity: 1; } }
   @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(96,165,250,.6); } 100% { box-shadow: 0 0 0 14px rgba(96,165,250,0); } }
 
@@ -374,10 +383,29 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
     .hero-card-wrap { max-width: 460px; }
   }
   @media (max-width: 620px) {
-    .hero { padding-top: 40px; }
-    .hero__chips { gap: 6px; margin-bottom: 22px; }
+    .hero { padding-top: 36px; }
+    .hero__grid { gap: 32px; }
+    .hero__chips { gap: 6px; margin-bottom: 20px; }
     .hero-chip { font-size: 11.5px; padding: 5px 9px; }
-    .stats { grid-template-columns: 1fr 1fr; margin-top: 44px; }
+    .hero__title { font-size: clamp(34px, 10vw, 40px); }
+    .hero__lead { font-size: 16px; margin-top: 16px; }
+
+    /* CTAs: stacked, same full width */
+    .hero__ctas { flex-direction: column; gap: 10px; margin-top: 26px; }
+    .hero__ctas .btn { width: 100%; }
+
+    /* profile card: tighter */
+    .hero-card-wrap { max-width: none; }
+    .hero-card { padding: 18px; border-radius: var(--r-lg); }
+    .hero-card__avatar { width: 46px; height: 46px; border-radius: 13px; }
+    .hero-card__name { font-size: 15px; }
+    .hero-card__role { font-size: 12.5px; }
+    .spark { height: 84px; margin: 16px 0 6px; }
+    .hero-card__motto { font-size: 11px; padding-bottom: 14px; }
+    .hero-card__links { margin-top: 12px; }
+    .hero-card__links a { padding: 10px 8px; font-size: 13px; }
+
+    .stats { grid-template-columns: 1fr 1fr; margin-top: 36px; }
     .stat:nth-child(2) { border-right: 0; }
     .stat:nth-child(-n+2) { border-bottom: 1px solid var(--ink-line); }
     .stat { padding: 18px; }
@@ -401,7 +429,22 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
   .directory__item :global(.directory__chev) { margin-left: auto; color: var(--muted-light); flex-shrink: 0; transition: transform .25s var(--ease-out), color .2s; }
   .directory__item:hover :global(.directory__chev) { transform: translateX(3px); color: var(--brand); }
   @media (max-width: 1060px) { .directory { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 620px) { .directory { grid-template-columns: 1fr; gap: 8px; } }
+  /* phones: one swipeable row of compact chips instead of a tall list */
+  @media (max-width: 620px) {
+    .directory-wrap { padding: 28px 0; }
+    .directory-wrap .container { padding-right: 0; }
+    .directory {
+      display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity;
+      padding: 4px var(--gutter) 10px 2px; margin: -4px 0 -10px -2px;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .directory::-webkit-scrollbar { display: none; }
+    .directory__item { flex: 0 0 auto; scroll-snap-align: start; padding: 10px 14px 10px 10px; gap: 10px; border-radius: 999px; }
+    .directory__item .icon-tile { width: 32px; height: 32px; border-radius: 50%; }
+    .directory__item .icon-tile :global(svg) { width: 16px; height: 16px; }
+    .directory__item small, .directory__item :global(.directory__chev) { display: none; }
+    .directory__item strong { font-size: 14px; white-space: nowrap; }
+  }
 
   /* ---------- Tools band ---------- */
   .tools-band {
@@ -428,7 +471,24 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
   @media (max-width: 860px) {
     .tools-band { grid-template-columns: 1fr; padding: 32px 24px; }
   }
-  @media (max-width: 420px) { .tools-band__list { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) {
+    .tools-band { padding: 28px 20px; gap: 24px; border-radius: var(--r-lg); }
+    .tools-band p { margin-bottom: 20px; }
+    .tools-band .btn { width: 100%; }
+    .tools-band__list { gap: 8px; }
+    .tools-band__list li { padding: 11px 12px; font-size: 13px; gap: 8px; white-space: nowrap; }
+    .hide-sm { display: none; }
+  }
+  /* community cards: 2 per row on phones, short and tappable */
+  @media (max-width: 620px) {
+    #community .grid-4 { grid-template-columns: 1fr 1fr; gap: 10px; }
+    #community :global(.link-card__desc) { display: none; }
+    #community :global(.link-card--compact) { padding: 14px; gap: 6px; }
+    #community :global(.link-card__top) { margin-bottom: 2px; }
+    #community :global(.link-card__top .icon-tile) { width: 38px; height: 38px; }
+    #community :global(.link-card__title) { font-size: 15px; }
+    #community :global(.link-card__cta) { padding-top: 4px; font-size: 13.5px; }
+  }
 
   /* ---------- Books ---------- */
   .books { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -446,7 +506,16 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
   .btn-dark:hover { background: #1E293B; }
   .book__stores :global(.btn:hover svg) { transform: translate(2px, -2px); }
   @media (max-width: 860px) { .books { grid-template-columns: 1fr; } }
-  @media (max-width: 420px) { .book { grid-template-columns: 110px 1fr; gap: 16px; } .book h3 { font-size: 17px; } }
+  /* phones: cover + title side by side, store buttons full width underneath */
+  @media (max-width: 620px) {
+    .book { grid-template-columns: 96px 1fr; grid-template-rows: auto auto auto; gap: 6px 16px; padding: 16px; align-items: start; }
+    .book__body { display: contents; }
+    .book__cover { grid-row: 1 / span 2; }
+    .book h3 { grid-column: 2; align-self: end; font-size: 17px; }
+    .book p { grid-column: 2; margin-top: 0; }
+    .book__stores { grid-column: 1 / -1; margin-top: 12px; }
+    .book__stores :global(.btn) { flex: 1; height: 42px; }
+  }
 
   /* ---------- Brands ---------- */
   .brands-wrap { padding: 40px 0 8px; }

@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import Seo from '../components/Seo.astro';
 import { site } from '../data/site';
 
 interface Props {
@@ -13,33 +14,27 @@ interface Props {
   bare?: boolean;
   noindex?: boolean;
   image?: string;
+  /** extra schema.org nodes for this page */
+  schema?: Record<string, unknown>[];
+  /** adds a Home › {breadcrumb} trail for search results */
+  breadcrumb?: string;
 }
 
-const { title, description = site.description, bare = false, noindex = false, image = site.avatar } = Astro.props;
+const { title, description = site.description, bare = false, noindex = false, image, schema, breadcrumb } = Astro.props;
 const pageTitle = title ? `${title} — ${site.name}` : site.title;
-const canonical = new URL(Astro.url.pathname, site.url).toString();
+// Home is "https://www.natarajmalavade.in/", other pages keep their .html path
+const canonical = new URL(Astro.url.pathname.replace(/\/index(\.html)?$/, '/'), site.url).toString();
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{pageTitle}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={canonical} />
-  {noindex && <meta name="robots" content="noindex" />}
+  <Seo title={pageTitle} description={description} canonical={canonical} image={image} noindex={noindex} schema={schema} breadcrumb={breadcrumb} />
   <meta name="google-site-verification" content={site.googleSiteVerification} />
   <meta name="theme-color" content="#0A1020" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content={site.name} />
-  <meta property="og:title" content={pageTitle} />
-  <meta property="og:description" content={description} />
-  <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={image} />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@malavadenataraj" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

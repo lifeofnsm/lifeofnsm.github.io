@@ -90,6 +90,13 @@ const year = new Date().getFullYear();
     .site-footer__brand { grid-column: 1 / -1; }
   }
   @media (max-width: 480px) {
-    .site-footer__top { grid-template-columns: 1fr; gap: 32px; }
+    .site-footer { padding-top: 48px; }
+    .site-footer__top { grid-template-columns: 1fr 1fr; gap: 28px 16px; }
+    .site-footer__top > .f-col:last-child { grid-column: 1 / -1; }
+    .f-col { gap: 0; }
+    .f-col h3 { margin-bottom: 4px; }
+    .f-col a { padding: 9px 0; font-size: 14.5px; }   /* comfortable tap targets */
+    .f-social a { width: 44px; height: 44px; }
+    .site-footer__bottom { flex-direction: column; gap: 4px; }
   }
 </style>
