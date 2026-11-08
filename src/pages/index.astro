@@ -51,9 +51,9 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
         </p>
         <div class="hero__ctas anim-in" style="--d:3">
           <a href={ytKannada.url} target="_blank" rel="noopener" class="btn btn-primary btn-yt">
-            <Icon name="youtube" /> Kannada channel
+            <Icon name="youtube" /> Watch Kannada channel
           </a>
-          <a href={ytTrading.url} target="_blank" rel="noopener" class="btn btn-light btn-yt">
+          <a href={ytTrading.url} target="_blank" rel="noopener" class="btn btn-ghost-dark btn-yt btn-yt--subtle">
             <Icon name="youtube" /> Trading channel
           </a>
         </div>
@@ -268,7 +268,10 @@ const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Finan
   .hero__lead { margin-top: 22px; font-size: 18px; line-height: 1.7; color: var(--ink-muted); max-width: 560px; }
   .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
   .btn-yt { height: 50px; padding: 0 22px; font-size: 15px; }
-  .btn-light.btn-yt :global(svg) { color: #EF4444; }
+  .btn-yt--subtle { font-weight: 500; color: #CBD5E1; }
+  .btn-yt--subtle :global(svg) { color: #94A3B8; }
+  .btn-yt--subtle:hover { color: #fff; }
+  .btn-yt--subtle:hover :global(svg) { color: #F87171; }
   .btn-yt :global(svg) { width: 18px; height: 18px; }
 
   .hero-card {
