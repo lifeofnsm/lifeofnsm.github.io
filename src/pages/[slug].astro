@@ -1,0 +1,57 @@
+---
+// Short links: one tiny redirect page per name in `short: [...]` in src/data/links.ts
+// e.g. natarajmalavade.in/youtube → Kannada YouTube channel.
+import type { GetStaticPaths } from 'astro';
+import { links } from '../data/links';
+import { site } from '../data/site';
+
+export const getStaticPaths = (() => {
+  const seen = new Map<string, string>();
+  return links.flatMap((item) =>
+    item.short.map((slug) => {
+      if (seen.has(slug)) throw new Error(`Short link "/${slug}" is used by both "${seen.get(slug)}" and "${item.id}"`);
+      seen.set(slug, item.id);
+      return { params: { slug }, props: { to: item.url, title: item.title, id: item.id } };
+    }),
+  );
+}) satisfies GetStaticPaths;
+
+const { to, title, id } = Astro.props;
+const { slug } = Astro.params;
+const ga = site.analyticsId;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} — {site.name}</title>
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href={to.startsWith('/') ? site.url + to : to} />
+  <meta http-equiv="refresh" content={`2;url=${to}`} />
+  <meta property="og:title" content={`${title} — ${site.name}`} />
+  <meta property="og:description" content={site.description} />
+  <meta property="og:image" content={site.avatar} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>
+  <script is:inline define:vars={{ ga, to, slug, id }}>
+    var done = false;
+    function go() { if (!done) { done = true; window.location.replace(to); } }
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', ga, { send_page_view: false });
+    gtag('event', 'short_link', { link_slug: slug, link_id: id, link_url: to, event_callback: go });
+    setTimeout(go, 600);
+  </script>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #0A1020; color: #CBD5E1; font: 15px/1.6 Inter, system-ui, sans-serif; }
+    a { color: #60A5FA; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #2563EB; display: inline-block; margin-right: 8px; animation: p 1s infinite ease-in-out; }
+    @keyframes p { 50% { opacity: .3; } }
+  </style>
+</head>
+<body>
+  <p><span class="dot"></span>Opening {title}… <a href={to}>Continue</a></p>
+</body>
+</html>

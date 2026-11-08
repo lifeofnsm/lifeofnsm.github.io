@@ -1,0 +1,18 @@
+{
+  "name": "natarajmalavade-in",
+  "private": true,
+  "type": "module",
+  "version": "2.0.0",
+  "description": "Official website of Nataraj Malavade — hub for courses, tools, books and channels.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "astro": "5.18.2"
+  }
+}

@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LinkCard from '../components/LinkCard.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { byGroup, byId } from '../data/links';
+
+const learn = byGroup('learn');
+const programs = byGroup('courses');
+const books = byGroup('books');
+const community = byGroup('community');
+const calculators = byId('calculators');
+const ytKannada = byId('yt-kannada');
+const growguru = byId('growguru');
+
+// Quick directory under the hero
+const directory = [
+  { href: '#learn', icon: 'youtube', title: 'Free videos', text: 'YouTube and blog' },
+  { href: '#programs', icon: 'users', title: 'GrowGuru & courses', text: 'Community and trading' },
+  { href: '/tools.html', icon: 'calculator', title: 'Calculators', text: 'SIP, EMI, goals' },
+  { href: '#books', icon: 'book', title: 'Books', text: 'Amazon and Flipkart' },
+  { href: '#community', icon: 'whatsapp', title: 'Stay in touch', text: 'WhatsApp and socials' },
+];
+
+const topics = [
+  'ETFs', 'Mutual Funds', 'Momentum Investing', 'Asset Allocation', 'Backtesting',
+  'Price Action', 'Market Profile', 'Options Trading', 'Risk Management', 'Financial Freedom',
+];
+
+const calcList = ['SIP', 'Step-up SIP', 'Lumpsum', 'Goal planner', 'EMI', 'Financial Freedom Number'];
+---
+<BaseLayout>
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--a" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--b" aria-hidden="true"></div>
+
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <div class="hero__chips anim-in" style="--d:0">
+          {site.credentials.map((c) => <span class="hero-chip">{c}</span>)}
+        </div>
+        <h1 class="display hero__title anim-in" style="--d:1">
+          I invest and trade <span class="grad">with data,</span> not opinions.
+        </h1>
+        <p class="hero__lead anim-in" style="--d:2">
+          I've been in the markets since 2013. Every strategy I share is tested on real numbers first,
+          and I teach it in Kannada and English so anyone can follow along.
+        </p>
+        <div class="hero__ctas anim-in" style="--d:3">
+          <a href={ytKannada.url} target="_blank" rel="noopener" class="btn btn-primary">
+            <Icon name="youtube" /> Watch on YouTube
+          </a>
+          <a href={growguru.url} target="_blank" rel="noopener" class="btn btn-ghost-dark">Join GrowGuru</a>
+        </div>
+      </div>
+
+      <div class="hero-card-wrap anim-in" style="--d:3">
+        <aside class="hero-card" aria-label="Profile">
+          <div class="hero-card__head">
+            <img src={site.avatar} alt={site.name} width="64" height="64" class="hero-card__avatar" />
+            <div>
+              <div class="hero-card__name">{site.name}</div>
+              <div class="hero-card__role">Investor · Trader · Author</div>
+            </div>
+            <span class="hero-card__badge" title="Verified"><Icon name="check" size={14} /></span>
+          </div>
+          <div class="spark">
+            <svg class="spark__svg" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3B82F6" stop-opacity=".35" />
+                  <stop offset="1" stop-color="#3B82F6" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <path class="spark__area" d="M0 78 L25 70 L50 74 L75 60 L100 63 L125 50 L150 54 L175 40 L200 43 L225 28 L250 32 L275 16 L300 10 L300 90 L0 90 Z" fill="url(#sparkFill)" />
+              <path class="spark__line" pathLength="1" d="M0 78 L25 70 L50 74 L75 60 L100 63 L125 50 L150 54 L175 40 L200 43 L225 28 L250 32 L275 16 L300 10" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+            </svg>
+            <span class="spark__dot" aria-hidden="true"></span>
+          </div>
+          <div class="hero-card__motto"><span>Data</span><span>Rules</span><span>Discipline</span></div>
+          <div class="hero-card__links">
+            <a href={ytKannada.url} target="_blank" rel="noopener"><Icon name="youtube" size={16} /> Kannada channel</a>
+            <a href={byId('yt-english').url} target="_blank" rel="noopener"><Icon name="youtube" size={16} /> English channel</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- stats -->
+    <div class="container">
+      <dl class="stats anim-in" style="--d:4">
+        {site.stats.map((s) => (
+          <div class="stat">
+            <dt>{s.label}</dt>
+            <dd class="num" data-count={s.plain ? undefined : s.value} data-suffix={s.suffix}>{s.value}{s.suffix}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <!-- topic ticker -->
+    <div class="ticker anim-in" style="--d:5" aria-hidden="true">
+      <div class="ticker__track">
+        {[0, 1].map(() => topics.map((t) => <span class="ticker__item">{t}</span>))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DIRECTORY ================= -->
+  <section class="section-sm directory-wrap">
+    <div class="container">
+      <p class="directory__label">Jump to</p>
+      <div class="directory reveal-stagger">
+        {directory.map((d) => (
+          <a href={d.href} class="directory__item">
+            <span class="icon-tile"><Icon name={d.icon} /></span>
+            <span>
+              <strong>{d.title}</strong>
+              <small>{d.text}</small>
+            </span>
+            <Icon name="chevron" size={18} class="directory__chev" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LEARN ================= -->
+  <section class="section" id="learn">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Free</span>
+        <h2>Start here. It's free.</h2>
+        <p>Most of what I teach is already on YouTube and the blog. Pick the language you're comfortable with.</p>
+      </div>
+      <div class="grid grid-3 reveal-stagger">
+        {learn.map((item) => <LinkCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROGRAMS ================= -->
+  <section class="section section-alt" id="programs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Community &amp; courses</span>
+        <h2>When you want to go deeper.</h2>
+        <p>GrowGuru is our Kannada investing community. If you trade, the courses are in English.</p>
+      </div>
+      <div class="grid grid-2 reveal-stagger">
+        {programs.map((item) => <LinkCard item={item} variant="feature" />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TOOLS ================= -->
+  <section class="section" id="tools">
+    <div class="container">
+      <div class="tools-band reveal">
+        <div class="tools-band__copy">
+          <span class="eyebrow eyebrow--light">Free tools</span>
+          <h2 class="display">Run the numbers yourself.</h2>
+          <p>Plan a SIP, a goal or a loan in a couple of minutes. Free, and no sign-up.</p>
+          <a href={calculators.url} class="btn btn-light">Open calculators <Icon name="arrow" /></a>
+        </div>
+        <ul class="tools-band__list reveal-stagger">
+          {calcList.map((c) => (
+            <li><Icon name="check" size={16} /> {c}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BOOKS ================= -->
+  <section class="section section-alt" id="books">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Books</span>
+        <h2>My books.</h2>
+        <p>Both are available on Amazon and Flipkart.</p>
+      </div>
+      <div class="books reveal-stagger">
+        {books.map((b) => (
+          <div class="card book">
+            <a href={b.url} target="_blank" rel="noopener" class="book__cover" aria-label={`${b.title} on Amazon`}>
+              <img src={b.cover} alt={b.title} loading="lazy" />
+            </a>
+            <div class="book__body">
+              <h3>{b.title}</h3>
+              <p>{b.description}</p>
+              <div class="book__stores">
+                {b.stores?.map((s, i) => (
+                  <a href={s.url} target="_blank" rel="noopener" class:list={['btn', 'btn-sm', i === 0 ? 'btn-dark' : 'btn-outline']} data-link-id={`${b.id}-${s.label.toLowerCase()}`}>
+                    {s.label} <Icon name="arrow-up-right" size={14} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COMMUNITY ================= -->
+  <section class="section" id="community">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Stay in touch</span>
+        <h2>Don't miss the next video.</h2>
+        <p>The WhatsApp channel is the quickest way to hear about new videos and market updates.</p>
+      </div>
+      <div class="grid grid-4 reveal-stagger">
+        {community.map((item) => <LinkCard item={item} variant="compact" />)}
+      </div>
+
+      <div class="biz reveal">
+        <div>
+          <h3>Want to work together?</h3>
+          <p>For brand deals and collaborations, message me on WhatsApp.</p>
+        </div>
+        <a href={`https://wa.me/${site.contact.whatsappNumber}`} target="_blank" rel="noopener" class="btn btn-whatsapp">
+          <Icon name="whatsapp" /> Message on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero { position: relative; background: var(--ink); color: #fff; padding: 72px 0 0; overflow: hidden; isolation: isolate; }
+  .hero__bg {
+    position: absolute; inset: 0; z-index: -2;
+    background:
+      linear-gradient(var(--ink-line) 1px, transparent 1px) 0 0 / 48px 48px,
+      linear-gradient(90deg, var(--ink-line) 1px, transparent 1px) 0 0 / 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 70% at 60% 30%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 30%, #000 30%, transparent 75%);
+  }
+  .hero__glow { position: absolute; z-index: -1; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+  .hero__glow--a { width: 520px; height: 420px; right: -80px; top: -120px; background: rgba(37,99,235,.45); animation: drift-a 16s ease-in-out infinite alternate; }
+  .hero__glow--b { width: 420px; height: 320px; left: -120px; bottom: 40px; background: rgba(16,185,129,.18); animation: drift-b 20s ease-in-out infinite alternate; }
+  @keyframes drift-a { to { transform: translate(-90px, 60px) scale(1.1); } }
+  @keyframes drift-b { to { transform: translate(80px, -40px) scale(1.15); } }
+
+  .hero__grid { display: grid; grid-template-columns: 1.25fr 0.9fr; gap: 56px; align-items: center; }
+  .hero__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .hero-chip {
+    font-size: 12.5px; font-weight: 500; color: #CBD5E1;
+    padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--ink-line); background: rgba(255,255,255,0.04);
+  }
+  .hero__title { font-size: clamp(38px, 6vw, 64px); }
+  .grad {
+    background: linear-gradient(90deg, #60A5FA, #34D399, #60A5FA);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: shine 6s linear infinite;
+  }
+  @keyframes shine { to { background-position: 200% center; } }
+  .hero__lead { margin-top: 22px; font-size: 18px; line-height: 1.7; color: var(--ink-muted); max-width: 560px; }
+  .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+
+  .hero-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--r-xl); padding: 22px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.5);
+    backdrop-filter: blur(10px);
+    animation: float 7s ease-in-out 1.2s infinite;
+  }
+  @keyframes float { 50% { transform: translateY(-8px); } }
+  .hero-card__head { display: flex; align-items: center; gap: 14px; }
+  .hero-card__avatar { width: 56px; height: 56px; border-radius: 16px; object-fit: cover; border: 1px solid rgba(255,255,255,.2); }
+  .hero-card__name { font-weight: 700; font-size: 16px; }
+  .hero-card__role { font-size: 13px; color: var(--ink-muted); }
+  .hero-card__badge { margin-left: auto; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: #fff; }
+
+  .spark { position: relative; margin: 22px 0 8px; height: 110px; }
+  .spark__svg { width: 100%; height: 100%; overflow: visible; }
+  .spark__line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2s var(--ease-out) .7s forwards; }
+  .spark__area { opacity: 0; animation: fade 1.2s ease 1.6s forwards; }
+  .spark__dot {
+    position: absolute; right: 0; top: calc(10 / 90 * 100%);
+    width: 10px; height: 10px; margin: -5px -5px 0 0; border-radius: 50%;
+    background: #60A5FA; box-shadow: 0 0 0 0 rgba(96,165,250,.6);
+    opacity: 0; animation: fade .3s ease 2.5s forwards, ping 2s ease-out 2.6s infinite;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fade { to { opacity: 1; } }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(96,165,250,.6); } 100% { box-shadow: 0 0 0 14px rgba(96,165,250,0); } }
+
+  .hero-card__motto { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #64748B; padding: 0 2px 18px; border-bottom: 1px solid var(--ink-line); }
+  .hero-card__links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .hero-card__links a {
+    display: flex; align-items: center; gap: 8px; justify-content: center;
+    padding: 10px; border-radius: 12px; font-size: 13px; font-weight: 600;
+    color: #fff; text-decoration: none; background: rgba(255,255,255,0.06); border: 1px solid var(--ink-line);
+    transition: background .15s;
+  }
+  .hero-card__links a :global(svg) { color: #F87171; }
+  .hero-card__links a:hover { background: rgba(255,255,255,0.12); }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    margin-top: 64px; border: 1px solid var(--ink-line); border-radius: var(--r-lg);
+    background: rgba(255,255,255,0.03);
+  }
+  .stat { padding: 22px 24px; border-right: 1px solid var(--ink-line); display: flex; flex-direction: column-reverse; gap: 4px; }
+  .stat:last-child { border-right: 0; }
+  .stat dt { font-size: 13px; color: var(--ink-muted); }
+  .stat dd { font-family: var(--font-display); font-size: clamp(26px, 3.4vw, 34px); font-weight: 700; letter-spacing: -0.03em; }
+
+  /* ticker */
+  .ticker {
+    margin-top: 48px; padding: 18px 0;
+    border-top: 1px solid var(--ink-line);
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .ticker__track { display: flex; width: max-content; animation: marquee 45s linear infinite; }
+  .ticker:hover .ticker__track { animation-play-state: paused; }
+  .ticker__item {
+    display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;
+    font-size: 14px; font-weight: 500; color: #94A3B8; white-space: nowrap;
+  }
+  .ticker__item::after { content: ''; width: 5px; height: 5px; border-radius: 2px; background: #34D399; transform: rotate(45deg); opacity: .7; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  @media (max-width: 960px) {
+    .hero__grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-card-wrap { max-width: 460px; }
+  }
+  @media (max-width: 620px) {
+    .hero { padding-top: 48px; }
+    .stats { grid-template-columns: 1fr 1fr; margin-top: 44px; }
+    .stat:nth-child(2) { border-right: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--ink-line); }
+    .stat { padding: 18px; }
+    .ticker { margin-top: 36px; }
+  }
+
+  /* ---------- Directory ---------- */
+  .directory-wrap { border-bottom: 1px solid var(--border); }
+  .directory__label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 14px; }
+  .directory { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .directory__item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px; border-radius: var(--r-md);
+    border: 1px solid var(--border); background: #fff;
+    text-decoration: none; color: var(--text);
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .directory__item:hover { border-color: var(--brand-200); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .directory__item strong { display: block; font-size: 14.5px; font-weight: 600; }
+  .directory__item small { display: block; font-size: 12.5px; color: var(--muted); }
+  .directory__item :global(.directory__chev) { margin-left: auto; color: var(--muted-light); flex-shrink: 0; transition: transform .25s var(--ease-out), color .2s; }
+  .directory__item:hover :global(.directory__chev) { transform: translateX(3px); color: var(--brand); }
+  @media (max-width: 1060px) { .directory { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 620px) { .directory { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* ---------- Tools band ---------- */
+  .tools-band {
+    position: relative; overflow: hidden;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
+    padding: 48px; border-radius: var(--r-xl);
+    background: linear-gradient(120deg, #1E3A8A, #1D4ED8, #0369A1, #1E3A8A);
+    background-size: 300% 300%;
+    animation: pan 18s ease-in-out infinite alternate;
+    color: #fff;
+  }
+  @keyframes pan { to { background-position: 100% 50%; } }
+  .tools-band h2 { font-size: clamp(28px, 4vw, 40px); margin: 12px 0 14px; }
+  .tools-band p { color: #C7D7FE; font-size: 16px; margin-bottom: 26px; max-width: 480px; }
+  .eyebrow--light { color: #BFDBFE; }
+  .tools-band__list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tools-band__list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px; border-radius: var(--r-md);
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+    font-size: 14.5px; font-weight: 600;
+  }
+  .tools-band__list li :global(svg) { color: #6EE7B7; flex-shrink: 0; }
+  @media (max-width: 860px) {
+    .tools-band { grid-template-columns: 1fr; padding: 32px 24px; }
+  }
+  @media (max-width: 420px) { .tools-band__list { grid-template-columns: 1fr; } }
+
+  /* ---------- Books ---------- */
+  .books { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .book { display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: center; padding: 20px; }
+  .book__cover {
+    display: block; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+    transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
+  }
+  .book:hover .book__cover { transform: translateY(-4px) rotate(-2deg); box-shadow: 0 30px 50px -18px rgba(15,23,42,.35); }
+  .book__cover img { width: 100%; height: auto; }
+  .book h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+  .book p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .book__stores { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .btn-dark { background: var(--ink); color: #fff; }
+  .btn-dark:hover { background: #1E293B; }
+  .book__stores :global(.btn:hover svg) { transform: translate(2px, -2px); }
+  @media (max-width: 860px) { .books { grid-template-columns: 1fr; } }
+  @media (max-width: 420px) { .book { grid-template-columns: 110px 1fr; gap: 16px; } .book h3 { font-size: 17px; } }
+
+  /* ---------- Business CTA ---------- */
+  .biz {
+    margin-top: 32px; padding: 24px 28px; border-radius: var(--r-lg);
+    border: 1px solid var(--border); background: var(--surface);
+    display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  }
+  .biz h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+  .biz p { color: var(--muted); font-size: 14.5px; }
+</style>
+
+<script>
+  // Count-up animation for the hero stats
+  const nums = document.querySelectorAll<HTMLElement>('[data-count]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const run = (el: HTMLElement) => {
+      const target = Number(el.dataset.count);
+      const suffix = el.dataset.suffix ?? '';
+      const start = performance.now();
+      const step = (now: number) => {
+        const p = Math.min((now - start) / 1600, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { run(e.target as HTMLElement); io.unobserve(e.target); } });
+    }, { threshold: 0.6 });
+    nums.forEach((n) => io.observe(n));
+  }
+</script>

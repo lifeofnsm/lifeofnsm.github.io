@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const c = site.contact;
+const channels = [
+  {
+    icon: 'whatsapp', tone: 'green',
+    title: 'WhatsApp — Business',
+    text: `Brand collaborations · Course enquiries · Mentoring · ${c.whatsappDisplay}`,
+    href: `https://wa.me/${c.whatsappNumber}`, cta: 'Chat on WhatsApp', external: true,
+  },
+  {
+    icon: 'mail', tone: 'brand',
+    title: 'Email — Support',
+    text: 'Course access issues · Technical support · General queries',
+    emailUser: c.supportEmailUser, cta: 'Email support',
+  },
+  {
+    icon: 'mail', tone: 'brand',
+    title: 'Email — Business',
+    text: 'Partnerships · Brand deals · Speaking engagements',
+    emailUser: c.businessEmailUser, cta: 'Email business',
+  },
+];
+---
+<BaseLayout title="Contact Us" description="Contact Nataraj Malavade — WhatsApp for business queries, email for course support.">
+  <section class="page-hero">
+    <div class="container-narrow">
+      <a href="/" class="crumb">Home</a><span class="crumb-sep">/</span><span class="crumb-current">Contact</span>
+      <h1 class="display">Contact us</h1>
+      <p>Choose the right channel for your query. WhatsApp is fastest for business queries; email is best for course support.</p>
+    </div>
+  </section>
+
+  <div class="container-narrow contact">
+    <div class="contact__list">
+      {channels.map((ch) => (
+        <a
+          class="card contact-card"
+          href={ch.href ?? '#'}
+          data-email-user={ch.emailUser}
+          {...(ch.external ? { target: '_blank', rel: 'noopener' } : {})}
+        >
+          <span class:list={['icon-tile', `tone-${ch.tone}`]}><Icon name={ch.icon} /></span>
+          <span class="contact-card__body">
+            <strong>{ch.title}</strong>
+            <small>{ch.text}</small>
+          </span>
+          <span class="contact-card__cta">{ch.cta} <Icon name="arrow" size={16} /></span>
+        </a>
+      ))}
+
+      <div class="card contact-card contact-card--static">
+        <span class="icon-tile tone-brand"><Icon name="pin" /></span>
+        <span class="contact-card__body">
+          <strong>Address</strong>
+          <small>{c.address[0]}<br />{c.address[1]}</small>
+        </span>
+      </div>
+    </div>
+
+    <div class="contact__note">
+      <Icon name="shield" size={20} />
+      <p>
+        <strong>Response time:</strong> WhatsApp queries are typically answered within a few hours during business days.
+        Email support responds within 24–48 hours. We do not respond to queries unrelated to courses, collaborations or technical issues.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-hero { background: var(--ink); color: #fff; padding: 48px 0 44px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(520px 300px at 90% 0%, rgba(37,99,235,.38), transparent 70%); pointer-events: none; }
+  .page-hero .container-narrow { position: relative; }
+  .crumb { color: var(--ink-muted); text-decoration: none; font-size: 13px; }
+  .crumb:hover { color: #fff; }
+  .crumb-sep { color: #475569; margin: 0 8px; font-size: 13px; }
+  .crumb-current { color: #fff; font-size: 13px; }
+  .page-hero h1 { font-size: clamp(32px, 5vw, 46px); margin: 14px 0 10px; }
+  .page-hero p { color: var(--ink-muted); font-size: 16.5px; max-width: 600px; }
+
+  .contact { padding-top: 40px; padding-bottom: 80px; }
+  .contact__list { display: grid; gap: 12px; }
+  .contact-card { display: flex !important; align-items: center; gap: 16px; padding: 20px; }
+  .contact-card__body { flex: 1; min-width: 0; }
+  .contact-card__body strong { display: block; font-size: 16px; font-weight: 700; }
+  .contact-card__body small { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; line-height: 1.6; }
+  .contact-card__cta { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--brand); white-space: nowrap; }
+  .contact-card--static { background: var(--surface); }
+  .tone-green { background: #ECFDF5; color: #16A34A; }
+  .tone-brand { background: var(--brand-50); color: var(--brand); }
+
+  .contact__note { display: flex; gap: 12px; margin-top: 24px; padding: 18px 20px; border-radius: var(--r-md); background: var(--brand-50); border: 1px solid var(--brand-100); color: var(--text-2); font-size: 14.5px; line-height: 1.7; }
+  .contact__note :global(svg) { color: var(--brand); flex-shrink: 0; margin-top: 3px; }
+
+  @media (max-width: 560px) {
+    .contact-card { flex-wrap: wrap; }
+    .contact-card__cta { width: 100%; padding-left: 60px; }
+  }
+</style>
+
+<script>
+  // Build mailto links at runtime so the addresses are not scraped from the HTML.
+  document.querySelectorAll<HTMLAnchorElement>('[data-email-user]').forEach((a) => {
+    const user = a.dataset.emailUser;
+    if (user) a.href = 'mai' + 'lto:' + user + '@' + 'natarajmalavade.in';
+  });
+</script>
